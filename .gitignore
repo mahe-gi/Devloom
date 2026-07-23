@@ -17,4 +17,4 @@ frontend/package-lock.json
 /backend/.env.wrangler
 /backend/.wrangler
 /.idea
-.env
+.env.npm-cache
