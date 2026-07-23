@@ -1,0 +1,14 @@
+{
+  "name": "devloom-monorepo",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "common"
+  ],
+  "scripts": {
+    "build:common": "npm run build --workspace=common || (cd common && tsc -b)",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build": "npm run build:common && npm run build:frontend"
+  }
+}
