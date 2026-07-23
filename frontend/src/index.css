@@ -1,7 +1,5 @@
 @import "tailwindcss";
-
-@layer utilities {
-  .text-primary {
-    color: #a7a7a7;
-  }
-}
+@import "./styles/tokens.css";
+@import "./styles/typography.css";
+@import "./styles/motion.css";
+@import "./styles/globals.css";

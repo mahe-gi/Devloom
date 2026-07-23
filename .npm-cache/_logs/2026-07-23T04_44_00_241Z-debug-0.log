@@ -1,0 +1,412 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.16.0
+2 info using node@v24.18.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/mahesh/projects/blog/backend/.npmrc
+5 silly config load:file:/Users/mahesh/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install @prisma/adapter-pg pg @types/pg
+8 verbose argv "install" "@prisma/adapter-pg" "pg" "@types/pg" "--cache" "/Users/mahesh/projects/blog/.npm-cache" "--legacy-peer-deps"
+9 verbose logfile logs-max:10 dir:/Users/mahesh/projects/blog/.npm-cache/_logs/2026-07-23T04_44_00_241Z-
+10 verbose logfile /Users/mahesh/projects/blog/.npm-cache/_logs/2026-07-23T04_44_00_241Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2348810240 maxSize:587202560 maxEntrySize:293601280
+13 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+14 silly idealTree buildDeps
+15 silly fetch manifest @prisma/adapter-pg@*
+16 silly packumentCache full:https://registry.npmjs.org/@prisma%2fadapter-pg cache-miss
+17 http fetch GET 200 https://registry.npmjs.org/@prisma%2fadapter-pg 1194ms (cache miss)
+18 silly packumentCache full:https://registry.npmjs.org/@prisma%2fadapter-pg set size:undefined disposed:false
+19 silly fetch manifest pg@*
+20 silly packumentCache full:https://registry.npmjs.org/pg cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/pg 86ms (cache miss)
+22 silly packumentCache full:https://registry.npmjs.org/pg set size:undefined disposed:false
+23 silly fetch manifest @types/pg@*
+24 silly packumentCache full:https://registry.npmjs.org/@types%2fpg cache-miss
+25 http fetch GET 200 https://registry.npmjs.org/@types%2fpg 73ms (cache miss)
+26 silly packumentCache full:https://registry.npmjs.org/@types%2fpg set size:undefined disposed:false
+27 silly placeDep ROOT @prisma/adapter-pg@7.9.0 OK for:  want: *
+28 silly placeDep ROOT @types/pg@8.20.0 OK for:  want: *
+29 silly placeDep ROOT pg@8.22.0 OK for:  want: *
+30 silly fetch manifest pg@^8.16.3
+31 silly packumentCache full:https://registry.npmjs.org/pg cache-miss
+32 silly fetch manifest @types/pg@^8.16.0
+33 silly packumentCache full:https://registry.npmjs.org/@types%2fpg cache-miss
+34 silly fetch manifest postgres-array@3.0.4
+35 silly packumentCache full:https://registry.npmjs.org/postgres-array cache-miss
+36 silly fetch manifest @prisma/driver-adapter-utils@7.9.0
+37 silly packumentCache full:https://registry.npmjs.org/@prisma%2fdriver-adapter-utils cache-miss
+38 silly fetch manifest pg-types@^2.2.0
+39 silly packumentCache full:https://registry.npmjs.org/pg-types cache-miss
+40 silly fetch manifest pg-protocol@*
+41 silly packumentCache full:https://registry.npmjs.org/pg-protocol cache-miss
+42 silly fetch manifest pgpass@1.0.5
+43 silly packumentCache full:https://registry.npmjs.org/pgpass cache-miss
+44 http cache https://registry.npmjs.org/pg 16ms (cache hit)
+45 silly packumentCache full:https://registry.npmjs.org/pg set size:479959 disposed:false
+46 silly fetch manifest pg-pool@^3.14.0
+47 silly packumentCache full:https://registry.npmjs.org/pg-pool cache-miss
+48 http cache https://registry.npmjs.org/@types%2fpg 20ms (cache hit)
+49 silly packumentCache full:https://registry.npmjs.org/@types%2fpg set size:195571 disposed:false
+50 silly fetch manifest pg-types@2.2.0
+51 silly packumentCache full:https://registry.npmjs.org/pg-types cache-miss
+52 http fetch GET 200 https://registry.npmjs.org/postgres-array 63ms (cache miss)
+53 silly packumentCache full:https://registry.npmjs.org/postgres-array set size:undefined disposed:false
+54 silly fetch manifest pg-protocol@^1.15.0
+55 silly packumentCache full:https://registry.npmjs.org/pg-protocol cache-miss
+56 http fetch GET 200 https://registry.npmjs.org/pg-protocol 72ms (cache miss)
+57 silly packumentCache full:https://registry.npmjs.org/pg-protocol set size:undefined disposed:false
+58 silly fetch manifest pg-connection-string@^2.14.0
+59 silly packumentCache full:https://registry.npmjs.org/pg-connection-string cache-miss
+60 http fetch GET 200 https://registry.npmjs.org/pg-pool 70ms (cache miss)
+61 silly packumentCache full:https://registry.npmjs.org/pg-pool set size:undefined disposed:false
+62 silly fetch manifest pg-cloudflare@^1.4.0
+63 silly packumentCache full:https://registry.npmjs.org/pg-cloudflare cache-miss
+64 http fetch GET 200 https://registry.npmjs.org/pg-protocol 51ms (cache miss)
+65 silly packumentCache full:https://registry.npmjs.org/pg-protocol set size:undefined disposed:false
+66 http fetch GET 200 https://registry.npmjs.org/pg-connection-string 62ms (cache miss)
+67 silly packumentCache full:https://registry.npmjs.org/pg-connection-string set size:undefined disposed:false
+68 http fetch GET 200 https://registry.npmjs.org/pg-cloudflare 51ms (cache miss)
+69 silly packumentCache full:https://registry.npmjs.org/pg-cloudflare set size:undefined disposed:false
+70 http fetch GET 200 https://registry.npmjs.org/pgpass 298ms (cache miss)
+71 silly packumentCache full:https://registry.npmjs.org/pgpass set size:undefined disposed:false
+72 http fetch GET 200 https://registry.npmjs.org/pg-types 306ms (cache miss)
+73 silly packumentCache full:https://registry.npmjs.org/pg-types set size:undefined disposed:false
+74 http fetch GET 200 https://registry.npmjs.org/pg-types 289ms (cache miss)
+75 silly packumentCache full:https://registry.npmjs.org/pg-types set size:undefined disposed:false
+76 http fetch GET 200 https://registry.npmjs.org/@prisma%2fdriver-adapter-utils 1023ms (cache miss)
+77 silly packumentCache full:https://registry.npmjs.org/@prisma%2fdriver-adapter-utils set size:undefined disposed:false
+78 silly placeDep ROOT @prisma/driver-adapter-utils@7.9.0 OK for: @prisma/adapter-pg@7.9.0 want: 7.9.0
+79 silly placeDep ROOT postgres-array@3.0.4 OK for: @prisma/adapter-pg@7.9.0 want: 3.0.4
+80 silly fetch manifest @prisma/debug@7.9.0
+81 silly packumentCache full:https://registry.npmjs.org/@prisma%2fdebug cache-miss
+82 http fetch GET 200 https://registry.npmjs.org/@prisma%2fdebug 805ms (cache miss)
+83 silly packumentCache full:https://registry.npmjs.org/@prisma%2fdebug set size:undefined disposed:false
+84 silly placeDep node_modules/@prisma/driver-adapter-utils @prisma/debug@7.9.0 OK for: @prisma/driver-adapter-utils@7.9.0 want: 7.9.0
+85 silly placeDep ROOT pg-protocol@1.15.0 OK for: @types/pg@8.20.0 want: *
+86 silly placeDep ROOT pg-types@2.2.0 OK for: @types/pg@8.20.0 want: ^2.2.0
+87 silly fetch manifest pg-int8@1.0.1
+88 silly packumentCache full:https://registry.npmjs.org/pg-int8 cache-miss
+89 silly fetch manifest postgres-date@~1.0.4
+90 silly packumentCache full:https://registry.npmjs.org/postgres-date cache-miss
+91 silly fetch manifest postgres-array@~2.0.0
+92 silly packumentCache full:https://registry.npmjs.org/postgres-array cache-miss
+93 silly fetch manifest postgres-bytea@~1.0.0
+94 silly packumentCache full:https://registry.npmjs.org/postgres-bytea cache-miss
+95 silly fetch manifest postgres-interval@^1.1.0
+96 silly packumentCache full:https://registry.npmjs.org/postgres-interval cache-miss
+97 http cache https://registry.npmjs.org/postgres-array 6ms (cache hit)
+98 silly packumentCache full:https://registry.npmjs.org/postgres-array set size:21967 disposed:false
+99 http fetch GET 200 https://registry.npmjs.org/postgres-interval 65ms (cache miss)
+100 silly packumentCache full:https://registry.npmjs.org/postgres-interval set size:undefined disposed:false
+101 http fetch GET 200 https://registry.npmjs.org/postgres-bytea 87ms (cache miss)
+102 silly packumentCache full:https://registry.npmjs.org/postgres-bytea set size:undefined disposed:false
+103 http fetch GET 200 https://registry.npmjs.org/postgres-date 88ms (cache miss)
+104 silly packumentCache full:https://registry.npmjs.org/postgres-date set size:undefined disposed:false
+105 http fetch GET 200 https://registry.npmjs.org/pg-int8 90ms (cache miss)
+106 silly packumentCache full:https://registry.npmjs.org/pg-int8 set size:undefined disposed:false
+107 silly placeDep ROOT pg-cloudflare@1.4.0 OK for: pg@8.22.0 want: ^1.4.0
+108 silly placeDep ROOT pg-connection-string@2.14.0 OK for: pg@8.22.0 want: ^2.14.0
+109 silly placeDep ROOT pg-pool@3.14.0 OK for: pg@8.22.0 want: ^3.14.0
+110 silly placeDep ROOT pgpass@1.0.5 OK for: pg@8.22.0 want: 1.0.5
+111 silly fetch manifest split2@^4.1.0
+112 silly packumentCache full:https://registry.npmjs.org/split2 cache-miss
+113 http fetch GET 200 https://registry.npmjs.org/split2 80ms (cache miss)
+114 silly packumentCache full:https://registry.npmjs.org/split2 set size:undefined disposed:false
+115 silly placeDep ROOT pg-int8@1.0.1 OK for: pg-types@2.2.0 want: 1.0.1
+116 silly placeDep node_modules/pg-types postgres-array@2.0.0 OK for: pg-types@2.2.0 want: ~2.0.0
+117 silly placeDep ROOT postgres-bytea@1.0.1 OK for: pg-types@2.2.0 want: ~1.0.0
+118 silly placeDep ROOT postgres-date@1.0.7 OK for: pg-types@2.2.0 want: ~1.0.4
+119 silly placeDep ROOT postgres-interval@1.2.0 OK for: pg-types@2.2.0 want: ^1.1.0
+120 silly fetch manifest xtend@^4.0.0
+121 silly packumentCache full:https://registry.npmjs.org/xtend cache-miss
+122 http fetch GET 200 https://registry.npmjs.org/xtend 60ms (cache miss)
+123 silly packumentCache full:https://registry.npmjs.org/xtend set size:undefined disposed:false
+124 silly placeDep ROOT split2@4.2.0 OK for: pgpass@1.0.5 want: ^4.1.0
+125 silly placeDep ROOT xtend@4.0.2 OK for: postgres-interval@1.2.0 want: ^4.0.0
+126 silly reify moves {}
+127 silly audit bulk request {
+127 silly audit   '@cloudflare/kv-asset-handler': [ '0.5.0' ],
+127 silly audit   '@cloudflare/unenv-preset': [ '2.16.1' ],
+127 silly audit   '@cloudflare/workerd-darwin-64': [ '1.20260721.1' ],
+127 silly audit   '@cloudflare/workerd-darwin-arm64': [ '1.20260721.1' ],
+127 silly audit   '@cloudflare/workerd-linux-64': [ '1.20260721.1' ],
+127 silly audit   '@cloudflare/workerd-linux-arm64': [ '1.20260721.1' ],
+127 silly audit   '@cloudflare/workerd-windows-64': [ '1.20260721.1' ],
+127 silly audit   '@cloudflare/workers-types': [ '4.20260702.1' ],
+127 silly audit   '@cspotcode/source-map-support': [ '0.8.1' ],
+127 silly audit   '@emnapi/runtime': [ '1.11.2' ],
+127 silly audit   '@esbuild/aix-ppc64': [ '0.28.1' ],
+127 silly audit   '@esbuild/android-arm': [ '0.28.1' ],
+127 silly audit   '@esbuild/android-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/android-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/darwin-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/darwin-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/freebsd-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/freebsd-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-arm': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-ia32': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-loong64': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-mips64el': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-ppc64': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-riscv64': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-s390x': [ '0.28.1' ],
+127 silly audit   '@esbuild/linux-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/netbsd-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/netbsd-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/openbsd-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/openbsd-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/openharmony-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/sunos-x64': [ '0.28.1' ],
+127 silly audit   '@esbuild/win32-arm64': [ '0.28.1' ],
+127 silly audit   '@esbuild/win32-ia32': [ '0.28.1' ],
+127 silly audit   '@esbuild/win32-x64': [ '0.28.1' ],
+127 silly audit   '@img/colour': [ '1.1.0' ],
+127 silly audit   '@img/sharp-darwin-arm64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-darwin-x64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-libvips-darwin-arm64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-darwin-x64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linux-arm': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linux-arm64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linux-ppc64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linux-riscv64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linux-s390x': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linux-x64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linuxmusl-arm64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-libvips-linuxmusl-x64': [ '1.2.4' ],
+127 silly audit   '@img/sharp-linux-arm': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linux-arm64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linux-ppc64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linux-riscv64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linux-s390x': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linux-x64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linuxmusl-arm64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-linuxmusl-x64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-wasm32': [ '0.34.5' ],
+127 silly audit   '@img/sharp-win32-arm64': [ '0.34.5' ],
+127 silly audit   '@img/sharp-win32-ia32': [ '0.34.5' ],
+127 silly audit   '@img/sharp-win32-x64': [ '0.34.5' ],
+127 silly audit   '@jridgewell/resolve-uri': [ '3.1.2' ],
+127 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+127 silly audit   '@jridgewell/trace-mapping': [ '0.3.9' ],
+127 silly audit   '@mahe-npm/common': [ '1.1.2' ],
+127 silly audit   '@poppinss/colors': [ '4.1.6' ],
+127 silly audit   '@poppinss/dumper': [ '0.6.5' ],
+127 silly audit   '@poppinss/exception': [ '1.2.3' ],
+127 silly audit   '@prisma/client': [ '6.19.3' ],
+127 silly audit   '@prisma/config': [ '6.19.3' ],
+127 silly audit   '@prisma/debug': [ '6.19.3', '7.9.0' ],
+127 silly audit   '@prisma/engines': [ '6.19.3' ],
+127 silly audit   '@prisma/engines-version': [ '7.1.1-3.c2990dca591cba766e3b7ef5d9e8a84796e47ab7' ],
+127 silly audit   '@prisma/extension-accelerate': [ '1.3.0' ],
+127 silly audit   '@prisma/fetch-engine': [ '6.19.3' ],
+127 silly audit   '@prisma/get-platform': [ '6.19.3' ],
+127 silly audit   '@sindresorhus/is': [ '7.2.0' ],
+127 silly audit   '@speed-highlight/core': [ '1.2.17' ],
+127 silly audit   '@standard-schema/spec': [ '1.1.0' ],
+127 silly audit   '@types/bcrypt': [ '5.0.2' ],
+127 silly audit   '@types/node': [ '26.1.1' ],
+127 silly audit   '@typescript/typescript-aix-ppc64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-darwin-arm64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-darwin-x64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-freebsd-arm64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-freebsd-x64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-arm': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-arm64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-loong64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-mips64el': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-ppc64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-riscv64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-s390x': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-linux-x64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-netbsd-arm64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-netbsd-x64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-openbsd-arm64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-openbsd-x64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-sunos-x64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-win32-arm64': [ '7.0.2' ],
+127 silly audit   '@typescript/typescript-win32-x64': [ '7.0.2' ],
+127 silly audit   bcryptjs: [ '3.0.3' ],
+127 silly audit   'blake3-wasm': [ '2.1.5' ],
+127 silly audit   c12: [ '3.1.0' ],
+127 silly audit   chokidar: [ '4.0.3' ],
+127 silly audit   citty: [ '0.1.6', '0.2.2' ],
+127 silly audit   confbox: [ '0.2.4' ],
+127 silly audit   consola: [ '3.4.2' ],
+127 silly audit   cookie: [ '1.1.1' ],
+127 silly audit   'deepmerge-ts': [ '7.1.5' ],
+127 silly audit   defu: [ '6.1.7' ],
+127 silly audit   destr: [ '2.0.5' ],
+127 silly audit   'detect-libc': [ '2.1.2' ],
+127 silly audit   dotenv: [ '16.6.1' ],
+127 silly audit   effect: [ '3.21.0' ],
+127 silly audit   empathic: [ '2.0.0' ],
+127 silly audit   'error-stack-parser-es': [ '1.0.5' ],
+127 silly audit   esbuild: [ '0.28.1' ],
+127 silly audit   exsolve: [ '1.1.0' ],
+127 silly audit   'fast-check': [ '3.23.2' ],
+127 silly audit   fsevents: [ '2.3.3' ],
+127 silly audit   giget: [ '2.0.0' ],
+127 silly audit   hono: [ '4.12.31' ],
+127 silly audit   jiti: [ '2.7.0' ],
+127 silly audit   kleur: [ '4.1.5' ],
+127 silly audit   miniflare: [ '4.20260721.0' ],
+127 silly audit   'node-fetch-native': [ '1.6.7' ],
+127 silly audit   nypm: [ '0.6.8' ],
+127 silly audit   ohash: [ '2.0.11' ],
+127 silly audit   'path-to-regexp': [ '6.3.0' ],
+127 silly audit   pathe: [ '2.0.3' ],
+127 silly audit   'perfect-debounce': [ '1.0.0' ],
+127 silly audit   'pkg-types': [ '2.3.1' ],
+127 silly audit   prisma: [ '6.19.3' ],
+127 silly audit   'pure-rand': [ '6.1.0' ],
+127 silly audit   rc9: [ '2.1.2' ],
+127 silly audit   readdirp: [ '4.1.2' ],
+127 silly audit   semver: [ '7.8.5' ],
+127 silly audit   sharp: [ '0.34.5' ],
+127 silly audit   'supports-color': [ '10.2.2' ],
+127 silly audit   tinyexec: [ '1.2.4' ],
+127 silly audit   tslib: [ '2.8.1' ],
+127 silly audit   typescript: [ '7.0.2' ],
+127 silly audit   undici: [ '7.28.0' ],
+127 silly audit   'undici-types': [ '8.3.0' ],
+127 silly audit   unenv: [ '2.0.0-rc.24' ],
+127 silly audit   workerd: [ '1.20260721.1' ],
+127 silly audit   wrangler: [ '4.113.0' ],
+127 silly audit   ws: [ '8.21.0' ],
+127 silly audit   youch: [ '4.1.0-beta.10' ],
+127 silly audit   'youch-core': [ '0.3.3' ],
+127 silly audit   zod: [ '3.25.76' ],
+127 silly audit   '@prisma/adapter-pg': [ '7.9.0' ],
+127 silly audit   '@types/pg': [ '8.20.0' ],
+127 silly audit   pg: [ '8.22.0' ],
+127 silly audit   '@prisma/driver-adapter-utils': [ '7.9.0' ],
+127 silly audit   'postgres-array': [ '3.0.4', '2.0.0' ],
+127 silly audit   'pg-protocol': [ '1.15.0' ],
+127 silly audit   'pg-types': [ '2.2.0' ],
+127 silly audit   'pg-cloudflare': [ '1.4.0' ],
+127 silly audit   'pg-connection-string': [ '2.14.0' ],
+127 silly audit   'pg-pool': [ '3.14.0' ],
+127 silly audit   pgpass: [ '1.0.5' ],
+127 silly audit   'pg-int8': [ '1.0.1' ],
+127 silly audit   'postgres-bytea': [ '1.0.1' ],
+127 silly audit   'postgres-date': [ '1.0.7' ],
+127 silly audit   'postgres-interval': [ '1.2.0' ],
+127 silly audit   split2: [ '4.2.0' ],
+127 silly audit   xtend: [ '4.0.2' ]
+127 silly audit }
+128 http cache xtend@https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz 0ms (cache hit)
+129 http cache split2@https://registry.npmjs.org/split2/-/split2-4.2.0.tgz 0ms (cache hit)
+130 http cache postgres-interval@https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz 0ms (cache hit)
+131 http cache postgres-bytea@https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz 0ms (cache hit)
+132 http cache postgres-date@https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz 0ms (cache hit)
+133 http cache pgpass@https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz 0ms (cache hit)
+134 http cache pg-pool@https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz 0ms (cache hit)
+135 http cache pg-connection-string@https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.0.tgz 0ms (cache hit)
+136 http cache pg-types@https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz 0ms (cache hit)
+137 http cache pg-protocol@https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.15.0.tgz 0ms (cache hit)
+138 http cache pg-cloudflare@https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.0.tgz 0ms (cache hit)
+139 http cache @prisma/driver-adapter-utils@https://registry.npmjs.org/@prisma/driver-adapter-utils/-/driver-adapter-utils-7.9.0.tgz 0ms (cache hit)
+140 http cache postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-3.0.4.tgz 0ms (cache hit)
+141 http cache pg@https://registry.npmjs.org/pg/-/pg-8.22.0.tgz 0ms (cache hit)
+142 http cache pg-int8@https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz 0ms (cache hit)
+143 http cache @types/pg@https://registry.npmjs.org/@types/pg/-/pg-8.20.0.tgz 0ms (cache hit)
+144 http cache @prisma/adapter-pg@https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-7.9.0.tgz 0ms (cache hit)
+145 http cache postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz 0ms (cache hit)
+146 http cache @prisma/debug@https://registry.npmjs.org/@prisma/debug/-/debug-7.9.0.tgz 0ms (cache hit)
+147 silly tarball no local data for xtend@https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz. Extracting by manifest.
+148 silly tarball no local data for split2@https://registry.npmjs.org/split2/-/split2-4.2.0.tgz. Extracting by manifest.
+149 silly tarball no local data for postgres-interval@https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz. Extracting by manifest.
+150 silly tarball no local data for postgres-bytea@https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz. Extracting by manifest.
+151 silly tarball no local data for postgres-date@https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz. Extracting by manifest.
+152 silly tarball no local data for pgpass@https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz. Extracting by manifest.
+153 silly tarball no local data for pg-pool@https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz. Extracting by manifest.
+154 silly tarball no local data for pg-connection-string@https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.0.tgz. Extracting by manifest.
+155 silly tarball no local data for pg-types@https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz. Extracting by manifest.
+156 silly tarball no local data for pg-protocol@https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.15.0.tgz. Extracting by manifest.
+157 silly tarball no local data for pg-cloudflare@https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.0.tgz. Extracting by manifest.
+158 silly tarball no local data for @prisma/driver-adapter-utils@https://registry.npmjs.org/@prisma/driver-adapter-utils/-/driver-adapter-utils-7.9.0.tgz. Extracting by manifest.
+159 silly tarball no local data for pg@https://registry.npmjs.org/pg/-/pg-8.22.0.tgz. Extracting by manifest.
+160 silly tarball no local data for postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-3.0.4.tgz. Extracting by manifest.
+161 silly tarball no local data for pg-int8@https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz. Extracting by manifest.
+162 silly tarball no local data for @types/pg@https://registry.npmjs.org/@types/pg/-/pg-8.20.0.tgz. Extracting by manifest.
+163 silly tarball no local data for postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz. Extracting by manifest.
+164 silly tarball no local data for @prisma/adapter-pg@https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-7.9.0.tgz. Extracting by manifest.
+165 silly tarball no local data for @prisma/debug@https://registry.npmjs.org/@prisma/debug/-/debug-7.9.0.tgz. Extracting by manifest.
+166 http fetch GET 200 https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz 77ms (cache miss)
+167 http fetch GET 200 https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz 79ms (cache miss)
+168 http fetch GET 200 https://registry.npmjs.org/split2/-/split2-4.2.0.tgz 79ms (cache miss)
+169 http fetch GET 200 https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz 81ms (cache miss)
+170 http fetch GET 200 https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz 83ms (cache miss)
+171 http fetch GET 200 https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.0.tgz 87ms (cache miss)
+172 http fetch GET 200 https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz 87ms (cache miss)
+173 http fetch GET 200 https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz 87ms (cache miss)
+174 http fetch GET 200 https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.0.tgz 95ms (cache miss)
+175 http fetch GET 200 https://registry.npmjs.org/postgres-array/-/postgres-array-3.0.4.tgz 95ms (cache miss)
+176 http fetch GET 200 https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz 97ms (cache miss)
+177 http fetch GET 200 https://registry.npmjs.org/pg/-/pg-8.22.0.tgz 97ms (cache miss)
+178 http fetch GET 200 https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.15.0.tgz 100ms (cache miss)
+179 http fetch GET 200 https://registry.npmjs.org/@prisma/driver-adapter-utils/-/driver-adapter-utils-7.9.0.tgz 107ms (cache miss)
+180 http fetch GET 200 https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz 126ms (cache miss)
+181 http fetch GET 200 https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz 129ms (cache miss)
+182 http fetch GET 200 https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-7.9.0.tgz 143ms (cache miss)
+183 http fetch GET 200 https://registry.npmjs.org/@types/pg/-/pg-8.20.0.tgz 145ms (cache miss)
+184 http fetch GET 200 https://registry.npmjs.org/@prisma/debug/-/debug-7.9.0.tgz 153ms (cache miss)
+185 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 978ms
+186 silly audit report {
+186 silly audit report   sharp: [
+186 silly audit report     {
+186 silly audit report       id: 1124066,
+186 silly audit report       url: 'https://github.com/advisories/GHSA-f88m-g3jw-g9cj',
+186 silly audit report       title: 'sharp inherited vulnerabilities in libvips: CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591',
+186 silly audit report       severity: 'high',
+186 silly audit report       vulnerable_versions: '<0.35.0',
+186 silly audit report       cwe: [Array],
+186 silly audit report       cvss: [Object]
+186 silly audit report     }
+186 silly audit report   ]
+186 silly audit report }
+187 silly packumentCache corgi:https://registry.npmjs.org/sharp cache-miss
+188 http cache https://registry.npmjs.org/sharp 6ms (cache hit)
+189 silly packumentCache corgi:https://registry.npmjs.org/sharp set size:291503 disposed:false
+190 silly packumentCache corgi:https://registry.npmjs.org/miniflare cache-miss
+191 http cache https://registry.npmjs.org/miniflare 13ms (cache hit)
+192 silly packumentCache corgi:https://registry.npmjs.org/miniflare set size:3185654 disposed:false
+193 silly packumentCache corgi:https://registry.npmjs.org/wrangler cache-miss
+194 http cache https://registry.npmjs.org/wrangler 29ms (cache hit)
+195 silly packumentCache corgi:https://registry.npmjs.org/wrangler set size:16125155 disposed:false
+196 silly ADD node_modules/xtend
+197 silly ADD node_modules/split2
+198 silly ADD node_modules/postgres-interval
+199 silly ADD node_modules/postgres-date
+200 silly ADD node_modules/postgres-bytea
+201 silly ADD node_modules/pg-int8
+202 silly ADD node_modules/pgpass
+203 silly ADD node_modules/pg-pool
+204 silly ADD node_modules/pg-connection-string
+205 silly ADD node_modules/pg-cloudflare
+206 silly ADD node_modules/pg-types
+207 silly ADD node_modules/pg-types/node_modules/postgres-array
+208 silly ADD node_modules/pg-protocol
+209 silly ADD node_modules/postgres-array
+210 silly ADD node_modules/@prisma/driver-adapter-utils
+211 silly ADD node_modules/@prisma/driver-adapter-utils/node_modules/@prisma/debug
+212 silly ADD node_modules/pg
+213 silly ADD node_modules/@types/pg
+214 silly ADD node_modules/@prisma/adapter-pg
+215 warn allow-scripts 6 packages have install scripts not yet covered by allowScripts:
+215 warn allow-scripts   @prisma/client@6.19.3 (install: (install scripts present))
+215 warn allow-scripts   @prisma/engines@6.19.3 (install: (install scripts present))
+215 warn allow-scripts   esbuild@0.28.1 (install: (install scripts present))
+215 warn allow-scripts   prisma@6.19.3 (install: (install scripts present))
+215 warn allow-scripts   sharp@0.34.5 (install: (install scripts present))
+215 warn allow-scripts   workerd@1.20260721.1 (install: (install scripts present))
+215 warn allow-scripts
+215 warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+216 verbose cwd /Users/mahesh/projects/blog/backend
+217 verbose os Darwin 25.5.0
+218 verbose node v24.18.0
+219 verbose npm  v11.16.0
+220 verbose exit 0
+221 info ok

@@ -1,24 +1,22 @@
-interface LabeledInputProps {
+import { InputHTMLAttributes } from "react";
+
+interface LabeledInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  placeholder: string;
-  type: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const LabeledInput = ({
   label,
-  type,
-  placeholder,
-  onChange,
+  className = "",
+  disabled,
+  ...props
 }: LabeledInputProps) => {
   return (
-    <div>
-      <label className=" block text-sm font-medium">{label}</label>
+    <div className="w-full space-y-1.5">
+      <label className="block text-sm font-medium text-foreground">{label}</label>
       <input
-        type={type}
-        placeholder={placeholder}
-        className=" w-full mt-1 p-2 border border-gray-300 rounded-md"
-        onChange={onChange}
+        className={`w-full px-4 py-2.5 bg-surface border border-border rounded-lg outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors disabled:opacity-50 disabled:bg-surface-subtle disabled:cursor-not-allowed text-foreground placeholder:text-muted ${className}`}
+        disabled={disabled}
+        {...props}
       />
     </div>
   );

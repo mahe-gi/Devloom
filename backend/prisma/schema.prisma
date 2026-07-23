@@ -8,18 +8,52 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String  @unique
-  password String
-  name     String?
-  blogs    Blog[]
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  name      String?
+  handle    String?  @unique
+  bio       String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  blogs     Blog[]
 }
 
 model Blog {
-  id        Int     @id @default(autoincrement())
-  authorId  Int
-  title     String
-  content   String
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
+  id          Int       @id @default(autoincrement())
+  authorId    Int
+  title       String
+  slug        String?   @unique
+  content     String
+  summary     String?
+  coverImage  String?
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  tags        BlogTag[]
+
+  @@index([authorId])
+  @@index([published, publishedAt, id])
+  @@index([authorId, published])
+}
+
+model Tag {
+  id       Int       @id @default(autoincrement())
+  name     String
+  slug     String    @unique
+  articles BlogTag[]
+}
+
+model BlogTag {
+  blogId Int
+  tagId  Int
+
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, tagId])
+  @@index([tagId])
 }

@@ -1,0 +1,9 @@
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+}

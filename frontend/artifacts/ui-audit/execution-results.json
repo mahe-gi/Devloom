@@ -1,0 +1,806 @@
+{
+  "workflows": [
+    {
+      "journey": "Signup",
+      "expected": "Success redirect to /blogs",
+      "actual": "http://localhost:5173/blogs",
+      "result": "PASS"
+    },
+    {
+      "journey": "Logout",
+      "expected": "Redirect to /",
+      "actual": "No element found for selector: button[aria-haspopup=\"menu\"]",
+      "result": "FAIL"
+    },
+    {
+      "journey": "Invalid Signin",
+      "expected": "Error toast",
+      "actual": "No toast",
+      "result": "FAIL"
+    },
+    {
+      "journey": "Signin",
+      "expected": "Redirect to /blogs",
+      "actual": "http://localhost:5173/blogs",
+      "result": "PASS"
+    },
+    {
+      "journey": "Editor flows",
+      "expected": "Success",
+      "actual": "No element found for selector: textarea[placeholder*=\"Title\"]",
+      "result": "FAIL"
+    }
+  ],
+  "responsive": [
+    {
+      "route": "/",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/blogs",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/blogs",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/blogs",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/blogs",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/blogs",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/blogs",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/blogs",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/blogs",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/blog/55",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/tags/technology",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/authors/some-user",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "320x568",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "375x812",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "430x932",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/signin",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "320x568",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "375x812",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "430x932",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/signup",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/publish",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/publish",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/publish",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/publish",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/publish",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/publish",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/publish",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/publish",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/dashboard/profile",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "320x568",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "375x812",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "430x932",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/this-route-does-not-exist",
+      "viewport": "1728x1117",
+      "overflow": false
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "320x568",
+      "overflow": true
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "375x812",
+      "overflow": true
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "430x932",
+      "overflow": true
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "768x1024",
+      "overflow": false
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "1024x768",
+      "overflow": false
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "1280x800",
+      "overflow": false
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "1440x900",
+      "overflow": false
+    },
+    {
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "1728x1117",
+      "overflow": false
+    }
+  ],
+  "screenshots": [
+    {
+      "filename": "Landing_320x568_light_auth.png",
+      "route": "/",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Landing_768x1024_light_auth.png",
+      "route": "/",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Landing_1728x1117_light_auth.png",
+      "route": "/",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Feed_320x568_light_auth.png",
+      "route": "/blogs",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Feed_768x1024_light_auth.png",
+      "route": "/blogs",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Feed_1728x1117_light_auth.png",
+      "route": "/blogs",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Article_320x568_light_auth.png",
+      "route": "/blog/55",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Article_768x1024_light_auth.png",
+      "route": "/blog/55",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Article_1728x1117_light_auth.png",
+      "route": "/blog/55",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Tag_320x568_light_auth.png",
+      "route": "/tags/technology",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Tag_768x1024_light_auth.png",
+      "route": "/tags/technology",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Tag_1728x1117_light_auth.png",
+      "route": "/tags/technology",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "AuthorProfile_320x568_light_auth.png",
+      "route": "/authors/some-user",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "AuthorProfile_768x1024_light_auth.png",
+      "route": "/authors/some-user",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "AuthorProfile_1728x1117_light_auth.png",
+      "route": "/authors/some-user",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Signin_320x568_light_auth.png",
+      "route": "/signin",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Signin_768x1024_light_auth.png",
+      "route": "/signin",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Signin_1728x1117_light_auth.png",
+      "route": "/signin",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Signup_320x568_light_auth.png",
+      "route": "/signup",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Signup_768x1024_light_auth.png",
+      "route": "/signup",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Signup_1728x1117_light_auth.png",
+      "route": "/signup",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Dashboard_320x568_light_auth.png",
+      "route": "/dashboard",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Dashboard_768x1024_light_auth.png",
+      "route": "/dashboard",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Dashboard_1728x1117_light_auth.png",
+      "route": "/dashboard",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Editor_320x568_light_auth.png",
+      "route": "/publish",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Editor_768x1024_light_auth.png",
+      "route": "/publish",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "Editor_1728x1117_light_auth.png",
+      "route": "/publish",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "ProfileSettings_320x568_light_auth.png",
+      "route": "/dashboard/profile",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "ProfileSettings_768x1024_light_auth.png",
+      "route": "/dashboard/profile",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "ProfileSettings_1728x1117_light_auth.png",
+      "route": "/dashboard/profile",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "General404_320x568_light_auth.png",
+      "route": "/this-route-does-not-exist",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "General404_768x1024_light_auth.png",
+      "route": "/this-route-does-not-exist",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "General404_1728x1117_light_auth.png",
+      "route": "/this-route-does-not-exist",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "SearchEmpty_320x568_light_auth.png",
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "320x568",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "SearchEmpty_768x1024_light_auth.png",
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "768x1024",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    },
+    {
+      "filename": "SearchEmpty_1728x1117_light_auth.png",
+      "route": "/blogs?q=thiswillneverexist",
+      "viewport": "1728x1117",
+      "theme": "light",
+      "authState": "authenticated",
+      "captureResult": "Success"
+    }
+  ]
+}

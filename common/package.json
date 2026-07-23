@@ -9,8 +9,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
   }
 }

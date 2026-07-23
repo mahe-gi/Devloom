@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /edit/
+Disallow: /publish
+Disallow: /signin
+Disallow: /signup
+
+# Replace 101dev.com with the actual production domain before release
+Sitemap: https://101dev.com/sitemap.xml
