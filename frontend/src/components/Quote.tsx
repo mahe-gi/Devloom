@@ -7,7 +7,7 @@ export const Quote = ({ type }: { type: "signup" | "signin" }) => {
       <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] opacity-20 bg-[radial-gradient(circle_at_center,_#60a5fa,_transparent_50%)] blur-3xl" />
       
       <div className="relative z-10">
-        <h1 className="text-2xl font-bold tracking-tight mb-2">101dev</h1>
+        <h1 className="text-2xl font-bold tracking-tight mb-2">Devloom</h1>
         <p className="text-gray-400 text-sm font-medium">The Editorial Platform</p>
       </div>
       
@@ -20,7 +20,7 @@ export const Quote = ({ type }: { type: "signup" | "signin" }) => {
         </h2>
         <div className="space-y-1">
           <h5 className="text-lg font-semibold tracking-tight text-white">Ch Mahesh</h5>
-          <p className="text-sm text-gray-300 font-medium">Founder, 101dev</p>
+          <p className="text-sm text-gray-300 font-medium">Founder, Devloom</p>
         </div>
       </div>
     </div>
