@@ -14,12 +14,12 @@ export function Seo({
   title,
   description,
   url,
-  image = "https://101dev.com/default-og.jpg",
+  image = "https://devloom.com/default-og.jpg",
   type = "website",
   author,
   publishedTime,
 }: SeoProps) {
-  const siteName = "101dev";
+  const siteName = "Devloom";
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 
   return (
