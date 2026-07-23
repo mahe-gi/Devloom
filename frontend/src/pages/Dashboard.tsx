@@ -4,7 +4,7 @@ import { useMyBlogs, Blog } from "../hooks";
 import { Link } from "react-router";
 import axios from "axios";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-
+import { Button } from "../components/ui/Button";
 
 function Dashboard() {
   const { loading, blogs, error, refetch } = useMyBlogs();
@@ -76,20 +76,20 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
         <Appbar val={true} />
-        <div className="max-w-5xl mx-auto px-4 py-12 flex-1 w-full">
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
           <div className="animate-pulse space-y-8">
             <div className="flex justify-between items-center">
-              <div className="h-10 w-64 bg-gray-100 rounded-md"></div>
-              <div className="h-10 w-32 bg-gray-100 rounded-md"></div>
+              <div className="h-10 w-64 bg-surface rounded-md"></div>
+              <div className="h-10 w-32 bg-surface rounded-md"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[1, 2, 3].map(i => <div key={i} className="h-32 bg-gray-100 rounded-xl"></div>)}
+              {[1, 2, 3].map(i => <div key={i} className="h-32 bg-surface rounded-xl"></div>)}
             </div>
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-32 bg-gray-100 rounded-xl"></div>
+                <div key={i} className="h-24 bg-surface rounded-xl"></div>
               ))}
             </div>
           </div>
@@ -100,13 +100,13 @@ function Dashboard() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
         <Appbar val={true} />
-        <div className="max-w-5xl mx-auto px-4 py-12 flex-1 flex flex-col items-center justify-center w-full">
-          <div className="bg-red-100 text-red-600 p-8 rounded-2xl text-center max-w-md border border-red-200">
-            <h2 className="font-bold text-xl mb-3">Failed to load dashboard</h2>
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 flex-1 flex flex-col items-center justify-center w-full">
+          <div className="bg-red-500/10 text-red-500 p-8 rounded-2xl text-center max-w-md border border-red-500/20">
+            <h2 className="font-bold text-xl mb-3">Failed to load workspace</h2>
             <p className="text-sm opacity-80 mb-6">{error}</p>
-            <button className="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-md" onClick={refetch}>Retry Connection</button>
+            <Button variant="destructive" onClick={refetch} className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">Retry Connection</Button>
           </div>
         </div>
       </div>
@@ -114,107 +114,114 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Appbar val={true} />
       
-      <div className="max-w-5xl mx-auto px-4 py-12 flex-1 w-full">
+      <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 font-sans tracking-tight">Your Workspace</h1>
-            <p className="text-gray-500 text-lg mt-2 font-serif">Manage your stories, drafts, and publications.</p>
+            <h1 className="text-4xl font-bold font-sans tracking-tight">Your Workspace</h1>
+            <p className="text-foreground-secondary text-lg mt-2 font-serif">Manage your stories, drafts, and publications on Devloom.</p>
           </div>
-          <Link 
-            to="/publish" 
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 shadow-sm h-10 px-4 py-2 text-sm"
-          >
-            <span className="mr-2">+</span> Write a story
+          <Link to="/publish" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
+            <Button variant="primary" size="lg">
+              <span className="mr-2">+</span> Write a story
+            </Button>
           </Link>
         </div>
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 flex flex-col shadow-sm">
-            <span className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-2">Total Stories</span>
-            <span className="text-4xl font-bold text-gray-900">{total}</span>
+          <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col shadow-sm transition-all hover:border-foreground/20">
+            <span className="text-foreground-muted text-sm font-semibold uppercase tracking-wider mb-2">Total Stories</span>
+            <span className="text-4xl font-bold text-foreground">{total}</span>
           </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 flex flex-col shadow-sm">
-            <span className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-2">Published</span>
-            <span className="text-4xl font-bold text-blue-600">{publishedCount}</span>
+          <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col shadow-sm transition-all hover:border-foreground/20">
+            <span className="text-foreground-muted text-sm font-semibold uppercase tracking-wider mb-2">Published</span>
+            <span className="text-4xl font-bold text-green-500">{publishedCount}</span>
           </div>
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 flex flex-col shadow-sm">
-            <span className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-2">Drafts</span>
-            <span className="text-4xl font-bold text-gray-900 opacity-70">{draftCount}</span>
+          <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col shadow-sm transition-all hover:border-foreground/20">
+            <span className="text-foreground-muted text-sm font-semibold uppercase tracking-wider mb-2">Drafts</span>
+            <span className="text-4xl font-bold text-foreground-secondary">{draftCount}</span>
           </div>
         </div>
 
         {/* Article List / Table */}
         {total === 0 ? (
-          <div className="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-            <div className="mb-4 text-gray-400 text-4xl">📄</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Your workspace is empty</h3>
-            <p className="text-gray-500 mb-6 max-w-sm mx-auto">You haven't written any stories yet. Start crafting your first masterpiece today.</p>
-            <Link 
-              to="/publish" 
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 shadow-sm h-10 px-4 py-2 text-sm"
-            >
-              <span className="mr-2">+</span> Start Writing
+          <div className="text-center py-20 bg-surface rounded-xl border border-dashed border-border">
+            <div className="mb-4 text-foreground-secondary text-4xl">📄</div>
+            <h3 className="text-xl font-bold text-foreground mb-2">Your workspace is empty</h3>
+            <p className="text-foreground-muted mb-6 max-w-sm mx-auto">You haven't written any stories yet. Start crafting your first masterpiece today.</p>
+            <Link to="/publish" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md inline-block">
+              <Button variant="primary">
+                <span className="mr-2">+</span> Start Writing
+              </Button>
             </Link>
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-            <div className="divide-y divide-gray-200">
+          <div className="bg-surface border border-border rounded-xl overflow-hidden shadow-sm">
+            {/* Desktop Header */}
+            <div className="hidden sm:grid grid-cols-[120px_1fr_150px_100px] gap-6 p-4 border-b border-border bg-surface-subtle text-xs font-semibold text-foreground-secondary uppercase tracking-wider">
+              <div>Cover</div>
+              <div>Details</div>
+              <div>Status</div>
+              <div className="text-right pr-4">Actions</div>
+            </div>
+            <div className="divide-y divide-border">
               {blogs.map((blog) => (
-                <div key={blog.id} className="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center hover:bg-gray-50 transition-colors">
+                <div key={blog.id} className="p-4 sm:p-4 flex flex-col sm:grid sm:grid-cols-[120px_1fr_150px_100px] gap-4 sm:gap-6 items-start sm:items-center hover:bg-surface-subtle transition-colors group">
                   
-                  {blog.coverImage && (
-                    <div className="w-16 h-16 rounded-md overflow-hidden shrink-0 border border-gray-200 hidden sm:block">
-                      <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover" loading="lazy" />
-                    </div>
-                  )}
+                  <div className="w-full sm:w-24 h-48 sm:h-16 rounded-md overflow-hidden shrink-0 border border-border bg-background">
+                    {blog.coverImage ? (
+                      <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                    ) : (
+                      <div className="w-full h-full bg-surface flex items-center justify-center text-foreground-secondary text-xs">No Cover</div>
+                    )}
+                  </div>
 
-                  <div className="flex-1 min-w-0 flex flex-col gap-1 w-full">
-                    <h3 className="text-lg font-bold text-gray-900 truncate">
-                      <Link to={`/dashboard/articles/${blog.id}/edit`} className="hover:text-blue-600 transition-colors">
+                  <div className="flex-1 min-w-0 flex flex-col gap-1.5 w-full">
+                    <h3 className="text-lg sm:text-base font-bold text-foreground truncate">
+                      <Link to={`/dashboard/articles/${blog.id}/edit`} className="hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
                         {blog.title || "Untitled Story"}
                       </Link>
                     </h3>
-                    
-                    <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                      {blog.published ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600">
-                          ✓ Published
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500">
-                          ○ Draft
-                        </span>
-                      )}
-                      <span>&bull;</span>
-                      <span>{new Date(blog.createdAt || "").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                    <div className="text-xs text-foreground-secondary truncate">
+                      {new Date(blog.createdAt || "").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </div>
                   </div>
                   
+                  <div className="flex items-center gap-3 text-sm text-foreground-secondary w-full sm:w-auto">
+                    {blog.published ? (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                        Published
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground-secondary bg-surface-subtle px-2 py-0.5 rounded-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-muted"></span>
+                        Draft
+                      </span>
+                    )}
+                  </div>
+                  
                   <div className="flex items-center gap-2 w-full sm:w-auto justify-end mt-2 sm:mt-0 relative" ref={menuOpenId === blog.id ? menuRef : null}>
-                    {/* Primary Action */}
-                    <Link 
-                      to={`/dashboard/articles/${blog.id}/edit`} 
-                      className="inline-flex items-center justify-center h-9 px-4 text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 rounded-md transition-colors"
-                    >
-                      ✎ Edit
+                    <Link to={`/dashboard/articles/${blog.id}/edit`} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
+                      <Button variant="outline" size="sm">Edit</Button>
                     </Link>
 
-                    {/* Overflow Menu */}
-                    <button 
-                      className="h-9 w-9 inline-flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors border border-transparent focus:outline-none"
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       onClick={() => setMenuOpenId(menuOpenId === blog.id ? null : blog.id)}
                     >
-                      •••
-                    </button>
+                      <span className="text-lg leading-none mb-1">•••</span>
+                    </Button>
 
                     {menuOpenId === blog.id && (
-                      <div className="absolute right-0 top-12 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 py-1 flex flex-col animate-in fade-in zoom-in-95 duration-100">
+                      <div className="absolute right-0 top-10 w-48 bg-surface border border-border rounded-md shadow-lg z-50 py-1 flex flex-col animate-in fade-in zoom-in-95 duration-100">
                         <button 
-                          className="w-full text-left px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2 disabled:opacity-50"
+                          className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-foreground/5 flex items-center gap-2 disabled:opacity-50 focus-visible:bg-foreground/5 focus-visible:outline-none"
                           disabled={mutatingId === blog.id}
                           onClick={() => {
                             handleTogglePublish(blog);
@@ -228,12 +235,12 @@ function Dashboard() {
                           <>
                             <Link 
                               to={`/blog/${blog.id}`}
-                              className="w-full text-left px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
+                              className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-foreground/5 flex items-center gap-2 focus-visible:bg-foreground/5 focus-visible:outline-none"
                             >
                               👁 View
                             </Link>
                             <button 
-                              className="w-full text-left px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 flex items-center gap-2"
+                              className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-foreground/5 flex items-center gap-2 focus-visible:bg-foreground/5 focus-visible:outline-none"
                               onClick={() => {
                                 handleCopyLink(blog.id);
                                 setMenuOpenId(null);
@@ -244,10 +251,10 @@ function Dashboard() {
                           </>
                         )}
                         
-                        <div className="h-px bg-gray-200 my-1" />
+                        <div className="h-px bg-border my-1" />
                         
                         <button 
-                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                          className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-500/10 flex items-center gap-2 transition-colors focus-visible:bg-red-500/10 focus-visible:outline-none"
                           onClick={() => {
                             setDeleteModalOpen(blog.id);
                             setMenuOpenId(null);
@@ -267,30 +274,30 @@ function Dashboard() {
 
       {/* Delete Confirmation Modal */}
       {deleteModalOpen !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-xl max-w-md w-full p-8" onClick={(e) => e.stopPropagation()}>
-            <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-6 text-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-surface border border-border rounded-2xl shadow-xl max-w-md w-full p-8" onClick={(e) => e.stopPropagation()}>
+            <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mb-6 text-xl border border-red-500/20">
               🗑
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-3 font-sans">Delete Story?</h3>
-            <p className="text-gray-500 mb-8 leading-relaxed">
+            <h3 className="text-2xl font-bold text-foreground mb-3 font-sans">Delete Story?</h3>
+            <p className="text-foreground-muted mb-8 leading-relaxed">
               Are you sure you want to delete this story? This action cannot be undone and the content will be permanently removed.
             </p>
             <div className="flex justify-end gap-3">
-              <button 
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              <Button 
+                variant="outline"
                 onClick={() => setDeleteModalOpen(null)}
                 disabled={deletingId === deleteModalOpen}
               >
                 Cancel
-              </button>
-              <button 
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md disabled:opacity-50"
+              </Button>
+              <Button 
+                variant="destructive"
                 onClick={() => handleDelete(deleteModalOpen)}
                 disabled={deletingId === deleteModalOpen}
               >
                 {deletingId === deleteModalOpen ? "Deleting..." : "Delete Permanently"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

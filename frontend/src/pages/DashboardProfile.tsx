@@ -5,7 +5,9 @@ import axios from "axios";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import { updateProfileInput } from "@mahe-npm/common";
 import { Link } from "react-router";
-
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { Avatar } from "../components/ui/Avatar";
 
 export function DashboardProfile() {
   const { loading, user, refetch } = useProfile();
@@ -78,15 +80,15 @@ export function DashboardProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col text-foreground">
         <Appbar val={true} />
-        <div className="max-w-3xl mx-auto px-4 py-12 flex-1 w-full">
+        <div className="max-w-3xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
           <div className="animate-pulse space-y-8">
-            <div className="h-10 w-48 bg-gray-100 rounded-md mb-8"></div>
-            <div className="space-y-6 bg-white p-8 rounded-2xl border border-gray-200">
-              <div className="h-12 bg-gray-100 rounded-xl w-full"></div>
-              <div className="h-12 bg-gray-100 rounded-xl w-full"></div>
-              <div className="h-32 bg-gray-100 rounded-xl w-full"></div>
+            <div className="h-10 w-48 bg-surface rounded-md mb-8"></div>
+            <div className="space-y-6 bg-surface p-8 rounded-2xl border border-border">
+              <div className="h-12 bg-background rounded-xl w-full"></div>
+              <div className="h-12 bg-background rounded-xl w-full"></div>
+              <div className="h-32 bg-background rounded-xl w-full"></div>
             </div>
           </div>
         </div>
@@ -95,76 +97,71 @@ export function DashboardProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col text-foreground">
       <Appbar val={true} />
       
-      <div className="max-w-3xl mx-auto px-4 py-12 flex-1 w-full">
+      <div className="max-w-3xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 font-sans tracking-tight">Your Profile</h1>
-            <p className="text-gray-500 text-lg mt-2 font-serif">Customize how you appear to other readers and writers.</p>
+            <h1 className="text-4xl font-bold font-sans tracking-tight">Your Profile</h1>
+            <p className="text-foreground-secondary text-lg mt-2 font-serif">Customize how you appear to other readers and writers.</p>
           </div>
           {user?.handle && (
-            <Link 
-              to={`/authors/${user.handle}`}
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-transparent hover:bg-gray-50 text-gray-900 h-10 px-4 py-2 text-sm"
-              target="_blank"
-            >
-              ↗ View Public Profile
+            <Link to={`/authors/${user.handle}`} target="_blank">
+              <Button variant="outline">
+                ↗ View Public Profile
+              </Button>
             </Link>
           )}
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden hover:border-blue-500/30 transition-colors">
-          <div className="p-8 space-y-8 max-w-3xl mx-auto">
-            
-            {/* Avatar section top aligned */}
-            <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-center border-b border-gray-200 pb-8">
-              <div className="w-24 h-24 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center overflow-hidden z-10 shadow-sm shrink-0 text-3xl">
-                {formData.avatarUrl ? (
-                  <img src={formData.avatarUrl} alt="Avatar" className="w-full h-full object-cover" onError={(e) => (e.currentTarget.style.display = 'none')} />
-                ) : (
-                  <span className="text-gray-400">👤</span>
-                )}
-              </div>
+        <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto w-full">
+          
+          {/* Section: Avatar */}
+          <div className="pt-6">
+            <h2 className="text-xl font-bold mb-6 font-sans border-b border-border pb-4 text-foreground">Avatar</h2>
+            <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-center">
+              <Avatar src={formData.avatarUrl} fallback={formData.name ? formData.name.charAt(0) : "👤"} size="lg" className="w-24 h-24 text-4xl border-4 border-background shadow-sm" />
               <div className="flex-1 space-y-2 w-full">
-                <label className="flex items-center text-sm font-semibold text-gray-900">
-                  <span className="mr-2 text-gray-500">🖼</span> Avatar URL
+                <label className="flex items-center text-sm font-medium text-foreground">
+                  <span className="mr-2 text-foreground-secondary">🖼</span> Avatar URL
                 </label>
-                <div className="relative">
-                  <input
-                    type="url"
-                    name="avatarUrl"
-                    value={formData.avatarUrl}
-                    onChange={handleChange}
-                    placeholder="https://example.com/avatar.jpg"
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-colors text-gray-900 placeholder:text-gray-500"
-                  />
-                </div>
+                <Input
+                  type="url"
+                  name="avatarUrl"
+                  value={formData.avatarUrl}
+                  onChange={handleChange}
+                  placeholder="https://example.com/avatar.jpg"
+                  className="w-full text-base py-3 px-4 rounded-xl focus:ring-2 focus:ring-ring focus:outline-none"
+                />
               </div>
             </div>
+          </div>
 
+          {/* Section: Public Profile */}
+          <div className="pt-6">
+            <h2 className="text-xl font-bold mb-6 font-sans border-b border-border pb-4 text-foreground">Public Profile</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="flex items-center text-sm font-semibold text-gray-900">
-                  <span className="mr-2 text-gray-500">👤</span> Display Name
+                <label className="flex items-center text-sm font-medium text-foreground">
+                  <span className="mr-2 text-foreground-secondary">👤</span> Display Name
                 </label>
-                <input
+                <Input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="e.g. Jane Doe"
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-colors text-gray-900 placeholder:text-gray-500"
+                  className="w-full text-base py-3 px-4 rounded-xl focus:ring-2 focus:ring-ring focus:outline-none"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="flex items-center text-sm font-semibold text-gray-900">
-                  <span className="mr-2 text-gray-500">@</span> Public Handle <span className="text-gray-500 font-normal ml-2">(Optional)</span>
+                <label className="flex items-center text-sm font-medium text-foreground">
+                  <span className="mr-2 text-foreground-secondary">@</span> Public Handle <span className="text-foreground-secondary font-normal ml-2">(Optional)</span>
                 </label>
-                <div className="flex rounded-xl overflow-hidden border border-gray-200 focus-within:ring-2 focus-within:ring-blue-500/50 focus-within:border-blue-500 transition-colors">
-                  <span className="inline-flex items-center px-3 bg-gray-50 text-gray-500 border-r border-gray-200 text-sm font-medium">
+                <div className="flex rounded-xl overflow-hidden border border-border focus-within:ring-2 focus-within:ring-ring transition-colors bg-background">
+                  <span className="inline-flex items-center px-4 text-foreground-secondary bg-surface-subtle border-r border-border text-sm font-medium">
                     /authors/
                   </span>
                   <input
@@ -173,15 +170,19 @@ export function DashboardProfile() {
                     value={formData.handle}
                     onChange={handleChange}
                     placeholder="janedoe"
-                    className="flex-1 min-w-0 block w-full px-4 py-3 bg-white border-none focus:ring-0 outline-none text-gray-900 placeholder:text-gray-500"
+                    className="flex-1 min-w-0 block w-full px-4 py-2.5 bg-transparent border-none focus:ring-0 outline-none text-foreground placeholder:text-foreground-muted"
                   />
                 </div>
               </div>
             </div>
+          </div>
 
+          {/* Section: Bio */}
+          <div className="pt-6">
+            <h2 className="text-xl font-bold mb-6 font-sans border-b border-border pb-4 text-foreground">Bio</h2>
             <div className="space-y-2">
-              <label className="flex items-center text-sm font-semibold text-gray-900">
-                <span className="mr-2 text-gray-500">≡</span> Bio
+              <label className="flex items-center text-sm font-medium text-foreground">
+                <span className="mr-2 text-foreground-secondary">≡</span> About You
               </label>
               <textarea
                 name="bio"
@@ -189,19 +190,15 @@ export function DashboardProfile() {
                 onChange={handleChange}
                 rows={4}
                 placeholder="Tell the world about yourself, your expertise, and what you write about..."
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-colors resize-y text-gray-900 placeholder:text-gray-500 font-serif"
+                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-ring outline-none transition-colors resize-y text-foreground placeholder:text-foreground-muted font-serif text-base"
               ></textarea>
             </div>
+          </div>
 
-            <div className="pt-4 flex justify-end gap-3">
-              <button
-                type="submit"
-                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg disabled:opacity-50 transition-colors"
-                disabled={saving}
-              >
-                {saving ? "Saving Changes..." : "Save Changes"}
-              </button>
-            </div>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button type="submit" variant="primary" size="lg" disabled={saving} className="px-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+              {saving ? "Saving Changes..." : "Save Changes"}
+            </Button>
           </div>
         </form>
       </div>
