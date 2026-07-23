@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent } from "react";
-
+import { X } from "lucide-react";
 
 interface TagInputProps {
   tags: string[];
@@ -56,16 +56,17 @@ export function TagInput({ tags, onChange, disabled }: TagInputProps) {
         {tags.map((tag, idx) => (
           <span
             key={idx}
-            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-900"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-muted text-foreground"
           >
             {tag}
             {!disabled && (
               <button
                 type="button"
                 onClick={() => removeTag(idx)}
-                className="hover:text-red-500 focus:outline-none"
+                className="text-muted-foreground hover:text-destructive focus:outline-none transition-colors"
+                aria-label="Remove tag"
               >
-                &times;
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </span>
@@ -83,12 +84,12 @@ export function TagInput({ tags, onChange, disabled }: TagInputProps) {
             onBlur={addTag}
             disabled={disabled}
             placeholder={tags.length === 0 ? "Add tags (e.g. Technology, Design) and press Enter" : "Add a tag..."}
-            className="flex-1 min-w-[150px] bg-transparent outline-none border-none focus:ring-0 text-gray-900 placeholder:text-gray-600 py-1"
+            className="flex-1 min-w-[200px] bg-transparent outline-none border-none focus:ring-0 text-foreground placeholder:text-muted-foreground py-1 text-sm"
           />
         )}
       </div>
-      {error && <p className="text-red-500 text-sm mt-1 font-medium">{error}</p>}
-      <p className="text-xs text-gray-600 mt-1.5">Up to 5 tags, separated by comma or Enter.</p>
+      {error && <p className="text-destructive text-sm mt-1 font-medium">{error}</p>}
+      <p className="text-xs text-muted-foreground mt-1.5">Up to 5 tags, separated by comma or Enter.</p>
     </div>
   );
 }

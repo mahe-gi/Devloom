@@ -58,14 +58,14 @@ function EditArticle() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         <Appbar />
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="space-y-6 pt-12 max-w-[920px] mx-auto w-full">
-            <div className="animate-pulse bg-gray-200 rounded h-12 w-3/4" />
-            <div className="animate-pulse bg-gray-200 rounded h-64 w-full mt-8" />
-            <div className="animate-pulse bg-gray-200 rounded h-4 w-full" />
-            <div className="animate-pulse bg-gray-200 rounded h-4 w-5/6" />
+        <div className="max-w-[720px] mx-auto px-4 py-8">
+          <div className="space-y-6 pt-12 max-w-[720px] mx-auto w-full">
+            <div className="animate-pulse bg-muted rounded h-12 w-3/4" />
+            <div className="animate-pulse bg-muted rounded h-64 w-full mt-8" />
+            <div className="animate-pulse bg-muted rounded h-4 w-full" />
+            <div className="animate-pulse bg-muted rounded h-4 w-5/6" />
           </div>
         </div>
       </div>
@@ -74,11 +74,11 @@ function EditArticle() {
 
   if (error || !blog) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Error</h2>
-          <p className="text-gray-600 mb-4">{error || "Could not load article"}</p>
-          <button onClick={() => navigate("/dashboard")} className="text-blue-600 hover:underline">
+          <h2 className="text-xl font-bold text-foreground mb-2">Error</h2>
+          <p className="text-muted-foreground mb-4">{error || "Could not load article"}</p>
+          <button onClick={() => navigate("/dashboard")} className="text-primary hover:underline">
             Return to Dashboard
           </button>
         </div>
@@ -96,7 +96,7 @@ function EditArticle() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-16">
+    <div className="min-h-screen bg-background pb-16">
       <Appbar val={true} />
       <ArticleEditor initialValue={initialValue} mode="edit" onSave={handleSave} />
     </div>

@@ -58,7 +58,7 @@ function Publish() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-16">
+    <div className="min-h-screen bg-background pb-16">
       <Appbar val={true} />
       <ArticleEditor initialValue={initialValue} mode="create" onSave={handleSave} />
     </div>
