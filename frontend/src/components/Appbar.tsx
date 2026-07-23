@@ -1,10 +1,7 @@
 import { Link, useNavigate } from "react-router";
-import { Avatar } from "./ui/Avatar";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Menu, X, Edit, LayoutDashboard, Settings, BookOpen, LogOut } from "lucide-react";
-import { Button } from "./ui/Button";
-import { ThemeToggle } from "./ThemeToggle";
 
 interface AppbarProps {
   val?: boolean;
@@ -56,79 +53,75 @@ export function Appbar({ val }: AppbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full h-[68px] bg-surface border-b border-border flex items-center">
+    <header className="sticky top-0 z-50 w-full h-[68px] bg-white border-b border-gray-200 flex items-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-full">
           <Link to="/blogs" className="flex items-center gap-2">
-            <span className="font-serif text-2xl font-bold tracking-tight text-foreground hover:text-primary transition-colors">
+            <span className="font-serif text-2xl font-bold tracking-tight text-gray-900 hover:text-gray-600 transition-colors">
               101dev
             </span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6">
-            <ThemeToggle />
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className="text-sm font-medium text-muted hover:text-foreground transition-colors">
+                <Link to="/dashboard" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
                   Dashboard
                 </Link>
                 {!val && (
                   <Link to="/publish">
-                    <Button variant="ghost" size="sm" className="gap-2">
-                      <Edit size={16} />
+                    <button className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
                       Write
-                    </Button>
+                    </button>
                   </Link>
                 )}
 
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="focus:outline-none flex items-center cursor-pointer rounded-full ring-2 ring-transparent hover:ring-primary/20 transition-all"
+                    className="focus:outline-none flex items-center cursor-pointer rounded-full ring-2 ring-transparent transition-all"
                     title="Account menu"
                   >
-                    <Avatar size="sm" fallback={userName.charAt(0).toUpperCase()} />
+                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-bold">
+                      {userName.charAt(0).toUpperCase()}
+                    </div>
                   </button>
 
                   {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-surface rounded-xl border border-border shadow-lg py-2 z-50 text-sm text-foreground overflow-hidden">
-                      <div className="px-4 py-3 border-b border-border bg-surface-secondary/50">
-                        <p className="font-semibold text-foreground truncate">{userName}</p>
-                        <p className="text-xs text-muted mt-0.5">Author</p>
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-lg py-2 z-50 text-sm text-gray-900 overflow-hidden">
+                      <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                        <p className="font-semibold text-gray-900 truncate">{userName}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">Author</p>
                       </div>
                       <div className="py-1">
                         <Link
                           to="/dashboard"
-                          className="flex items-center gap-2 px-4 py-2 hover:bg-surface-secondary transition"
+                          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition"
                           onClick={() => setDropdownOpen(false)}
                         >
-                          <LayoutDashboard size={16} className="text-muted" />
                           Dashboard
                         </Link>
                         <Link
                           to="/dashboard/profile"
-                          className="flex items-center gap-2 px-4 py-2 hover:bg-surface-secondary transition"
+                          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition"
                           onClick={() => setDropdownOpen(false)}
                         >
-                          <Settings size={16} className="text-muted" />
                           Profile Settings
                         </Link>
                         <Link
                           to="/blogs"
-                          className="flex items-center gap-2 px-4 py-2 hover:bg-surface-secondary transition"
+                          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition"
                           onClick={() => setDropdownOpen(false)}
                         >
-                          <BookOpen size={16} className="text-muted" />
                           All Articles
                         </Link>
                       </div>
-                      <div className="border-t border-border py-1">
+                      <div className="border-t border-gray-200 py-1">
                         <button
                           onClick={handleLogout}
-                          className="flex w-full items-center gap-2 text-left px-4 py-2 hover:bg-destructive/10 text-destructive transition cursor-pointer"
+                          className="flex w-full items-center gap-2 text-left px-4 py-2 hover:bg-red-50 text-red-600 transition cursor-pointer"
                         >
-                          <LogOut size={16} />
                           Sign out
                         </button>
                       </div>
@@ -139,10 +132,10 @@ export function Appbar({ val }: AppbarProps) {
             ) : (
               <div className="flex items-center gap-4">
                 <Link to="/signin">
-                  <Button variant="ghost" size="sm">Sign In</Button>
+                  <button className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 font-medium">Sign In</button>
                 </Link>
                 <Link to="/signup">
-                  <Button variant="primary" size="sm">Create Account</Button>
+                  <button className="px-4 py-2 text-sm bg-gray-900 text-white rounded-md hover:bg-gray-800 font-medium">Create Account</button>
                 </Link>
               </div>
             )}
@@ -150,20 +143,19 @@ export function Appbar({ val }: AppbarProps) {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden gap-4">
-             <ThemeToggle />
              {!val && isAuthenticated && (
                <Link to="/publish">
-                 <Button variant="ghost" size="sm" className="px-2">
-                   <Edit size={18} />
-                 </Button>
+                 <button className="px-2 py-1 text-sm bg-gray-100 text-gray-700 rounded-md">
+                   Write
+                 </button>
                </Link>
              )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-foreground hover:text-primary transition-colors focus:outline-none p-2 -mr-2"
+              className="text-gray-900 hover:text-gray-600 transition-colors focus:outline-none p-2 -mr-2"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              Menu
             </button>
           </div>
         </div>
@@ -171,56 +163,54 @@ export function Appbar({ val }: AppbarProps) {
 
       {/* Mobile Nav */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-surface border-b border-border absolute top-[68px] left-0 w-full shadow-lg z-40">
+        <div className="md:hidden bg-white border-b border-gray-200 absolute top-[68px] left-0 w-full shadow-lg z-40">
           <div className="px-4 pt-2 pb-6 space-y-1">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center gap-3 px-3 py-4 mb-2 border-b border-border">
-                  <Avatar size="md" fallback={userName.charAt(0).toUpperCase()} />
+                <div className="flex items-center gap-3 px-3 py-4 mb-2 border-b border-gray-200">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-bold">
+                    {userName.charAt(0).toUpperCase()}
+                  </div>
                   <div>
-                    <p className="font-medium text-foreground">{userName}</p>
-                    <p className="text-sm text-muted">Author</p>
+                    <p className="font-medium text-gray-900">{userName}</p>
+                    <p className="text-sm text-gray-500">Author</p>
                   </div>
                 </div>
                 <Link
                   to="/dashboard"
-                  className="flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground hover:bg-surface-secondary rounded-lg"
+                  className="flex items-center gap-3 px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <LayoutDashboard size={20} className="text-muted" />
                   Dashboard
                 </Link>
                 <Link
                   to="/dashboard/profile"
-                  className="flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground hover:bg-surface-secondary rounded-lg"
+                  className="flex items-center gap-3 px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Settings size={20} className="text-muted" />
                   Profile
                 </Link>
                 <Link
                   to="/blogs"
-                  className="flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground hover:bg-surface-secondary rounded-lg"
+                  className="flex items-center gap-3 px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <BookOpen size={20} className="text-muted" />
                   All Articles
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-3 px-3 py-3 mt-2 text-base font-medium text-destructive hover:bg-destructive/10 rounded-lg text-left"
+                  className="flex w-full items-center gap-3 px-3 py-3 mt-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-lg text-left"
                 >
-                  <LogOut size={20} />
                   Sign out
                 </button>
               </>
             ) : (
               <div className="flex flex-col gap-3 px-3 py-4">
                 <Link to="/signin" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full justify-center">Sign In</Button>
+                  <button className="w-full justify-center px-4 py-2 border border-gray-300 rounded-md">Sign In</button>
                 </Link>
                 <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="primary" className="w-full justify-center">Create Account</Button>
+                  <button className="w-full justify-center px-4 py-2 bg-gray-900 text-white rounded-md">Create Account</button>
                 </Link>
               </div>
             )}

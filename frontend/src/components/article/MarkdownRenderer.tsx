@@ -1,6 +1,5 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
 interface MarkdownRendererProps {
@@ -28,7 +27,7 @@ const CodeBlock = ({ inline, className, children, ...props }: any) => {
             className="p-1.5 rounded-md text-[#a9b1d6] hover:text-white hover:bg-[#292e42] transition-colors"
             title="Copy code"
           >
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            {copied ? <span className="text-xs">Copied!</span> : <span className="text-xs">Copy</span>}
           </button>
         </div>
         <div className="overflow-x-auto p-5">
@@ -49,7 +48,7 @@ const CodeBlock = ({ inline, className, children, ...props }: any) => {
             className="p-1.5 rounded-md text-[#a9b1d6] hover:text-white hover:bg-[#292e42] transition-colors bg-[#1f2335] border border-[#292e42]"
             title="Copy code"
           >
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            {copied ? <span className="text-xs">Copied!</span> : <span className="text-xs">Copy</span>}
           </button>
         </div>
         <div className="overflow-x-auto p-5">
@@ -62,7 +61,7 @@ const CodeBlock = ({ inline, className, children, ...props }: any) => {
   }
 
   return (
-    <code className="font-mono text-[0.85em] bg-surface-secondary text-foreground-secondary px-1.5 py-0.5 rounded-md border border-border" {...props}>
+    <code className="font-mono text-[0.85em] bg-gray-50 text-gray-700 px-1.5 py-0.5 rounded-md border border-gray-200" {...props}>
       {children}
     </code>
   );
@@ -70,28 +69,28 @@ const CodeBlock = ({ inline, className, children, ...props }: any) => {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className="prose-editorial max-w-none text-[17px] md:text-[19px] leading-[1.75] text-foreground">
+    <div className="prose-editorial max-w-none text-[17px] md:text-[19px] leading-[1.75] text-gray-900">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           code: CodeBlock as any,
-          p: ({node, ...props}) => <p className="mb-7 last:mb-0 text-foreground-secondary" {...props} />,
-          h1: ({node, ...props}) => <h1 className="text-3xl md:text-4xl font-bold mt-12 mb-6 text-foreground tracking-tight leading-tight" {...props} />,
-          h2: ({node, ...props}) => <h2 className="text-2xl md:text-3xl font-bold mt-10 mb-5 text-foreground tracking-tight leading-tight" {...props} />,
-          h3: ({node, ...props}) => <h3 className="text-xl md:text-2xl font-bold mt-8 mb-4 text-foreground tracking-tight leading-snug" {...props} />,
-          ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-7 space-y-2.5 text-foreground-secondary" {...props} />,
-          ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-7 space-y-2.5 text-foreground-secondary" {...props} />,
+          p: ({node, ...props}) => <p className="mb-7 last:mb-0 text-gray-700" {...props} />,
+          h1: ({node, ...props}) => <h1 className="text-3xl md:text-4xl font-bold mt-12 mb-6 text-gray-900 tracking-tight leading-tight" {...props} />,
+          h2: ({node, ...props}) => <h2 className="text-2xl md:text-3xl font-bold mt-10 mb-5 text-gray-900 tracking-tight leading-tight" {...props} />,
+          h3: ({node, ...props}) => <h3 className="text-xl md:text-2xl font-bold mt-8 mb-4 text-gray-900 tracking-tight leading-snug" {...props} />,
+          ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-7 space-y-2.5 text-gray-700" {...props} />,
+          ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-7 space-y-2.5 text-gray-700" {...props} />,
           li: ({node, ...props}) => <li className="pl-1" {...props} />,
           blockquote: ({node, ...props}) => (
-            <blockquote className="border-l-4 border-primary pl-5 py-1 my-8 italic text-foreground-muted bg-surface-secondary/50 rounded-r-xl" {...props} />
+            <blockquote className="border-l-4 border-blue-600 pl-5 py-1 my-8 italic text-gray-500 bg-gray-50/50 rounded-r-xl" {...props} />
           ),
           a: ({node, ...props}) => (
-            <a className="text-primary hover:text-primary-hover font-medium underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all" {...props} />
+            <a className="text-blue-600 hover:text-blue-700 font-medium underline underline-offset-4 decoration-blue-600/30 hover:decoration-blue-600 transition-all" {...props} />
           ),
           img: ({node, ...props}) => (
-            <img className="rounded-xl border border-border w-full h-auto my-10 shadow-sm bg-surface-secondary" loading="lazy" {...props} />
+            <img className="rounded-xl border border-gray-200 w-full h-auto my-10 shadow-sm bg-gray-50" loading="lazy" {...props} />
           ),
-          hr: ({node, ...props}) => <hr className="my-10 border-border" {...props} />,
+          hr: ({node, ...props}) => <hr className="my-10 border-gray-200" {...props} />,
         }}
       >
         {content}

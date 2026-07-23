@@ -13,11 +13,9 @@ import { AuthorProfile } from "./pages/AuthorProfile";
 import { Tag } from "./pages/Tag";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { HelmetProvider } from "react-helmet-async";
-import { ErrorBoundary } from "./components/ErrorBoundary";
 
 function App() {
   return (
-    <ErrorBoundary>
       <HelmetProvider>
         <BrowserRouter>
           <Routes>
@@ -38,7 +36,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </HelmetProvider>
-    </ErrorBoundary>
   );
 }
 
