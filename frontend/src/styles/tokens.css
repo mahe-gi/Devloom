@@ -1,0 +1,68 @@
+@theme {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-hover: var(--surface-hover);
+  --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-input-background: var(--input-background);
+  --color-focus-ring: var(--focus-ring);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  
+  --font-sans: 'Inter Variable', sans-serif;
+  --font-serif: 'Lora Variable', serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-subtle: #f7f7f5;
+  --surface-hover: #f2f2f0;
+  --foreground: #171717;
+  --foreground-secondary: #404040;
+  --foreground-muted: #666666;
+  --foreground-subtle: #737373;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
+  --primary: #171717;
+  --primary-hover: #303030;
+  --primary-foreground: #ffffff;
+  --input-background: #ffffff;
+  --focus-ring: #171717;
+  --accent: #1a8917;
+  --accent-hover: #156d12;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --surface: #111111;
+  --surface-subtle: #171717;
+  --surface-hover: #202020;
+  --foreground: #f5f5f5;
+  --foreground-secondary: #d4d4d4;
+  --foreground-muted: #a3a3a3;
+  --foreground-subtle: #8a8a8a;
+  --border: #292929;
+  --border-strong: #404040;
+  --primary: #f5f5f5;
+  --primary-hover: #e5e5e5;
+  --primary-foreground: #171717;
+  --input-background: #171717;
+  --focus-ring: #f5f5f5;
+  --accent: #1a8917;
+  --accent-hover: #156d12;
+}
