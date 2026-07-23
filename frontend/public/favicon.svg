@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="56" fill="#111827"/>
-  <text x="50%" y="54%" dominant-baseline="central" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="140" fill="#ffffff" letter-spacing="-8">D/</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="#111827" rx="56"/><text x="50%" y="54%" fill="#fff" dominant-baseline="central" font-family="system-ui, -apple-system, sans-serif" font-size="140" font-weight="900" letter-spacing="-8" text-anchor="middle">D/</text></svg>
