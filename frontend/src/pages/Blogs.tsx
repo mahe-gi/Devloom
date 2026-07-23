@@ -3,6 +3,10 @@ import { useBlogs } from "../hooks";
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import { Seo } from "../components/Seo";
+import { ArticleCard } from "../components/ui/ArticleCard";
+import { Skeleton } from "../components/ui/Skeleton";
+import { EmptyState } from "../components/ui/EmptyState";
+import { SearchX, FileText, Search, X } from "lucide-react";
 
 function Blogs() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,7 +16,7 @@ function Blogs() {
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState(q);
 
-  const { loading, blogs, error, pagination } = useBlogs({ page, limit: 10, q, tag });
+  const { loading, blogs, error, pagination } = useBlogs({ page, limit: 12, q, tag });
 
   useEffect(() => {
     setPage(1);
@@ -42,108 +46,126 @@ function Blogs() {
   const seoTitle = tag ? `Articles tagged #${tag}` : q ? `Search results for "${q}"` : "Latest Technical Articles";
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
       <Seo 
         title={seoTitle}
-        description="Discover the latest technical articles, tutorials, and insights from the 101dev developer community."
-        url="https://101dev.com/blogs"
+        description="Discover the latest technical articles, tutorials, and insights from the Devloom developer community."
+        url="https://devloom.com/blogs"
       />
       <Appbar />
 
-      <main className="flex-1 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-gray-200 pb-6 mb-10 gap-6">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold font-sans text-gray-900 mb-4">
+      <main className="flex-1 py-8 md:py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-border pb-8 mb-8 gap-8">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-4">
                 {tag ? (
-                  <span className="flex items-center gap-4">
-                    Tag <span className="text-xl px-3 py-1 bg-gray-100 rounded-full">{tag}</span>
+                  <span className="flex flex-wrap items-center gap-4">
+                    Tag <span className="text-2xl md:text-3xl px-4 py-2 bg-surface text-foreground rounded-full border border-border shadow-sm">#{tag}</span>
                   </span>
                 ) : (
-                  "Latest Articles"
+                  "Explore Articles"
                 )}
               </h1>
-              <p className="text-gray-500 text-lg font-serif">
-                {pagination.total} {pagination.total === 1 ? 'article' : 'articles'} found
+              <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+                Discover the latest technical articles, tutorials, and insights from our developer community.
+                {!loading && !error && ` ${pagination.total} ${pagination.total === 1 ? 'article' : 'articles'} found.`}
               </p>
             </div>
 
-            <form onSubmit={handleSearch} className="relative w-full md:w-80">
+            <form onSubmit={handleSearch} className="relative w-full md:w-96 shrink-0 group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground transition-colors group-focus-within:text-foreground" />
               <input
                 type="search"
                 placeholder="Search articles..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-5 pr-12 py-3 bg-white border border-gray-300 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-900 placeholder:text-gray-400"
+                className="w-full pl-12 pr-4 py-3.5 bg-surface border border-border rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 transition-all text-foreground placeholder:text-muted-foreground shadow-sm"
               />
-              <button
-                type="submit"
-                className="absolute right-0 top-0 h-full px-4 text-gray-500 hover:text-blue-600 transition-colors"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-              </button>
             </form>
           </div>
 
           {(q || tag) && (
-            <div className="mb-8 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-              <span className="font-medium">Filters:</span>
-              {q && <span className="bg-white border border-gray-200 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-sm">Search: "{q}"</span>}
-              {tag && <span className="px-3 py-1 bg-gray-100 rounded-full">{tag}</span>}
-              <button onClick={clearFilters} className="ml-2 text-blue-600 hover:underline">Clear all</button>
+            <div className="mb-8 flex flex-wrap items-center gap-3 text-sm">
+              <span className="font-semibold text-foreground">Active filters:</span>
+              {q && <span className="bg-surface border border-border text-foreground px-4 py-1.5 rounded-full flex items-center shadow-sm font-medium">Search: "{q}"</span>}
+              {tag && <span className="bg-surface border border-border text-foreground px-4 py-1.5 rounded-full flex items-center shadow-sm font-medium">#{tag}</span>}
+              <button onClick={clearFilters} className="ml-2 text-muted-foreground hover:text-foreground font-semibold transition-colors flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded-sm"><X className="h-4 w-4" /> Clear all</button>
             </div>
           )}
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-6 py-5 rounded-xl mb-10 text-center">
+            <div className="bg-destructive/10 border border-destructive/20 text-destructive px-6 py-5 rounded-2xl mb-12 text-center">
               <p className="font-medium text-lg">{error}</p>
             </div>
           )}
 
           {loading && page === 1 ? (
-            <div className="space-y-4">
-              <div className="h-64 w-full bg-gray-100 animate-pulse rounded-2xl" />
-              <div className="h-64 w-full bg-gray-100 animate-pulse rounded-2xl" />
-              <div className="h-64 w-full bg-gray-100 animate-pulse rounded-2xl" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex flex-col gap-5">
+                  <Skeleton className="aspect-[3/2] w-full rounded-2xl" />
+                  <div className="space-y-3">
+                    <Skeleton className="h-4 w-1/4" />
+                    <Skeleton className="h-7 w-full" />
+                    <Skeleton className="h-7 w-4/5" />
+                  </div>
+                  <div className="mt-auto pt-4 flex items-center gap-3">
+                    <Skeleton className="h-8 w-8 rounded-full" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : !error && blogs.length === 0 ? (
-            <div className="py-12">
-              <div className="text-center p-8 border border-gray-200 rounded-2xl bg-gray-50">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {q || tag ? "No articles found matching your criteria" : "No articles published yet"}
-                </h3>
-                <p className="text-gray-500 mb-6">
-                  {q || tag ? "Try adjusting your search or clearing filters." : "Be the first developer to share your technical knowledge with the community."}
-                </p>
-                {q || tag ? (
-                  <button onClick={clearFilters} className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100">Clear Filters</button>
-                ) : (
-                  <Link to="/publish">
-                    <button className="px-4 py-2 bg-gray-900 text-white rounded-lg">Write First Article</button>
+            <div className="py-16 flex justify-center">
+              {q || tag ? (
+                <EmptyState 
+                  icon={SearchX} 
+                  title="No articles found" 
+                  description="We couldn't find any articles matching your current search filters. Try adjusting your search term or clearing filters." 
+                  className="w-full max-w-lg"
+                >
+                  <button onClick={clearFilters} className="px-6 py-2.5 bg-surface border border-border text-foreground rounded-xl hover:bg-surface/80 transition-colors font-medium shadow-sm">
+                    Clear Filters
+                  </button>
+                </EmptyState>
+              ) : (
+                <EmptyState 
+                  icon={FileText} 
+                  title="No articles published yet" 
+                  description="Be the first developer to share your technical knowledge with the community."
+                  className="w-full max-w-lg"
+                >
+                  <Link to="/publish" className="inline-flex px-6 py-2.5 bg-foreground text-background rounded-xl hover:bg-foreground/90 transition-colors font-medium shadow-sm">
+                    Write First Article
                   </Link>
-                )}
-              </div>
+                </EmptyState>
+              )}
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {blogs.map((blog) => (
-                  <div key={blog.id} className="border border-gray-200 p-4 rounded-lg bg-white flex flex-col shadow-sm">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{blog.title || 'Article'}</h3>
-                    <Link to={`/blog/${blog.id}`} className="text-blue-600 hover:underline mt-auto inline-block text-sm font-medium">Read more</Link>
-                  </div>
+                  <Link key={blog.id} to={`/blog/${blog.id}`} className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl">
+                    <ArticleCard
+                      title={blog.title || 'Untitled Article'}
+                      summary={blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No summary available.'}
+                      date={new Date(blog.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      author={{ name: blog.author?.name || 'Anonymous' }}
+                      variant="standard"
+                      className="h-full"
+                    />
+                  </Link>
                 ))}
               </div>
 
               {pagination.hasNextPage && (
-                <div className="mt-16 flex justify-center">
+                <div className="mt-12 flex justify-center">
                   <button
                     onClick={handleLoadMore}
                     disabled={loading}
-                    className="border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-full px-8 py-3 font-medium transition-colors disabled:opacity-50"
+                    className="border border-border text-foreground bg-surface hover:bg-surface/80 rounded-full px-8 py-3.5 font-medium transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
                   >
                     {loading ? 'Loading...' : 'Load More Articles'}
                   </button>
@@ -158,3 +180,4 @@ function Blogs() {
 }
 
 export default Blogs;
+

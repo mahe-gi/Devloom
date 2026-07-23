@@ -4,9 +4,16 @@ import { useblog, Blog as BlogType } from "../hooks/index";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Share2, Link as LinkIcon, Calendar, Clock, ArrowLeft } from "lucide-react";
 
 import { Seo } from "../components/Seo";
 import { MarkdownRenderer } from "../components/article/MarkdownRenderer";
+
+const TagChip = ({ name }: { name: string }) => (
+  <span className="inline-flex items-center px-3 py-1 rounded-full bg-surface text-gray-700 text-sm font-medium hover:bg-gray-200 transition-colors cursor-pointer">
+    {name}
+  </span>
+);
 
 function Blog() {
   const { slugOrId } = useParams<{ slugOrId: string }>();
@@ -27,15 +34,25 @@ function Blog() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         <Appbar />
-        <div className="max-w-[760px] mx-auto px-4 py-8">
-          <div className="space-y-6 pt-12 max-w-[760px] mx-auto">
-            <div className="animate-pulse bg-gray-200 h-12 w-3/4 rounded" />
-            <div className="animate-pulse bg-gray-200 h-4 w-1/4 rounded" />
-            <div className="animate-pulse bg-gray-200 h-64 w-full mt-8 rounded" />
-            <div className="animate-pulse bg-gray-200 h-4 w-full rounded" />
-            <div className="animate-pulse bg-gray-200 h-4 w-5/6 rounded" />
+        <div className="max-w-[720px] mx-auto px-4 py-12">
+          <div className="space-y-6 pt-8 animate-pulse">
+            <div className="bg-gray-200 h-4 w-24 rounded-full" />
+            <div className="bg-gray-200 h-12 w-3/4 rounded-xl" />
+            <div className="flex items-center gap-4 mt-6">
+              <div className="w-12 h-12 rounded-full bg-gray-200" />
+              <div className="space-y-2">
+                <div className="h-4 w-32 bg-gray-200 rounded" />
+                <div className="h-3 w-24 bg-gray-200 rounded" />
+              </div>
+            </div>
+            <div className="bg-gray-200 h-[400px] w-full mt-8 rounded-2xl" />
+            <div className="space-y-4 mt-8">
+              <div className="bg-gray-200 h-4 w-full rounded" />
+              <div className="bg-gray-200 h-4 w-full rounded" />
+              <div className="bg-gray-200 h-4 w-5/6 rounded" />
+            </div>
           </div>
         </div>
       </div>
@@ -44,19 +61,20 @@ function Blog() {
 
   if (error || !blog) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         <Seo title="Article Not Found" description="The requested article could not be loaded." />
         <Appbar />
-        <div className="max-w-[760px] mx-auto px-4 py-16 text-center">
-          <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Article Not Found</h2>
-            <p className="text-gray-500 mb-6">
-              {error || "The requested technical article could not be loaded."}
+        <div className="max-w-[720px] mx-auto px-4 py-20 text-center">
+          <div className="bg-surface/50 border border-border p-10 rounded-3xl shadow-sm">
+            <h2 className="text-xl font-extrabold text-foreground mb-4 tracking-tight">Article Not Found</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
+              {error || "The requested technical article could not be loaded or has been removed."}
             </p>
             <Link
               to="/blogs"
-              className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-lg transition"
+              className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-medium px-6 py-3 rounded-full transition-colors"
             >
+              <ArrowLeft size={18} />
               Back to Articles
             </Link>
           </div>
@@ -102,7 +120,7 @@ function Blog() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-16">
+    <div className="min-h-screen bg-background pb-20 selection:bg-gray-200 selection:text-foreground">
       <Seo 
         title={blog.title} 
         description={blog.summary || `Read ${blog.title} by ${authorDisplayName}`}
@@ -110,91 +128,103 @@ function Blog() {
         author={authorDisplayName}
         publishedTime={blog.publishedAt || blog.createdAt}
         image={blog.coverImage || undefined}
-        url={`https://101dev.com/blog/${blog.slug || blog.id}`}
+        url={`https://devloom.com/blog/${blog.slug || blog.id}`}
       />
       <Appbar />
       
-      <main className="max-w-[760px] mx-auto px-4 sm:px-6 mt-8 md:mt-12">
-        <div className="mb-8">
+      <main className="max-w-[720px] mx-auto px-4 sm:px-6 mt-10 md:mt-16">
+        <div className="mb-10">
           <Link
             to="/blogs"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 font-medium transition group"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground font-medium transition-colors group"
           >
-            <span className="w-4 h-4 group-hover:-translate-x-1 transition-transform">←</span>
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Back to Articles
           </Link>
         </div>
 
         <article>
-          <header className="mb-10">
+          <header className="mb-12">
             {blog.tags && blog.tags.length > 0 && (
-              <div className="mb-5">
-                <span className="text-blue-600 font-semibold text-sm tracking-wider uppercase">
-                  {blog.tags[0].tag.name}
-                </span>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {blog.tags.map((t, idx) => (
+                  <TagChip key={idx} name={t.tag.name} />
+                ))}
               </div>
             )}
             
-            <h1 className="text-4xl font-bold text-gray-900 mb-6 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-5 tracking-tight leading-[1.15]">
               {blog.title}
             </h1>
 
             {blog.summary && (
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed font-serif">
+              <p className="text-xl text-foreground/80 mb-6 leading-relaxed font-serif">
                 {blog.summary}
               </p>
             )}
 
-            <div className="flex flex-wrap items-center justify-between gap-6 py-6 border-y border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-5 border-y border-border">
               <div className="flex items-center gap-4">
                 {blog.author?.handle ? (
-                  <Link to={`/authors/${blog.author.handle}`} className="shrink-0 hover:opacity-80 transition-opacity">
-                    {blog.author?.avatarUrl ? <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full" alt="Avatar" /> : <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">{authorDisplayName.charAt(0).toUpperCase()}</div>}
+                  <Link to={`/authors/${blog.author.handle}`} className="shrink-0 group">
+                    {blog.author?.avatarUrl ? (
+                      <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full object-cover group-hover:ring-2 ring-offset-2 ring-gray-200 transition-all" alt={authorDisplayName} />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-surface flex items-center justify-center text-foreground/80 font-bold group-hover:ring-2 ring-offset-2 ring-gray-200 transition-all">
+                        {authorDisplayName.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                   </Link>
                 ) : (
-                  blog.author?.avatarUrl ? <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full" alt="Avatar" /> : <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">{authorDisplayName.charAt(0).toUpperCase()}</div>
+                  blog.author?.avatarUrl ? (
+                    <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full object-cover" alt={authorDisplayName} />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-surface flex items-center justify-center text-foreground/80 font-bold">
+                      {authorDisplayName.charAt(0).toUpperCase()}
+                    </div>
+                  )
                 )}
                 
                 <div>
-                  <div className="text-base font-semibold text-gray-900">
+                  <div className="text-base font-semibold text-foreground">
                     {blog.author?.handle ? (
-                      <Link to={`/authors/${blog.author.handle}`} className="hover:text-blue-600 transition-colors">
+                      <Link to={`/authors/${blog.author.handle}`} className="hover:underline underline-offset-4 decoration-gray-300">
                         {authorDisplayName}
                       </Link>
                     ) : (
                       authorDisplayName
                     )}
                   </div>
-                  <div className="text-sm text-gray-600 flex items-center gap-3 mt-1">
+                  <div className="text-sm text-muted-foreground flex items-center gap-4 mt-1">
                     <span className="flex items-center gap-1.5">
-                      📅
+                      <Calendar size={14} className="text-gray-400" />
                       {formattedDate}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      ⏱️
+                      <Clock size={14} className="text-gray-400" />
                       {readTime} min read
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-3">
                 <button
                   onClick={handleCopyLink}
-                  className="inline-flex items-center justify-center w-10 h-10 rounded-full text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 border border-transparent transition-all"
+                  className="inline-flex items-center justify-center w-10 h-10 rounded-full text-muted-foreground hover:text-foreground bg-surface/50 hover:bg-surface border border-border transition-colors"
                   aria-label="Copy link"
                   title="Copy link"
                 >
-                  🔗
+                  <LinkIcon size={18} />
                 </button>
                 {'share' in navigator && (
                   <button
                     onClick={handleShare}
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-full text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 border border-transparent transition-all"
+                    className="inline-flex items-center justify-center w-10 h-10 rounded-full text-muted-foreground hover:text-foreground bg-surface/50 hover:bg-surface border border-border transition-colors"
                     aria-label="Share article"
                     title="Share article"
                   >
-                    ↗️
+                    <Share2 size={18} />
                   </button>
                 )}
               </div>
@@ -202,48 +232,64 @@ function Blog() {
           </header>
 
           {blog.coverImage && (
-            <div className="mb-12 rounded-2xl overflow-hidden shadow-sm border border-gray-200">
-              <img src={blog.coverImage} alt={blog.title} className="w-full h-auto object-cover max-h-[500px]" loading="eager" />
-            </div>
+            <figure className="mb-10 mt-6">
+              <img 
+                src={blog.coverImage} 
+                alt={blog.title} 
+                className="w-full h-auto object-cover rounded-2xl shadow-sm border border-border max-h-[450px]" 
+                loading="eager" 
+              />
+            </figure>
           )}
 
-          <div className="mb-16">
+          <div className="mb-12 mt-8">
             <MarkdownRenderer content={blog.content || ""} />
           </div>
 
-          <footer className="mt-12 pt-8 border-t border-gray-200">
+          <footer className="mt-16 pt-10 border-t border-border">
             {blog.tags && blog.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2.5 mb-12">
+              <div className="flex flex-wrap gap-2 mb-10">
                 {blog.tags.map((t, idx) => (
-                  <span key={idx} className="px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-900 text-sm font-medium rounded-full border border-gray-200 transition-colors cursor-pointer">
-                    #{t.tag.name}
-                  </span>
+                  <TagChip key={idx} name={t.tag.name} />
                 ))}
               </div>
             )}
             
-            <div className="bg-gray-100 rounded-2xl p-6 sm:p-8 border border-gray-200 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+            <div className="bg-surface/50 rounded-3xl p-8 border border-border flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
               {blog.author?.handle ? (
-                <Link to={`/authors/${blog.author.handle}`} className="shrink-0 hover:opacity-80 transition-opacity">
-                  {blog.author?.avatarUrl ? <img src={blog.author.avatarUrl} className="w-20 h-20 rounded-full" alt="Avatar" /> : <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">{authorDisplayName.charAt(0).toUpperCase()}</div>}
+                <Link to={`/authors/${blog.author.handle}`} className="shrink-0 group">
+                  {blog.author?.avatarUrl ? (
+                     <img src={blog.author.avatarUrl} className="w-14 h-14 rounded-full object-cover group-hover:scale-105 transition-transform duration-300" alt={authorDisplayName} />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-gray-700 text-xl font-bold group-hover:scale-105 transition-transform duration-300">
+                      {authorDisplayName.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </Link>
               ) : (
-                blog.author?.avatarUrl ? <img src={blog.author.avatarUrl} className="w-20 h-20 rounded-full" alt="Avatar" /> : <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">{authorDisplayName.charAt(0).toUpperCase()}</div>
+                blog.author?.avatarUrl ? (
+                  <img src={blog.author.avatarUrl} className="w-14 h-14 rounded-full object-cover" alt={authorDisplayName} />
+                ) : (
+                  <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-gray-700 text-xl font-bold">
+                    {authorDisplayName.charAt(0).toUpperCase()}
+                  </div>
+                )
               )}
               
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-foreground mb-2">
                   Written by {authorDisplayName}
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
+                <p className="text-foreground/80 leading-relaxed mb-5">
                    {(blog.author as any)?.bio || "A passionate writer and developer sharing knowledge with the community."}
                 </p>
                 {blog.author?.handle && (
                   <Link 
                     to={`/authors/${blog.author.handle}`}
-                    className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                    className="inline-flex items-center gap-1.5 text-foreground hover:text-foreground/80 font-semibold transition-colors"
                   >
-                    View all posts →
+                    View more posts
+                    <ArrowLeft size={16} className="rotate-180" />
                   </Link>
                 )}
               </div>
@@ -278,20 +324,25 @@ function RelatedArticles({ slugOrId }: { slugOrId: string }) {
   if (loading || articles.length === 0) return null;
 
   return (
-    <div className="mt-16 border-t border-gray-200 pt-12">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">Read Next</h3>
-      <div className="space-y-6">
-        {articles.map(article => {
-
-          return (
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4" key={article.id}>
-              <Link to={`/blog/${article.slug || article.id}`}>
-                <h4 className="text-lg font-bold text-gray-900">{article.title}</h4>
-                {article.summary && <p className="text-sm text-gray-600 mt-1">{article.summary}</p>}
-              </Link>
-            </div>
-          );
-        })}
+    <div className="mt-16 border-t border-border pt-16">
+      <h3 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Read Next</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {articles.map(article => (
+          <Link 
+            key={article.id} 
+            to={`/blog/${article.slug || article.id}`}
+            className="group block p-6 bg-background border border-border rounded-2xl hover:border-gray-900 hover:shadow-md transition-all duration-300"
+          >
+            <h4 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+              {article.title}
+            </h4>
+            {article.summary && (
+              <p className="text-muted-foreground leading-relaxed line-clamp-3">
+                {article.summary}
+              </p>
+            )}
+          </Link>
+        ))}
       </div>
     </div>
   );

@@ -3,6 +3,10 @@ import { useBlogs } from "../hooks";
 import { Link, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { Seo } from "../components/Seo";
+import { ArticleCard } from "../components/ui/ArticleCard";
+import { Skeleton } from "../components/ui/Skeleton";
+import { EmptyState } from "../components/ui/EmptyState";
+import { SearchX } from "lucide-react";
 
 export function Tag() {
   const { slug } = useParams();
@@ -10,7 +14,7 @@ export function Tag() {
   
   const [page, setPage] = useState(1);
 
-  const { loading, blogs, error, pagination } = useBlogs({ page, limit: 10, tag });
+  const { loading, blogs, error, pagination } = useBlogs({ page, limit: 12, tag });
 
   useEffect(() => {
     setPage(1);
@@ -25,70 +29,88 @@ export function Tag() {
   const seoTitle = `Articles tagged #${tag}`;
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
       <Seo 
         title={seoTitle}
-        description={`Read the latest technical articles about ${tag} from the 101dev developer community.`}
-        url={`https://101dev.com/tags/${tag}`}
+        description={`Read the latest technical articles about ${tag} from the Devloom developer community.`}
+        url={`https://devloom.com/tags/${tag}`}
       />
       <Appbar />
 
-      <main className="flex-1 py-12">
-        <div className="max-w-7xl mx-auto px-4 w-full">
-          <div className="border-b border-gray-200 pb-6 mb-10">
-            <h1 className="text-4xl md:text-5xl font-bold font-sans text-gray-900 mb-4 flex items-center gap-4">
-              <span className="text-gray-600">Topic:</span> 
-              <span className="text-2xl py-1.5 px-4 bg-gray-100 text-gray-700 rounded-full border border-gray-200">{tag}</span>
+      <main className="flex-1 py-16 md:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="border-b border-border pb-8 mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 flex flex-wrap items-center gap-4">
+              <span className="text-muted font-normal">Topic:</span> 
+              <span className="px-6 py-2.5 bg-surface text-foreground rounded-full border border-border shadow-sm">#{tag}</span>
             </h1>
-            <p className="text-gray-600 text-lg font-serif">
-              {pagination.total} {pagination.total === 1 ? 'article' : 'articles'} found
+            <p className="text-muted text-lg md:text-xl leading-relaxed">
+              Explore articles, tutorials, and insights related to {tag}.
+              {!loading && !error && ` ${pagination.total} ${pagination.total === 1 ? 'article' : 'articles'} found.`}
             </p>
           </div>
 
           {error && (
-            <div className="bg-red-100 border border-red-200 text-red-600 px-6 py-5 rounded-xl mb-10 text-center">
+            <div className="bg-destructive/10 border border-destructive/20 text-destructive px-6 py-5 rounded-2xl mb-12 text-center">
               <p className="font-medium text-lg">{error}</p>
             </div>
           )}
 
           {loading && page === 1 ? (
-            <div className="space-y-4">
-              <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />
-              <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />
-              <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex flex-col gap-5">
+                  <Skeleton className="aspect-[3/2] w-full rounded-2xl" />
+                  <div className="space-y-3">
+                    <Skeleton className="h-4 w-1/4" />
+                    <Skeleton className="h-7 w-full" />
+                    <Skeleton className="h-7 w-4/5" />
+                  </div>
+                  <div className="mt-auto pt-4 flex items-center gap-3">
+                    <Skeleton className="h-8 w-8 rounded-full" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : !error && blogs.length === 0 ? (
-            <div className="py-12">
-              <div className="text-center">
-                <h3 className="text-xl font-bold">No articles found for #{tag}</h3>
-                <p className="text-gray-600 mt-2">There are currently no published articles with this tag.</p>
-                <div className="mt-4">
-                  <Link to="/blogs">
-                    <button className="border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-50">Browse all articles</button>
-                  </Link>
-                </div>
-              </div>
+            <div className="py-16 flex justify-center">
+              <EmptyState 
+                icon={SearchX} 
+                title={`No articles found for #${tag}`} 
+                description="There are currently no published articles with this tag. Check back later or browse other topics." 
+                className="w-full max-w-lg"
+              >
+                <Link to="/blogs" className="inline-flex px-6 py-2.5 bg-surface border border-border text-foreground rounded-xl hover:bg-surface/80 transition-colors font-medium shadow-sm">
+                  Browse all articles
+                </Link>
+              </EmptyState>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                 {blogs.map((blog) => (
-                  <div key={blog.id} className="border border-gray-200 rounded-lg p-4 bg-white">
-                    <div className="text-sm text-gray-600 mb-2">{blog.author?.name || 'Anonymous'}</div>
-                    <Link to={`/blog/${blog.id}`} className="text-xl font-bold text-gray-900 hover:underline">{blog.title}</Link>
-                    <p className="text-gray-700 mt-2 line-clamp-3">{blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
-                  </div>
+                  <Link key={blog.id} to={`/blog/${blog.id}`} className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl">
+                    <ArticleCard
+                      title={blog.title || 'Untitled Article'}
+                      summary={blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No summary available.'}
+                      date={new Date(blog.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      author={{ name: blog.author?.name || 'Anonymous' }}
+                      variant="standard"
+                      className="h-full"
+                    />
+                  </Link>
                 ))}
               </div>
 
               {pagination.hasNextPage && (
-                <div className="mt-16 flex justify-center">
+                <div className="mt-20 flex justify-center">
                   <button
                     onClick={handleLoadMore}
                     disabled={loading}
-                    className="border border-gray-300 rounded-full px-8 py-2 hover:bg-gray-50 disabled:opacity-50"
+                    className="border border-border text-foreground bg-surface hover:bg-surface/80 rounded-full px-8 py-3.5 font-medium transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:pointer-events-none"
                   >
-                    {loading ? "Loading..." : "Load More"}
+                    {loading ? "Loading..." : "Load More Articles"}
                   </button>
                 </div>
               )}
