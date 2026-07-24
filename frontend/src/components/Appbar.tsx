@@ -1,64 +1,37 @@
 import { Link, useNavigate } from "react-router";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Menu, X, Edit, LayoutDashboard, Settings, BookOpen, LogOut } from "lucide-react";
 
 import { Avatar } from "./ui/Avatar";
 import { Button } from "./ui/Button";
 import { ThemeToggle } from "./ThemeToggle";
 
+import { authClient } from "../lib/auth";
+
 interface AppbarProps {
   val?: boolean;
 }
 
 export function Appbar({ val }: AppbarProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>("Author");
+  const { data: session } = authClient.useSession();
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-      // Fetch user profile info
-      axios
-        .post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/me`,
-          {},
-          {
-            headers: {
-              Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data?.user?.name) {
-            setUserName(res.data.user.name);
-          } else if (res.data?.user?.username) {
-            setUserName(res.data.user.username);
-          }
-        })
-        .catch(() => {
-          // Token invalid or expired
-        });
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
+  const isAuthenticated = !!session;
+  const userName = session?.user?.name || session?.user?.email?.split('@')[0] || "Author";
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await authClient.signOut();
     localStorage.removeItem("token");
-    setIsAuthenticated(false);
     setDropdownOpen(false);
     setMobileMenuOpen(false);
     navigate("/");
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full h-14 bg-background border-b border-border flex items-center transition-colors">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl h-14 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-xl border border-white/10 dark:border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex items-center transition-all duration-300">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-full">
           <Link to="/blogs" className="flex items-center gap-2">
             <span className="font-serif text-2xl font-bold tracking-tight text-foreground hover:text-foreground/80 transition-colors">
@@ -172,7 +145,7 @@ export function Appbar({ val }: AppbarProps) {
 
       {/* Mobile Nav Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-background border-b border-border absolute top-14 left-0 w-full shadow-sm z-40">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-x border-b border-white/10 dark:border-white/5 rounded-b-2xl absolute top-12 left-0 w-full shadow-lg z-40 overflow-hidden">
           <div className="px-4 pt-2 pb-6 space-y-1">
             {isAuthenticated ? (
               <>

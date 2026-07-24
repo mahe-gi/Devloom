@@ -11,6 +11,9 @@ export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CLIENT_SECRET: string;
+    BETTER_AUTH_URL: string;
   };
   Variables: {
     userId: string;
@@ -19,31 +22,47 @@ export const blogRouter = new Hono<{
 
 
 
+import { createAuth } from "../auth";
+
 // Authentication Middleware for protected routes
 const authMiddleware = async (c: any, next: () => Promise<void>) => {
+  const auth = createAuth(c.env);
+  
+  // 1. Check Better Auth Session
+  const sessionData = await auth.api.getSession({ headers: c.req.raw.headers });
+  const betterAuthUserId = sessionData?.user?.id;
+
+  // 2. Check Legacy JWT
   const authHeader = c.req.header("Authorization") || "";
-  const token = authHeader.startsWith("Bearer ")
-    ? authHeader.split(" ")[1]
-    : authHeader;
-
-  if (!token) {
-    c.status(401);
-    return c.json({ error: "Authentication token missing" });
-  }
-
-  try {
-    const payload = await verify(token, c.env.JWT_SECRET, "HS256");
-    if (payload && payload.id) {
-      c.set("userId", String(payload.id));
-      await next();
-    } else {
-      c.status(401);
-      return c.json({ error: "Invalid token claims" });
+  const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : authHeader;
+  let legacyUserId: string | null = null;
+  
+  if (token) {
+    try {
+      const payload = await verify(token, c.env.JWT_SECRET, "HS256");
+      if (payload && payload.id) legacyUserId = String(payload.id);
+    } catch (err) {
+      // Legacy token invalid/expired, ignore for now (better auth might be valid)
     }
-  } catch (err) {
-    c.status(401);
-    return c.json({ error: "Unauthorized or invalid token" });
   }
+
+  // 3. Evaluate Conflict Policy
+  if (betterAuthUserId && legacyUserId && betterAuthUserId.toString() !== legacyUserId.toString()) {
+    c.status(409);
+    // Setting header to clear better auth session since they conflict
+    return c.json({ error: "AUTH_IDENTITY_CONFLICT", message: "Conflicting authentications. Please sign in again." });
+  }
+
+  // 4. Authorize
+  const finalUserId = betterAuthUserId || legacyUserId;
+  
+  if (!finalUserId) {
+    c.status(401);
+    return c.json({ error: "Authentication token missing or invalid" });
+  }
+
+  c.set("userId", String(finalUserId));
+  await next();
 };
 
 // Public Endpoint: Fetch published articles list (newest first)
@@ -137,8 +156,8 @@ blogRouter.get("/bulk", async (c) => {
 
 // Protected Endpoint: Fetch all articles (drafts and published) for the authenticated user
 blogRouter.get("/mine", authMiddleware, async (c) => {
-  const userId = Number(c.get("userId"));
-  if (isNaN(userId)) {
+  const userId = c.get("userId");
+  if (!userId) {
     c.status(401);
     return c.json({ error: "Unauthorized: Invalid user ID" });
   }
@@ -188,8 +207,8 @@ blogRouter.get("/mine/:id", authMiddleware, async (c) => {
     return c.json({ error: "Invalid blog ID" });
   }
 
-  const userId = Number(c.get("userId"));
-  if (isNaN(userId)) {
+  const userId = c.get("userId");
+  if (!userId) {
     c.status(401);
     return c.json({ error: "Unauthorized: Invalid user ID" });
   }
@@ -381,8 +400,8 @@ blogRouter.post("/", authMiddleware, async (c) => {
     return c.json({ error: "Invalid blog input data" });
   }
 
-  const userId = Number(c.get("userId"));
-  if (isNaN(userId)) {
+  const userId = c.get("userId");
+  if (!userId) {
     c.status(401);
     return c.json({ error: "Unauthorized: Invalid user ID" });
   }
@@ -469,8 +488,8 @@ blogRouter.patch("/:id/published", authMiddleware, async (c) => {
     return c.json({ error: "Invalid payload format" });
   }
 
-  const userId = Number(c.get("userId"));
-  if (isNaN(userId)) {
+  const userId = c.get("userId");
+  if (!userId) {
     c.status(401);
     return c.json({ error: "Unauthorized: Invalid user ID" });
   }
@@ -523,8 +542,8 @@ blogRouter.put("/", authMiddleware, async (c) => {
     return c.json({ error: "Invalid blog update input" });
   }
 
-  const userId = Number(c.get("userId"));
-  if (isNaN(userId)) {
+  const userId = c.get("userId");
+  if (!userId) {
     c.status(401);
     return c.json({ error: "Unauthorized: Invalid user ID" });
   }
@@ -608,8 +627,8 @@ blogRouter.delete("/:id", authMiddleware, async (c) => {
     return c.json({ error: "Invalid blog ID" });
   }
 
-  const userId = Number(c.get("userId"));
-  if (isNaN(userId)) {
+  const userId = c.get("userId");
+  if (!userId) {
     c.status(401);
     return c.json({ error: "Unauthorized: Invalid user ID" });
   }

@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router";
 import { Appbar } from "../components/Appbar";
-import { useblog, Blog as BlogType } from "../hooks/index";
+import { useBlog, Blog as BlogType } from "../hooks/index";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -18,7 +18,7 @@ const TagChip = ({ name }: { name: string }) => (
 function Blog() {
   const { slugOrId } = useParams<{ slugOrId: string }>();
   const navigate = useNavigate();
-  const { loading, blog, error } = useblog({
+  const { loading, blog, error } = useBlog({
     slugOrId: slugOrId ?? "",
   });
 
@@ -132,7 +132,7 @@ function Blog() {
       />
       <Appbar />
       
-      <main className="max-w-[720px] mx-auto px-4 sm:px-6 mt-10 md:mt-16">
+      <main className="max-w-[720px] mx-auto px-4 sm:px-6 pt-28 md:pt-32">
         <div className="mb-10">
           <Link
             to="/blogs"
@@ -153,12 +153,12 @@ function Blog() {
               </div>
             )}
             
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-5 tracking-tight leading-[1.15]">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-foreground mb-6 tracking-tighter leading-[1.1]">
               {blog.title}
             </h1>
 
             {blog.summary && (
-              <p className="text-xl text-foreground/80 mb-6 leading-relaxed font-serif">
+              <p className="text-2xl text-foreground/70 mb-8 leading-relaxed font-light tracking-tight">
                 {blog.summary}
               </p>
             )}

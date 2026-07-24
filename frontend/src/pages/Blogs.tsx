@@ -54,11 +54,11 @@ function Blogs() {
       />
       <Appbar />
 
-      <main className="flex-1 py-8 md:py-12">
+      <main className="flex-1 pt-28 pb-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-border pb-8 mb-8 gap-8">
             <div className="max-w-2xl">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-4">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter text-foreground mb-4 drop-shadow-sm">
                 {tag ? (
                   <span className="flex flex-wrap items-center gap-4">
                     Tag <span className="text-2xl md:text-3xl px-4 py-2 bg-surface text-foreground rounded-full border border-border shadow-sm">#{tag}</span>
@@ -67,7 +67,7 @@ function Blogs() {
                   "Explore Articles"
                 )}
               </h1>
-              <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+              <p className="text-muted-foreground text-lg md:text-xl font-medium tracking-tight leading-relaxed">
                 Discover the latest technical articles, tutorials, and insights from our developer community.
                 {!loading && !error && ` ${pagination.total} ${pagination.total === 1 ? 'article' : 'articles'} found.`}
               </p>
@@ -80,7 +80,7 @@ function Blogs() {
                 placeholder="Search articles..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-surface border border-border rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 transition-all text-foreground placeholder:text-muted-foreground shadow-sm"
+                className="w-full pl-12 pr-4 py-4 bg-background/50 backdrop-blur-xl border border-border/50 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-foreground/20 focus:border-foreground/30 transition-all text-foreground placeholder:text-muted-foreground shadow-sm hover:shadow-md"
               />
             </form>
           </div>

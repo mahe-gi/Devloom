@@ -1,6 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+// Intercept 409 errors globally to clear legacy token
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 409 && error.response?.data?.error === "AUTH_IDENTITY_CONFLICT") {
+      localStorage.removeItem("token");
+      window.location.href = "/signin";
+    }
+    return Promise.reject(error);
+  }
+);
+
 export interface Blog {
   content: string;
   title: string;
@@ -14,7 +26,7 @@ export interface Blog {
   updatedAt?: string;
   tags?: { tag: { name: string; slug: string } }[];
   author: {
-    id?: number;
+    id?: string | number;
     name?: string | null;
     username?: string;
     handle?: string | null;
@@ -22,7 +34,7 @@ export interface Blog {
   };
 }
 
-export const useblog = ({ slugOrId }: { slugOrId: string | number }) => {
+export const useBlog = ({ slugOrId }: { slugOrId: string | number }) => {
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState<Blog | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +53,10 @@ export const useblog = ({ slugOrId }: { slugOrId: string | number }) => {
     }
 
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${encodeURIComponent(slugOrId.toString())}`, { headers })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${encodeURIComponent(slugOrId.toString())}`, { 
+        headers,
+        withCredentials: true
+      })
       .then((res) => {
         setBlog(res.data);
         setError(null);
@@ -90,7 +105,10 @@ export const useBlogs = ({ page = 1, limit = 10, q = "", tag = "" }: UseBlogsPro
     });
 
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk?${params.toString()}`, { headers })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk?${params.toString()}`, { 
+        headers,
+        withCredentials: true 
+      })
       .then((res) => {
         const fetchedBlogs = res.data.articles || res.data.blogs || [];
         if (page === 1) {
@@ -139,7 +157,10 @@ export const useMyBlogs = () => {
     }
 
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/mine`, { headers })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/mine`, { 
+        headers,
+        withCredentials: true 
+      })
       .then((res) => {
         setBlogs(res.data.articles || []);
         setError(null);
@@ -187,7 +208,10 @@ export const useMyBlog = ({ id }: { id: number }) => {
     }
 
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/mine/${id}`, { headers })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/mine/${id}`, { 
+        headers,
+        withCredentials: true 
+      })
       .then((res) => {
         setBlog(res.data);
         setError(null);
@@ -225,7 +249,10 @@ export const useProfile = () => {
     }
 
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/me`, {}, { headers })
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/me`, {}, { 
+        headers,
+        withCredentials: true 
+      })
       .then((res) => {
         setUser(res.data.user);
         setError(null);
@@ -257,7 +284,9 @@ export const useAuthorProfile = (handle: string, page = 1, limit = 10) => {
     
     setLoading(true);
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/authors/${handle}?page=${page}&limit=${limit}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/authors/${handle}?page=${page}&limit=${limit}`, {
+        withCredentials: true
+      })
       .then((res) => {
         setAuthor(res.data.author);
         if (page === 1) {

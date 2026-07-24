@@ -83,10 +83,10 @@ export function ArticleEditor({ initialValue, mode, onSave }: ArticleEditorProps
 
   return (
     <div className="w-full flex justify-center bg-background min-h-screen pb-16">
-      <div className="w-full max-w-[720px] px-4 py-8 flex flex-col gap-8">
+      <div className="w-full max-w-[720px] px-4 pt-28 pb-8 flex flex-col gap-8">
         
         {/* Action Buttons Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-16 z-20 bg-background/95 backdrop-blur py-4 border-b border-border">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-[80px] z-20 bg-background/95 backdrop-blur py-4 border-b border-border -mx-4 px-4 sm:mx-0 sm:px-0">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setActiveTab("write")}
@@ -216,24 +216,26 @@ export function ArticleEditor({ initialValue, mode, onSave }: ArticleEditorProps
             <div className="mt-2 flex flex-col">
               <input
                 type="text"
-                placeholder="Title"
-                className="w-full text-5xl font-bold text-foreground bg-transparent outline-none placeholder:text-muted-foreground/60 mb-6 py-2 border-none focus:ring-0 leading-tight"
+                placeholder="Article Title"
+                className="w-full text-5xl md:text-6xl font-black tracking-tighter text-foreground bg-transparent outline-none placeholder:text-muted-foreground/30 mb-8 py-2 border-none focus:ring-0 leading-tight"
                 value={value.title}
                 onChange={(e) => setValue({ ...value, title: e.target.value })}
                 disabled={isSaving}
               />
               
-              <div className="flex flex-col border border-border/40 rounded-xl overflow-hidden shadow-sm bg-background transition-colors focus-within:border-border focus-within:ring-1 focus-within:ring-border mt-2">
-                <MarkdownToolbar 
-                  textareaRef={textareaRef} 
-                  onChange={(content) => setValue({ ...value, content })}
-                  disabled={isSaving}
-                />
+              <div className="flex flex-col bg-background transition-colors mt-2 group relative">
+                <div className="sticky top-[152px] z-10 bg-background/80 backdrop-blur-md pb-4 mb-2 -mx-4 px-4 opacity-50 focus-within:opacity-100 hover:opacity-100 transition-opacity rounded-xl">
+                  <MarkdownToolbar 
+                    textareaRef={textareaRef} 
+                    onChange={(content) => setValue({ ...value, content })}
+                    disabled={isSaving}
+                  />
+                </div>
                 
                 <textarea
                   ref={textareaRef}
-                  placeholder="Tell your story..."
-                  className="w-full min-h-[60vh] bg-transparent border-none outline-none focus:ring-0 text-lg text-foreground placeholder:text-muted-foreground font-serif leading-relaxed resize-none disabled:opacity-50 p-6"
+                  placeholder="Start writing..."
+                  className="w-full min-h-[60vh] bg-transparent border-none outline-none focus:ring-0 text-xl text-foreground placeholder:text-muted-foreground/40 leading-relaxed resize-none disabled:opacity-50 py-4 font-sans tracking-wide"
                   value={value.content}
                   onChange={(e) => setValue({ ...value, content: e.target.value })}
                   disabled={isSaving}

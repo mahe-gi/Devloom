@@ -23,7 +23,7 @@ export function AuthorProfile() {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col">
         <Appbar />
-        <div className="max-w-5xl mx-auto px-4 w-full py-16 flex-1">
+        <div className="max-w-5xl mx-auto px-4 w-full pt-28 pb-16 flex-1">
           <div className="animate-pulse flex flex-col md:flex-row gap-8 items-start md:items-center mb-16 border-b border-border pb-12">
             <div className="h-32 w-32 bg-surface rounded-full border border-border shrink-0"></div>
             <div className="flex-1 w-full space-y-4">
@@ -76,7 +76,7 @@ export function AuthorProfile() {
       />
       <Appbar />
       
-      <main className="flex-1 py-16">
+      <main className="flex-1 pt-28 pb-16">
         <div className="max-w-5xl mx-auto px-4 w-full">
           <section className="flex flex-col md:flex-row gap-8 items-start md:items-center mb-16 border-b border-border pb-12">
             <div className="shrink-0">

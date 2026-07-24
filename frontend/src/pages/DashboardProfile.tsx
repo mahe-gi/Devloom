@@ -82,7 +82,7 @@ export function DashboardProfile() {
     return (
       <div className="min-h-screen bg-background flex flex-col text-foreground">
         <Appbar val={true} />
-        <div className="max-w-3xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
+        <div className="max-w-3xl mx-auto px-4 pt-28 pb-12 flex-1 w-full">
           <div className="animate-pulse space-y-8">
             <div className="h-10 w-48 bg-surface rounded-md mb-8"></div>
             <div className="space-y-6 bg-surface p-8 rounded-2xl border border-border">
@@ -100,7 +100,7 @@ export function DashboardProfile() {
     <div className="min-h-screen bg-background flex flex-col text-foreground">
       <Appbar val={true} />
       
-      <div className="max-w-3xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
+      <div className="max-w-3xl mx-auto px-4 pt-28 pb-12 flex-1 w-full">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
           <div>
             <h1 className="text-4xl font-bold font-sans tracking-tight">Your Profile</h1>

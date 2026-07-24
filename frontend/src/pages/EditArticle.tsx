@@ -19,7 +19,10 @@ function EditArticle() {
         await axios.patch(
           `${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}/published`,
           { published: isPublishAction },
-          { headers: { Authorization: token } }
+          { 
+            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            withCredentials: true,
+          }
         );
       }
 
@@ -33,7 +36,10 @@ function EditArticle() {
           coverImage: value.coverImage.trim() || undefined,
           tags: value.tags || [],
         },
-        { headers: { Authorization: token } }
+        { 
+          headers: { Authorization: token ? `Bearer ${token}` : "" },
+          withCredentials: true,
+        }
       );
 
       if (action === "unpublish") {

@@ -1,0 +1,41 @@
+# Better Auth Migration Checklist
+
+- [x] **Phase 1 — Inspect and Baseline**
+  - [x] Inspect source files (index, routers, App, hooks, Signin/Signup).
+  - [x] Run `git status`, `git diff` and record baseline.
+- [x] **Phase 2 — Fix API Regressions Locally**
+  - [x] Ensure public endpoints (`/bulk`, `/:slugOrId`, `/related`, `/authors/:handle`, `/tags/:slug`, `/sitemap.xml`) do not require authentication.
+  - [x] Ensure public feed returns success regardless of token state.
+  - [x] Verify protected endpoints return 401 on missing/invalid auth (not 500).
+  - [x] Add automated local API regression tests for routes.
+- [x] **Phase 3 — Configure Local API Topology**
+  - [x] Setup strict CORS for Production (`https://blog.techwithmahe.com`) and Dev (`http://localhost:5173`).
+  - [x] Use `credentials: true` and `Vary: Origin`.
+  - [x] Ensure frontend API calls use `credentials: "include"`.
+- [x] **Phase 4 — Design and Migrate Schema Locally**
+  - [x] Install latest stable `better-auth` and plugins.
+  - [x] Generate Better Auth Prisma schema in temp location.
+  - [x] Reconcile integer `User.id` and `Blog.authorId` with Better Auth (if supported).
+  - [x] Email Migration: Add `email`, backfill, normalize, handle duplicates. Map `avatarUrl` -> `image`. Preserve other fields.
+  - [x] Password Migration: Migrate existing bcrypt to `Account` records, avoiding double hash.
+  - [x] Test migration against a fresh local DB.
+- [x] **Phase 5 — Implement Better Auth Backend**
+  - [x] Create `backend/src/auth.ts` (Email/Pass, Google, Email OTP plugins).
+  - [x] Setup `app.on(["GET", "POST"], "/api/auth/*")`.
+  - [x] Configure `baseURL` and `trustedOrigins`.
+  - [x] Implement `sendVerificationOTP` with Resend.
+  - [x] Secure account linking (Google).
+- [x] **Phase 6 — Frontend Authentication Migration**
+  - [x] Initialize `better-auth/react` client.
+  - [x] Update Signup, Signin, Appbar, ProtectRoutes, and hooks.
+  - [x] Implement OTP UI (6-digit, expiration, resend, limits).
+  - [x] Implement Legacy Transition: Handle `409 AUTH_IDENTITY_CONFLICT`, clean `localStorage` securely.
+- [x] **Phase 7 — Complete Local Verification**
+  - [x] Static Checks (`npm ci`, `tsc -b`, `prisma validate`, etc).
+  - [x] API Tests (Public feeds, protected routes, auth flows, OTP flows, conflict).
+  - [x] Database Tests (Preserved IDs, revoked sessions, credential mappings).
+  - [x] Browser Tests (Signup, Signin, Dashboard, OTP, etc).
+- [x] **Phase 8 — Prepare Deployment Runbooks**
+  - [x] Create `final_auth_verification_report.md`
+  - [x] Create `production_deployment_runbook.md`
+  - [x] Create `production_rollback_runbook.md`

@@ -19,7 +19,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, ArticleCardProps>(
     
     if (variant === 'compact') {
       return (
-        <div ref={ref} className={cn('group flex gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded-md', className)} {...props}>
+        <div ref={ref} className={cn('group flex gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded-xl bg-white/5 backdrop-blur-md border border-border/50 hover:border-border transition-all duration-300 hover:shadow-lg dark:hover:shadow-white/5 p-3', className)} {...props}>
           {image && (
             <div className="h-20 w-24 shrink-0 overflow-hidden rounded-md bg-surface">
               <img src={image} alt={title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -39,7 +39,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, ArticleCardProps>(
 
     if (variant === 'featured') {
       return (
-        <div ref={ref} className={cn('group relative overflow-hidden bg-transparent flex flex-col md:flex-row gap-6 md:gap-10 focus-visible:outline-none', className)} {...props}>
+        <div ref={ref} className={cn('group relative overflow-hidden bg-white/5 backdrop-blur-md rounded-2xl border border-border/50 hover:border-border shadow-lg dark:shadow-white/5 flex flex-col md:flex-row gap-6 md:gap-10 focus-visible:outline-none transition-all duration-300 hover:-translate-y-1 p-4 md:p-6', className)} {...props}>
           {image && (
             <div className="aspect-[4/3] md:aspect-auto md:w-1/2 overflow-hidden bg-surface">
               <img src={image} alt={title} className="h-full w-full object-cover" />
@@ -74,7 +74,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, ArticleCardProps>(
 
     // Standard variant
     return (
-      <div ref={ref} className={cn('group flex flex-col h-full bg-transparent focus-visible:outline-none', className)} {...props}>
+      <div ref={ref} className={cn('group flex flex-col h-full bg-white/5 backdrop-blur-md rounded-2xl border border-border/50 hover:border-border shadow-md hover:shadow-xl dark:shadow-white/5 focus-visible:outline-none transition-all duration-300 hover:-translate-y-1 p-4', className)} {...props}>
         {image && (
           <div className="aspect-[16/10] w-full overflow-hidden mb-4 bg-surface">
             <img src={image} alt={title} className="h-full w-full object-cover" />

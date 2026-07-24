@@ -34,7 +34,10 @@ function Dashboard() {
       setDeletingId(id);
       const token = localStorage.getItem("token") || "";
       const headers = { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` };
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`, { headers });
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`, { 
+        headers,
+        withCredentials: true
+      });
       toast.success("Article deleted safely.", { position: "bottom-right", theme: "colored", transition: Bounce });
       setDeleteModalOpen(null);
       refetch();
@@ -55,7 +58,10 @@ function Dashboard() {
       await axios.patch(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${blog.id}/published`,
         { published: newStatus },
-        { headers }
+        { 
+          headers,
+          withCredentials: true
+        }
       );
       
       toast.success(newStatus ? "Article published publicly." : "Article unpublished and is now a draft.", { position: "bottom-right", theme: "colored", transition: Bounce });
@@ -117,11 +123,11 @@ function Dashboard() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Appbar val={true} />
       
-      <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 flex-1 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+      <div className="max-w-6xl mx-auto px-4 pt-28 pb-12 flex-1 w-full">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 border-b border-border/40 pb-8">
           <div>
-            <h1 className="text-4xl font-bold font-sans tracking-tight">Your Workspace</h1>
-            <p className="text-foreground-secondary text-lg mt-2 font-serif">Manage your stories, drafts, and publications on Devloom.</p>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tighter text-foreground">Workspace</h1>
+            <p className="text-muted-foreground text-lg mt-3 font-medium tracking-tight">Manage your stories, drafts, and publications.</p>
           </div>
           <Link to="/publish" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
             <Button variant="primary" size="lg">
@@ -132,17 +138,20 @@ function Dashboard() {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col shadow-sm transition-all hover:border-foreground/20">
-            <span className="text-foreground-muted text-sm font-semibold uppercase tracking-wider mb-2">Total Stories</span>
-            <span className="text-4xl font-bold text-foreground">{total}</span>
+          <div className="bg-background relative overflow-hidden p-6 rounded-2xl border border-border/50 flex flex-col shadow-sm hover:shadow-md transition-all hover:border-border/80 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="text-foreground/60 text-xs font-semibold uppercase tracking-widest mb-3">Total Stories</span>
+            <span className="text-5xl font-light tracking-tight text-foreground">{total}</span>
           </div>
-          <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col shadow-sm transition-all hover:border-foreground/20">
-            <span className="text-foreground-muted text-sm font-semibold uppercase tracking-wider mb-2">Published</span>
-            <span className="text-4xl font-bold text-green-500">{publishedCount}</span>
+          <div className="bg-background relative overflow-hidden p-6 rounded-2xl border border-border/50 flex flex-col shadow-sm hover:shadow-md transition-all hover:border-border/80 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="text-foreground/60 text-xs font-semibold uppercase tracking-widest mb-3">Published</span>
+            <span className="text-5xl font-light tracking-tight text-green-500">{publishedCount}</span>
           </div>
-          <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col shadow-sm transition-all hover:border-foreground/20">
-            <span className="text-foreground-muted text-sm font-semibold uppercase tracking-wider mb-2">Drafts</span>
-            <span className="text-4xl font-bold text-foreground-secondary">{draftCount}</span>
+          <div className="bg-background relative overflow-hidden p-6 rounded-2xl border border-border/50 flex flex-col shadow-sm hover:shadow-md transition-all hover:border-border/80 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="text-foreground/60 text-xs font-semibold uppercase tracking-widest mb-3">Drafts</span>
+            <span className="text-5xl font-light tracking-tight text-foreground/70">{draftCount}</span>
           </div>
         </div>
 

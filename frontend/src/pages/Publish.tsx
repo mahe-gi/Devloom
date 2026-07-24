@@ -21,8 +21,9 @@ function Publish() {
         },
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token")}` : "",
           },
+          withCredentials: true,
         }
       );
 

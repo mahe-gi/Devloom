@@ -12,11 +12,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-          variant === 'primary' && 'bg-primary text-primary-foreground hover:bg-primary-hover',
-          (variant === 'secondary' || variant === 'outline') && 'border border-border bg-transparent hover:bg-surface-hover text-foreground',
-          variant === 'ghost' && 'hover:bg-surface-hover text-foreground',
-          variant === 'destructive' && 'bg-red-500 text-white hover:bg-red-600',
+          'inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]',
+          variant === 'primary' && 'bg-primary text-primary-foreground hover:bg-primary-hover shadow-[0_1px_2px_rgba(0,0,0,0.12)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.1)] hover:-translate-y-0.5',
+          (variant === 'secondary' || variant === 'outline') && 'border border-border bg-white/5 backdrop-blur-md hover:bg-surface-hover text-foreground shadow-sm hover:-translate-y-0.5',
+          variant === 'ghost' && 'hover:bg-surface-hover text-foreground hover:scale-105',
+          variant === 'destructive' && 'bg-red-500 text-white hover:bg-red-600 shadow-sm hover:-translate-y-0.5',
           size === 'sm' && 'h-8 px-3 text-xs',
           size === 'md' && 'h-9 px-4 py-2 text-sm',
           size === 'lg' && 'h-11 px-8 text-base',

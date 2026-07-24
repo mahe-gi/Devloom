@@ -18,3 +18,4 @@ frontend/package-lock.json
 /backend/.wrangler
 /.idea
 .env.npm-cache
+node_modules/
