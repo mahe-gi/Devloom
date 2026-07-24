@@ -1,7 +1,4 @@
 import { Hono } from "hono";
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
 import { createBlogInput, updateBlogInput } from "@mahe-npm/common";
 import { getPrisma } from "../prisma";

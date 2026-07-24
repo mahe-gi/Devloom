@@ -1,10 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { withAccelerate } from "@prisma/extension-accelerate";
-import { sign, verify } from "hono/jwt";
+import { verify } from "hono/jwt";
 import { Hono } from "hono";
-import { signinInput, signupInput } from "@mahe-npm/common";
-import bcrypt from "bcryptjs";
 import { getPrisma } from "../prisma";
 
 export const userRouter = new Hono<{
