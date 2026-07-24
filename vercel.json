@@ -1,6 +1,5 @@
 {
-  "framework": "vite",
-  "installCommand": "npm install",
+  "installCommand": "npm install --force",
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist"
 }
