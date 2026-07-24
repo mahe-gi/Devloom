@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { authClient } from "../lib/auth";
 import { ToastContainer } from "react-toastify";
 import { Button } from "../components/ui/Button";
-import { Sparkles } from "lucide-react";
+import { Github } from 'lucide-react';
 
 function Signup() {
   async function handleGoogleLogin() {

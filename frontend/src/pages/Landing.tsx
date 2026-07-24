@@ -4,7 +4,7 @@ import { useBlogs } from "../hooks";
 import { Seo } from "../components/Seo";
 import { Button } from "../components/ui/Button";
 import { EmptyState } from "../components/ui/EmptyState";
-import { FileText, ArrowRight, BookOpen, ChevronRight } from "lucide-react";
+import { FileText, BookOpen, ChevronRight } from "lucide-react";
 import { ArticleCard } from "../components/ui/ArticleCard";
 
 export default function Landing() {
