@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: 101dev-postgres
+    container_name: devloom-postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
