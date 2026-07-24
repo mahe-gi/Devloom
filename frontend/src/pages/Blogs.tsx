@@ -145,16 +145,15 @@ function Blogs() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              <div className="flex flex-col divide-y divide-border/40">
                 {blogs.map((blog) => (
-                  <Link key={blog.id} to={`/blog/${blog.id}`} className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-2xl">
+                  <Link key={blog.id} to={`/blog/${blog.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm">
                     <ArticleCard
                       title={blog.title || 'Untitled Article'}
                       summary={blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No summary available.'}
                       date={new Date(blog.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       author={{ name: blog.author?.name || 'Anonymous' }}
                       variant="standard"
-                      className="h-full"
                     />
                   </Link>
                 ))}

@@ -30,11 +30,11 @@ export function Appbar({ val }: AppbarProps) {
   };
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl h-14 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-xl border border-white/10 dark:border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex items-center transition-all duration-300">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl h-14 rounded-2xl bg-surface/80 backdrop-blur-xl border border-border/40 shadow-sm flex items-center transition-all duration-300">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-full">
           <Link to="/blogs" className="flex items-center gap-2">
-            <span className="font-serif text-2xl font-bold tracking-tight text-foreground hover:text-foreground/80 transition-colors">
+            <span className="text-xl font-extrabold tracking-tighter text-foreground hover:text-foreground/80 transition-colors">
               Devloom
             </span>
           </Link>

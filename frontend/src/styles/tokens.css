@@ -4,9 +4,9 @@
   --color-surface-subtle: var(--surface-subtle);
   --color-surface-hover: var(--surface-hover);
   --color-foreground: var(--foreground);
-  --color-foreground-secondary: var(--foreground-secondary);
-  --color-foreground-muted: var(--foreground-muted);
-  --color-foreground-subtle: var(--foreground-subtle);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-primary: var(--primary);
@@ -32,9 +32,9 @@
   --surface-subtle: #f9fafb;
   --surface-hover: #f3f4f6;
   --foreground: #09090b;
-  --foreground-secondary: #3f3f46;
-  --foreground-muted: #71717a;
-  --foreground-subtle: #a1a1aa;
+  --secondary-foreground: #3f3f46;
+  --muted-foreground: #71717a;
+  --subtle-foreground: #a1a1aa;
   --border: #e4e4e7;
   --border-strong: #d4d4d8;
   --primary: #09090b;
@@ -53,9 +53,9 @@
   --surface-subtle: #18181b;
   --surface-hover: #27272a;
   --foreground: #ffffff;
-  --foreground-secondary: #e4e4e7;
-  --foreground-muted: #a1a1aa;
-  --foreground-subtle: #71717a;
+  --secondary-foreground: #e4e4e7;
+  --muted-foreground: #a1a1aa;
+  --subtle-foreground: #71717a;
   --border: #27272a;
   --border-strong: #3f3f46;
   --primary: #ffffff;

@@ -16,10 +16,7 @@ function Signin() {
     <div className="min-h-screen flex items-center justify-center bg-background relative text-foreground p-4 sm:p-8 font-sans">
       <div className="w-full max-w-[440px] bg-surface border border-border shadow-sm rounded-3xl p-8 sm:p-10">
         <div className="flex justify-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-3 group focus-visible:ring-2 focus-visible:outline-none">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-sm transition-all">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
-            </div>
+          <Link to="/" className="inline-flex items-center gap-2">
             <span className="text-2xl font-extrabold tracking-tighter text-foreground">
               Devloom
             </span>

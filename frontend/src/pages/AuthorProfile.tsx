@@ -113,13 +113,13 @@ export function AuthorProfile() {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="flex flex-col divide-y divide-border/40">
                   {blogs.map((blog) => {
                     const blogAuthor = blog.author || author;
                     const dateStr = new Date(blog.createdAt || "").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
                     
                     return (
-                      <Link key={blog.id} to={`/blog/${blog.id}`} className="block h-full transition-transform hover:-translate-y-1 duration-300">
+                      <Link key={blog.id} to={`/blog/${blog.id}`} className="block transition-transform hover:-translate-y-1 duration-300">
                         <ArticleCard 
                           title={blog.title}
                           summary={blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + "..."}
@@ -130,7 +130,6 @@ export function AuthorProfile() {
                           }}
                           image={blog.coverImage || undefined}
                           variant="standard"
-                          className="h-full bg-surface border border-border p-4 hover:border-foreground/20 rounded-xl"
                         />
                       </Link>
                     );
