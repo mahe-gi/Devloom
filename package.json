@@ -7,7 +7,7 @@
     "common"
   ],
   "scripts": {
-    "build:common": "npm run build --workspace=common || (cd common && npx tsc -b)",
+    "build:common": "npm run build --workspace=common",
     "build:frontend": "npm run build --workspace=frontend",
     "build": "npm run build:common && npm run build:frontend"
   }
