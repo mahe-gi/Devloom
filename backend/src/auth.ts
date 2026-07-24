@@ -14,6 +14,7 @@ export const createAuth = (
     "http://localhost:8787",
     "https://blog.techwithmahe.com",
     "https://devloom.vercel.app",
+    "https://devloom-frontend.vercel.app",
   ];
 
   if (requestOrigin) {
