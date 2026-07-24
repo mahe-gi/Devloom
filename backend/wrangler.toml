@@ -2,3 +2,7 @@ name = "backend-cloudflare-worker"
 compatibility_date = "2024-09-25"
 compatibility_flags = [ "nodejs_compat_v2" ]
 main = "src/index.ts"
+
+[vars]
+BETTER_AUTH_URL = "https://backend-cloudflare-worker.chmahesh997.workers.dev"
+
