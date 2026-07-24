@@ -15,17 +15,19 @@ import { authorRouter } from "./routes/authorRouter";
 
 app.use("/*", async (c, next) => {
   const origin = c.req.header("origin") || "";
-  const allowedOrigins = [
-    "http://localhost:5173",
-    "https://blog.techwithmahe.com"
-  ];
-  const allowOrigin = allowedOrigins.includes(origin) ? origin : "https://blog.techwithmahe.com";
+  const isAllowed = 
+    origin.startsWith("http://localhost:") ||
+    origin.endsWith(".vercel.app") ||
+    origin === "https://blog.techwithmahe.com";
+
+  const allowOrigin = isAllowed ? origin : "https://blog.techwithmahe.com";
 
   const corsMiddleware = cors({
     origin: allowOrigin,
     credentials: true,
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    maxAge: 86400,
   });
   return corsMiddleware(c, next);
 });
