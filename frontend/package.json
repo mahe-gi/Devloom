@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "(cd ../common && npm install && tsc -b) && tsc -b && vite build",
+    "build": "(cd ../common && tsc -b) && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -46,6 +46,7 @@
     "vite": "^6.0.5"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.34.9"
+    "@rollup/rollup-linux-x64-gnu": "^4.34.9",
+    "lightningcss-linux-x64-gnu": "^1.29.1"
   }
 }
