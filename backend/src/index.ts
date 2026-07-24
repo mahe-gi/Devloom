@@ -1,7 +1,11 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { userRouter } from "./routes/userRouter";
 import { blogRouter } from "./routes/blogRouter";
-import { cors } from "hono/cors";
+import { authorRouter } from "./routes/authorRouter";
+import { createAuth } from "./auth";
+import { getPrisma } from "./prisma";
+
 const app = new Hono<{
   Bindings: {
     DATABASE_URL: string;
@@ -11,14 +15,14 @@ const app = new Hono<{
     BETTER_AUTH_URL: string;
   };
 }>();
-import { authorRouter } from "./routes/authorRouter";
 
 app.use("/*", async (c, next) => {
   const origin = c.req.header("origin") || "";
   const isAllowed = 
     origin.startsWith("http://localhost:") ||
     origin.endsWith(".vercel.app") ||
-    origin === "https://blog.techwithmahe.com";
+    origin === "https://blog.techwithmahe.com" ||
+    origin === "https://devloom-frontend.vercel.app";
 
   const allowOrigin = isAllowed ? origin : "https://blog.techwithmahe.com";
 
@@ -31,20 +35,30 @@ app.use("/*", async (c, next) => {
   });
   return corsMiddleware(c, next);
 });
+
 app.route("/api/v1/user", userRouter);
 app.route("/api/v1/blog", blogRouter);
 app.route("/api/v1/authors", authorRouter);
 
-app.on(["GET", "POST"], "/api/auth/*", (c) => {
-  const origin = c.req.header("origin") || c.req.header("referer") || "";
-  const auth = createAuth(c.env, origin);
-  return auth.handler(c.req.raw);
+app.on(["GET", "POST"], "/api/auth/*", async (c) => {
+  try {
+    const origin = c.req.header("origin") || c.req.header("referer") || "";
+    const envVars = {
+      DATABASE_URL: c.env?.DATABASE_URL || process.env.DATABASE_URL || "",
+      GOOGLE_CLIENT_ID: c.env?.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID || "",
+      GOOGLE_CLIENT_SECRET: c.env?.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET || "",
+      BETTER_AUTH_URL: c.env?.BETTER_AUTH_URL || process.env.BETTER_AUTH_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev",
+    };
+    const auth = createAuth(envVars, origin);
+    return await auth.handler(c.req.raw);
+  } catch (err: any) {
+    console.error("Better Auth handler exception:", err);
+    return c.json({ error: "Authentication service error", details: err?.message || String(err) }, 500);
+  }
 });
 
-import { getPrisma } from "./prisma";
-
 app.get("/sitemap.xml", async (c) => {
-  const prisma = getPrisma(c.env.DATABASE_URL);
+  const prisma = getPrisma(c.env?.DATABASE_URL || process.env.DATABASE_URL);
   const blogs = await prisma.blog.findMany({
     where: { published: true },
     select: { slug: true, updatedAt: true }
