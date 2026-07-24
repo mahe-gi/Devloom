@@ -14,13 +14,15 @@ function EditArticle() {
     try {
       const isPublishAction = action === "publish" || action === "save-changes";
       const token = localStorage.getItem("token");
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
 
       if (action === "publish" || action === "unpublish") {
         await axios.patch(
           `${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}/published`,
           { published: isPublishAction },
           { 
-            headers: { Authorization: token ? `Bearer ${token}` : "" },
+            headers,
             withCredentials: true,
           }
         );
@@ -37,7 +39,7 @@ function EditArticle() {
           tags: value.tags || [],
         },
         { 
-          headers: { Authorization: token ? `Bearer ${token}` : "" },
+          headers,
           withCredentials: true,
         }
       );

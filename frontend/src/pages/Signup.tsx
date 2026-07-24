@@ -7,7 +7,7 @@ function Signup() {
   async function handleGoogleLogin() {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/blogs"
+      callbackURL: `${window.location.origin}/blogs`
     });
   }
 

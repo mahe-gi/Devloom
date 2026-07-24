@@ -23,7 +23,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, ArticleCardProps>(
         <div ref={ref} className={cn('group flex flex-col gap-2 py-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 transition-all duration-300', className)} {...props}>
           <div className="flex items-center gap-2 mb-1">
              {author.avatar ? (
-              <img src={author.avatar} alt={author.name} className="h-5 w-5 rounded-full object-cover" />
+              <img src={author.avatar} alt={author.name} className="h-5 w-5 rounded-full object-cover" referrerPolicy="no-referrer" />
             ) : (
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-semibold text-foreground uppercase">
                 {author.name.charAt(0)}
@@ -57,7 +57,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, ArticleCardProps>(
           <div className="flex flex-col pt-2">
             <div className="flex items-center gap-3 mb-4">
               {author.avatar ? (
-                <img src={author.avatar} alt={author.name} className="h-8 w-8 rounded-full object-cover" />
+                <img src={author.avatar} alt={author.name} className="h-8 w-8 rounded-full object-cover" referrerPolicy="no-referrer" />
               ) : (
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground/10 text-xs font-semibold text-foreground uppercase">
                   {author.name.charAt(0)}
@@ -87,7 +87,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, ArticleCardProps>(
         <div className="flex flex-col flex-1 max-w-3xl justify-center pr-0 md:pr-8">
           <div className="flex items-center gap-2 mb-3">
              {author.avatar ? (
-              <img src={author.avatar} alt={author.name} className="h-6 w-6 rounded-full object-cover" />
+              <img src={author.avatar} alt={author.name} className="h-6 w-6 rounded-full object-cover" referrerPolicy="no-referrer" />
             ) : (
               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-semibold text-foreground uppercase">
                 {author.name.charAt(0)}

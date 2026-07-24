@@ -20,6 +20,7 @@ export function Appbar({ val }: AppbarProps) {
 
   const isAuthenticated = !!session;
   const userName = session?.user?.name || session?.user?.email?.split('@')[0] || "Author";
+  const userAvatar = session?.user?.image || undefined;
 
   const handleLogout = async () => {
     await authClient.signOut();
@@ -62,7 +63,7 @@ export function Appbar({ val }: AppbarProps) {
                     className="focus:outline-none flex items-center cursor-pointer rounded-full ring-2 ring-transparent transition-all"
                     title="Account menu"
                   >
-                    <Avatar fallback={userName.charAt(0).toUpperCase()} size="sm" />
+                    <Avatar src={userAvatar} fallback={userName.charAt(0).toUpperCase()} size="sm" />
                   </button>
 
                   {dropdownOpen && (
@@ -111,11 +112,8 @@ export function Appbar({ val }: AppbarProps) {
                 </div>
               </>
             ) : (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center">
                 <Link to="/signin">
-                  <Button variant="ghost" size="sm">Sign In</Button>
-                </Link>
-                <Link to="/signup">
                   <Button variant="primary" size="sm">Get Started</Button>
                 </Link>
               </div>
@@ -150,7 +148,7 @@ export function Appbar({ val }: AppbarProps) {
             {isAuthenticated ? (
               <>
                 <div className="flex items-center gap-3 px-3 py-4 mb-2 border-b border-border">
-                  <Avatar fallback={userName.charAt(0).toUpperCase()} size="md" />
+                  <Avatar src={userAvatar} fallback={userName.charAt(0).toUpperCase()} size="md" />
                   <div>
                     <p className="font-medium text-foreground">{userName}</p>
                     <p className="text-sm text-muted-foreground">Author</p>
@@ -191,9 +189,6 @@ export function Appbar({ val }: AppbarProps) {
             ) : (
               <div className="flex flex-col gap-3 px-3 py-4">
                 <Link to="/signin" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                  <Button variant="outline" className="w-full justify-center">Sign In</Button>
-                </Link>
-                <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full">
                   <Button variant="primary" className="w-full justify-center">Get Started</Button>
                 </Link>
               </div>

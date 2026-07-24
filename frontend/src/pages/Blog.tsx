@@ -168,7 +168,7 @@ function Blog() {
                 {blog.author?.handle ? (
                   <Link to={`/authors/${blog.author.handle}`} className="shrink-0 group">
                     {blog.author?.avatarUrl ? (
-                      <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full object-cover group-hover:ring-2 ring-offset-2 ring-gray-200 transition-all" alt={authorDisplayName} />
+                      <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full object-cover group-hover:ring-2 ring-offset-2 ring-gray-200 transition-all" alt={authorDisplayName} referrerPolicy="no-referrer" />
                     ) : (
                       <div className="w-12 h-12 rounded-full bg-surface flex items-center justify-center text-foreground/80 font-bold group-hover:ring-2 ring-offset-2 ring-gray-200 transition-all">
                         {authorDisplayName.charAt(0).toUpperCase()}
@@ -177,7 +177,7 @@ function Blog() {
                   </Link>
                 ) : (
                   blog.author?.avatarUrl ? (
-                    <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full object-cover" alt={authorDisplayName} />
+                    <img src={blog.author.avatarUrl} className="w-12 h-12 rounded-full object-cover" alt={authorDisplayName} referrerPolicy="no-referrer" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-surface flex items-center justify-center text-foreground/80 font-bold">
                       {authorDisplayName.charAt(0).toUpperCase()}
@@ -259,7 +259,7 @@ function Blog() {
               {blog.author?.handle ? (
                 <Link to={`/authors/${blog.author.handle}`} className="shrink-0 group">
                   {blog.author?.avatarUrl ? (
-                     <img src={blog.author.avatarUrl} className="w-14 h-14 rounded-full object-cover group-hover:scale-105 transition-transform duration-300" alt={authorDisplayName} />
+                     <img src={blog.author.avatarUrl} className="w-14 h-14 rounded-full object-cover group-hover:scale-105 transition-transform duration-300" alt={authorDisplayName} referrerPolicy="no-referrer" />
                   ) : (
                     <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-gray-700 text-xl font-bold group-hover:scale-105 transition-transform duration-300">
                       {authorDisplayName.charAt(0).toUpperCase()}
@@ -268,7 +268,7 @@ function Blog() {
                 </Link>
               ) : (
                 blog.author?.avatarUrl ? (
-                  <img src={blog.author.avatarUrl} className="w-14 h-14 rounded-full object-cover" alt={authorDisplayName} />
+                  <img src={blog.author.avatarUrl} className="w-14 h-14 rounded-full object-cover" alt={authorDisplayName} referrerPolicy="no-referrer" />
                 ) : (
                   <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-gray-700 text-xl font-bold">
                     {authorDisplayName.charAt(0).toUpperCase()}

@@ -60,6 +60,7 @@ userRouter.post("/me", async (c) => {
         handle: true,
         bio: true,
         avatarUrl: true,
+        image: true,
       },
     });
 
@@ -68,8 +69,13 @@ userRouter.post("/me", async (c) => {
       return c.json({ error: "User not found" });
     }
 
+    const formattedUser = {
+      ...user,
+      avatarUrl: user.avatarUrl || user.image,
+    };
+
     c.status(200);
-    return c.json({ user });
+    return c.json({ user: formattedUser });
   } catch (e) {
     c.status(500);
     return c.json({ error: "Internal server error" });

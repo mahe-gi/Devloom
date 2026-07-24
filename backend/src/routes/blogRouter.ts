@@ -130,14 +130,23 @@ blogRouter.get("/bulk", async (c) => {
               username: true,
               handle: true,
               avatarUrl: true,
+              image: true,
             },
           },
         },
       }),
     ]);
 
+    const formattedBlogs = blogs.map((b: any) => ({
+      ...b,
+      author: b.author ? {
+        ...b.author,
+        avatarUrl: b.author.avatarUrl || b.author.image,
+      } : null,
+    }));
+
     return c.json({ 
-      articles: blogs,
+      articles: formattedBlogs,
       pagination: {
         total,
         totalPages: Math.ceil(total / limit),
@@ -370,6 +379,7 @@ blogRouter.get("/:slugOrId", async (c) => {
             username: true,
             handle: true,
             avatarUrl: true,
+            image: true,
           },
         },
       },
@@ -380,7 +390,15 @@ blogRouter.get("/:slugOrId", async (c) => {
       return c.json({ error: "Blog post not found" });
     }
 
-    return c.json(blog);
+    const formattedBlog = {
+      ...blog,
+      author: blog.author ? {
+        ...blog.author,
+        avatarUrl: blog.author.avatarUrl || blog.author.image,
+      } : null,
+    };
+
+    return c.json(formattedBlog);
   } catch (err) {
     c.status(500);
     return c.json({ error: "Failed to fetch blog post" });

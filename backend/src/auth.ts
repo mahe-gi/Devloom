@@ -44,6 +44,7 @@ export const createAuth = (env: { DATABASE_URL: string, GOOGLE_CLIENT_ID: string
               data: {
                 ...user,
                 username: user.email,
+                avatarUrl: user.image || user.avatarUrl,
               },
             };
           },

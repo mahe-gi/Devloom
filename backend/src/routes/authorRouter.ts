@@ -26,6 +26,7 @@ authorRouter.get("/:handle", async (c) => {
         handle: true,
         bio: true,
         avatarUrl: true,
+        image: true,
       },
     });
 
@@ -33,6 +34,11 @@ authorRouter.get("/:handle", async (c) => {
       c.status(404);
       return c.json({ error: "Author not found" });
     }
+
+    const formattedAuthor = {
+      ...author,
+      avatarUrl: author.avatarUrl || author.image,
+    };
 
     const where = {
       authorId: author.id,
@@ -75,16 +81,16 @@ authorRouter.get("/:handle", async (c) => {
     const articles = blogs.map((b) => ({
       ...b,
       author: {
-        id: author.id,
-        name: author.name,
-        username: author.username,
-        handle: author.handle,
-        avatarUrl: author.avatarUrl,
+        id: formattedAuthor.id,
+        name: formattedAuthor.name,
+        username: formattedAuthor.username,
+        handle: formattedAuthor.handle,
+        avatarUrl: formattedAuthor.avatarUrl,
       },
     }));
 
     return c.json({
-      author,
+      author: formattedAuthor,
       articles,
       pagination: {
         total,

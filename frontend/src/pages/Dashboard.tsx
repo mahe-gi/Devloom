@@ -32,8 +32,9 @@ function Dashboard() {
   const handleDelete = async (id: number) => {
     try {
       setDeletingId(id);
-      const token = localStorage.getItem("token") || "";
-      const headers = { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` };
+      const token = localStorage.getItem("token");
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`, { 
         headers,
         withCredentials: true
@@ -51,8 +52,9 @@ function Dashboard() {
   const handleTogglePublish = async (blog: Blog) => {
     try {
       setMutatingId(blog.id);
-      const token = localStorage.getItem("token") || "";
-      const headers = { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` };
+      const token = localStorage.getItem("token");
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
       const newStatus = !blog.published;
       
       await axios.patch(

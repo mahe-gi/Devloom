@@ -9,6 +9,10 @@ function Publish() {
 
   const handleSave = async (value: ArticleEditorValue, action: PendingAction) => {
     try {
+      const token = localStorage.getItem("token");
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/blog`,
         {
@@ -20,9 +24,7 @@ function Publish() {
           published: action === "publish",
         },
         {
-          headers: {
-            Authorization: localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token")}` : "",
-          },
+          headers,
           withCredentials: true,
         }
       );

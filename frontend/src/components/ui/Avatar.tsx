@@ -32,6 +32,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
             src={src}
             alt="Avatar"
             className="aspect-square h-full w-full object-cover"
+            referrerPolicy="no-referrer"
             onError={() => setImgError(true)}
           />
         ) : (

@@ -150,9 +150,13 @@ function Blogs() {
                   <Link key={blog.id} to={`/blog/${blog.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm">
                     <ArticleCard
                       title={blog.title || 'Untitled Article'}
-                      summary={blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No summary available.'}
-                      date={new Date(blog.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      author={{ name: blog.author?.name || 'Anonymous' }}
+                      summary={blog.summary || (blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No summary available.')}
+                      date={new Date(blog.publishedAt || blog.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      author={{
+                        name: blog.author?.name || 'Anonymous',
+                        avatar: blog.author?.avatarUrl || undefined,
+                      }}
+                      image={blog.coverImage || undefined}
                       variant="standard"
                     />
                   </Link>

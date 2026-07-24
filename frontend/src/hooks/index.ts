@@ -150,10 +150,6 @@ export const useMyBlogs = () => {
     const headers: Record<string, string> = {};
     if (token) {
       headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
-    } else {
-      setError("Not authenticated");
-      setLoading(false);
-      return;
     }
 
     axios
@@ -201,10 +197,6 @@ export const useMyBlog = ({ id }: { id: number }) => {
     const headers: Record<string, string> = {};
     if (token) {
       headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
-    } else {
-      setError("Not authenticated");
-      setLoading(false);
-      return;
     }
 
     axios
@@ -242,10 +234,6 @@ export const useProfile = () => {
     const headers: Record<string, string> = {};
     if (token) {
       headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
-    } else {
-      setError("Not authenticated");
-      setLoading(false);
-      return;
     }
 
     axios

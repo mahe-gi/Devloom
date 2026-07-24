@@ -1,2 +1,13 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
+
+button,
+a,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+summary,
+select {
+  cursor: pointer;
+}
+

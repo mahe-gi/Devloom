@@ -6,3 +6,6 @@ main = "src/index.ts"
 [vars]
 BETTER_AUTH_URL = "https://backend-cloudflare-worker.chmahesh997.workers.dev"
 
+[alias]
+"@mahe-npm/common" = "../common/dist/index.js"
+

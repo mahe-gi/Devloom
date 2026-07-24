@@ -26,7 +26,7 @@ export function DashboardProfile() {
         name: user.name || "",
         handle: user.handle || "",
         bio: user.bio || "",
-        avatarUrl: user.avatarUrl || "",
+        avatarUrl: user.avatarUrl || user.image || "",
       });
     }
   }, [user]);
@@ -56,13 +56,14 @@ export function DashboardProfile() {
 
     try {
       const token = localStorage.getItem("token");
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
       await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/profile`,
         payload,
         {
-          headers: {
-            Authorization: token
-          }
+          headers,
+          withCredentials: true
         }
       );
       toast.success("Profile updated successfully", {
