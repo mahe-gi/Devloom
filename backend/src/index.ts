@@ -35,10 +35,9 @@ app.route("/api/v1/user", userRouter);
 app.route("/api/v1/blog", blogRouter);
 app.route("/api/v1/authors", authorRouter);
 
-import { createAuth } from "./auth";
-
 app.on(["GET", "POST"], "/api/auth/*", (c) => {
-  const auth = createAuth(c.env);
+  const origin = c.req.header("origin") || c.req.header("referer") || "";
+  const auth = createAuth(c.env, origin);
   return auth.handler(c.req.raw);
 });
 

@@ -3,13 +3,31 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { openAPI } from "better-auth/plugins";
 import { getPrisma } from "./prisma";
 
-// We'll pass the dynamic prisma client in context later if needed, but for now Better Auth requires a stable adapter.
-// Wait, Cloudflare Workers require prisma to be instantiated per request if bound via environment. 
-// However, Better Auth allows a callback or a pre-initialized adapter.
-// We can export a function that initializes Auth with the environment DATABASE_URL.
-
-export const createAuth = (env: { DATABASE_URL: string, GOOGLE_CLIENT_ID: string, GOOGLE_CLIENT_SECRET: string, BETTER_AUTH_URL: string }) => {
+export const createAuth = (
+  env: { DATABASE_URL: string; GOOGLE_CLIENT_ID: string; GOOGLE_CLIENT_SECRET: string; BETTER_AUTH_URL: string },
+  requestOrigin?: string
+) => {
   const prisma = getPrisma(env.DATABASE_URL);
+
+  const origins = [
+    "http://localhost:5173",
+    "http://localhost:8787",
+    "https://blog.techwithmahe.com",
+    "https://devloom.vercel.app",
+  ];
+
+  if (requestOrigin) {
+    try {
+      const url = new URL(requestOrigin);
+      const originStr = url.origin;
+      if (!origins.includes(originStr) && (originStr.endsWith(".vercel.app") || originStr.startsWith("http://localhost"))) {
+        origins.push(originStr);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   return betterAuth({
     database: prismaAdapter(prisma, {
       provider: "postgresql",
@@ -23,11 +41,14 @@ export const createAuth = (env: { DATABASE_URL: string, GOOGLE_CLIENT_ID: string
     plugins: [
       openAPI(),
     ],
-    baseURL: env.BETTER_AUTH_URL || "https://api.techwithmahe.com",
-    trustedOrigins: [
-      "http://localhost:5173",
-      "https://blog.techwithmahe.com"
-    ],
+    baseURL: env.BETTER_AUTH_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev",
+    trustedOrigins: origins,
+    advanced: {
+      defaultCookieAttributes: {
+        sameSite: "none",
+        secure: true,
+      },
+    },
     user: {
       additionalFields: {
         username: {
