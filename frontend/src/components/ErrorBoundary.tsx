@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
             <div className="space-y-2">
               <h1 className="text-2xl font-bold tracking-tight">Something went wrong</h1>
-              <p className="text-muted text-sm">
+              <p className="text-muted-foreground text-sm">
                 We've encountered an unexpected error. Please try refreshing the page or come back later.
               </p>
             </div>

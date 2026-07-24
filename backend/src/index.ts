@@ -49,7 +49,7 @@ app.get("/sitemap.xml", async (c) => {
     select: { slug: true, updatedAt: true }
   });
   
-  const frontendUrl = "https://101dev.com";
+  const frontendUrl = "https://blog.techwithmahe.com";
   
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;

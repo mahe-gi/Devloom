@@ -35,7 +35,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-surface text-muted font-medium uppercase">
+          <div className="flex h-full w-full items-center justify-center bg-surface text-muted-foreground font-medium uppercase">
             {fallback}
           </div>
         )}

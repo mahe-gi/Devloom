@@ -41,10 +41,10 @@ export function Tag() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="border-b border-border pb-8 mb-12">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 flex flex-wrap items-center gap-4">
-              <span className="text-muted font-normal">Topic:</span> 
+              <span className="text-muted-foreground font-normal">Topic:</span> 
               <span className="px-6 py-2.5 bg-surface text-foreground rounded-full border border-border shadow-sm">#{tag}</span>
             </h1>
-            <p className="text-muted text-lg md:text-xl leading-relaxed">
+            <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
               Explore articles, tutorials, and insights related to {tag}.
               {!loading && !error && ` ${pagination.total} ${pagination.total === 1 ? 'article' : 'articles'} found.`}
             </p>

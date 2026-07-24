@@ -50,7 +50,7 @@ export function AuthorProfile() {
         <div className="max-w-5xl mx-auto px-4 w-full py-24 flex-1 flex items-center justify-center">
           <div className="text-center">
             <h3 className="text-2xl font-bold font-sans">Author Not Found</h3>
-            <p className="text-muted mt-3 text-lg">{error || "The requested author profile could not be loaded or doesn't exist."}</p>
+            <p className="text-muted-foreground mt-3 text-lg">{error || "The requested author profile could not be loaded or doesn't exist."}</p>
             <div className="mt-8">
               <Link to="/blogs">
                 <Button variant="outline">Back to Blogs</Button>
@@ -90,11 +90,11 @@ export function AuthorProfile() {
             
             <div className="flex-1">
               <h1 className="text-4xl md:text-5xl font-bold font-sans text-foreground mb-2 tracking-tight">{authorDisplayName}</h1>
-              <p className="text-muted font-medium text-lg mb-6">@{author.handle}</p>
+              <p className="text-muted-foreground font-medium text-lg mb-6">@{author.handle}</p>
               {author.bio ? (
                 <p className="text-foreground/90 text-lg md:text-xl max-w-3xl leading-relaxed font-serif">{author.bio}</p>
               ) : (
-                <p className="text-muted italic text-lg font-serif">This author hasn't written a bio yet.</p>
+                <p className="text-muted-foreground italic text-lg font-serif">This author hasn't written a bio yet.</p>
               )}
             </div>
           </section>
@@ -102,14 +102,14 @@ export function AuthorProfile() {
           <section>
             <div className="flex items-end justify-between mb-10">
               <h2 className="text-3xl font-bold font-sans text-foreground tracking-tight">Published Articles</h2>
-              <span className="text-lg text-muted font-serif">{pagination.total} {pagination.total === 1 ? 'article' : 'articles'}</span>
+              <span className="text-lg text-muted-foreground font-serif">{pagination.total} {pagination.total === 1 ? 'article' : 'articles'}</span>
             </div>
 
             {blogs.length === 0 ? (
               <div className="py-16 bg-surface rounded-2xl border border-dashed border-border flex flex-col items-center justify-center text-center">
                 <div className="text-4xl mb-4 opacity-50">✍️</div>
                 <h3 className="text-xl font-bold mb-2">No articles yet</h3>
-                <p className="text-muted max-w-sm">{authorDisplayName} hasn't published any articles yet. Check back later!</p>
+                <p className="text-muted-foreground max-w-sm">{authorDisplayName} hasn't published any articles yet. Check back later!</p>
               </div>
             ) : (
               <>

@@ -44,7 +44,7 @@ export function Appbar({ val }: AppbarProps) {
             <ThemeToggle />
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className="text-sm font-medium text-muted hover:text-foreground transition-colors">
+                <Link to="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                   Dashboard
                 </Link>
                 {!val && (
@@ -69,7 +69,7 @@ export function Appbar({ val }: AppbarProps) {
                     <div className="absolute right-0 mt-2 w-56 bg-background rounded-xl border border-border shadow-sm py-2 z-50 text-sm text-foreground overflow-hidden">
                       <div className="px-4 py-3 border-b border-border bg-muted/10">
                         <p className="font-semibold text-foreground truncate">{userName}</p>
-                        <p className="text-xs text-muted mt-0.5">Author</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Author</p>
                       </div>
                       <div className="py-1">
                         <Link
@@ -145,7 +145,7 @@ export function Appbar({ val }: AppbarProps) {
 
       {/* Mobile Nav Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-x border-b border-white/10 dark:border-white/5 rounded-b-2xl absolute top-12 left-0 w-full shadow-lg z-40 overflow-hidden">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-x border-b border-border/40 rounded-b-2xl absolute top-12 left-0 w-full shadow-lg z-40 overflow-hidden">
           <div className="px-4 pt-2 pb-6 space-y-1">
             {isAuthenticated ? (
               <>
@@ -153,7 +153,7 @@ export function Appbar({ val }: AppbarProps) {
                   <Avatar fallback={userName.charAt(0).toUpperCase()} size="md" />
                   <div>
                     <p className="font-medium text-foreground">{userName}</p>
-                    <p className="text-sm text-muted">Author</p>
+                    <p className="text-sm text-muted-foreground">Author</p>
                   </div>
                 </div>
                 <Link
@@ -161,7 +161,7 @@ export function Appbar({ val }: AppbarProps) {
                   className="flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground hover:bg-muted/10 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <LayoutDashboard className="w-5 h-5 text-muted" />
+                  <LayoutDashboard className="w-5 h-5 text-muted-foreground" />
                   Dashboard
                 </Link>
                 <Link
@@ -169,7 +169,7 @@ export function Appbar({ val }: AppbarProps) {
                   className="flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground hover:bg-muted/10 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Settings className="w-5 h-5 text-muted" />
+                  <Settings className="w-5 h-5 text-muted-foreground" />
                   Profile
                 </Link>
                 <Link
@@ -177,7 +177,7 @@ export function Appbar({ val }: AppbarProps) {
                   className="flex items-center gap-3 px-3 py-3 text-base font-medium text-foreground hover:bg-muted/10 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <BookOpen className="w-5 h-5 text-muted" />
+                  <BookOpen className="w-5 h-5 text-muted-foreground" />
                   All Articles
                 </Link>
                 <button
