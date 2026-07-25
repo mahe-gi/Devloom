@@ -4,7 +4,7 @@ import { openAPI, bearer } from "better-auth/plugins";
 import { getPrisma } from "./prisma";
 
 export const createAuth = (
-  env: { DATABASE_URL: string; GOOGLE_CLIENT_ID: string; GOOGLE_CLIENT_SECRET: string; BETTER_AUTH_URL: string },
+  env: { DATABASE_URL: string; GOOGLE_CLIENT_ID: string; GOOGLE_CLIENT_SECRET: string; BETTER_AUTH_URL: string; BETTER_AUTH_SECRET?: string; JWT_SECRET?: string },
   requestOrigin?: string
 ) => {
   const prisma = getPrisma(env.DATABASE_URL);
@@ -32,6 +32,7 @@ export const createAuth = (
   const isLocal = env.BETTER_AUTH_URL?.includes("localhost") || false;
 
   return betterAuth({
+    secret: env.BETTER_AUTH_SECRET || env.JWT_SECRET || "dev-secret-key-12345",
     database: prismaAdapter(prisma, {
       provider: "postgresql",
     }),
@@ -45,7 +46,7 @@ export const createAuth = (
       openAPI(),
       bearer(),
     ],
-    baseURL: env.BETTER_AUTH_URL || "http://localhost:8787",
+    baseURL: env.BETTER_AUTH_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev",
     trustedOrigins: origins,
     advanced: {
       defaultCookieAttributes: {
