@@ -58,17 +58,22 @@ app.on(["GET", "POST"], "/api/auth/*", async (c) => {
       const setCookie = res.headers.get("set-cookie") || "";
       const match = setCookie.match(/better-auth\.session_token=([^;]+)/);
       if (match && location) {
-        const rawCookieVal = match[1];
-        const token = decodeURIComponent(rawCookieVal.split(".")[0]);
-        const url = new URL(location);
-        if (!url.searchParams.has("token")) {
-          url.searchParams.set("token", token);
-          const newHeaders = new Headers(res.headers);
-          newHeaders.set("location", url.toString());
-          return new Response(res.body, {
-            status: 302,
-            headers: newHeaders,
-          });
+        try {
+          const rawCookieVal = match[1];
+          const token = decodeURIComponent(rawCookieVal.split(".")[0]);
+          const baseUrl = origin.startsWith("http") ? origin : "https://blog.techwithmahe.com";
+          const url = new URL(location, baseUrl);
+          if (!url.searchParams.has("token")) {
+            url.searchParams.set("token", token);
+            const newHeaders = new Headers(res.headers);
+            newHeaders.set("location", url.toString());
+            return new Response(res.body, {
+              status: 302,
+              headers: newHeaders,
+            });
+          }
+        } catch (urlErr) {
+          console.error("URL parsing error in auth callback redirect:", urlErr);
         }
       }
     }
