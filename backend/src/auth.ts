@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { openAPI } from "better-auth/plugins";
+import { openAPI, bearer } from "better-auth/plugins";
 import { getPrisma } from "./prisma";
 
 export const createAuth = (
@@ -41,6 +41,7 @@ export const createAuth = (
     },
     plugins: [
       openAPI(),
+      bearer(),
     ],
     baseURL: env.BETTER_AUTH_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev",
     trustedOrigins: origins,

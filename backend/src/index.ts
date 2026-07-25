@@ -50,7 +50,30 @@ app.on(["GET", "POST"], "/api/auth/*", async (c) => {
       BETTER_AUTH_URL: c.env?.BETTER_AUTH_URL || process.env.BETTER_AUTH_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev",
     };
     const auth = createAuth(envVars, origin);
-    return await auth.handler(c.req.raw);
+    const res = await auth.handler(c.req.raw);
+
+    // Inject session token into callback redirect URL for cross-domain cookie bypass
+    if (c.req.path.includes("/callback/google") && res.status === 302) {
+      const location = res.headers.get("location");
+      const setCookie = res.headers.get("set-cookie") || "";
+      const match = setCookie.match(/better-auth\.session_token=([^;]+)/);
+      if (match && location) {
+        const rawCookieVal = match[1];
+        const token = decodeURIComponent(rawCookieVal.split(".")[0]);
+        const url = new URL(location);
+        if (!url.searchParams.has("token")) {
+          url.searchParams.set("token", token);
+          const newHeaders = new Headers(res.headers);
+          newHeaders.set("location", url.toString());
+          return new Response(res.body, {
+            status: 302,
+            headers: newHeaders,
+          });
+        }
+      }
+    }
+
+    return res;
   } catch (err: any) {
     console.error("Better Auth handler exception:", err);
     return c.json({ error: "Authentication service error", details: err?.message || String(err) }, 500);
