@@ -10,10 +10,13 @@ function Signin() {
   async function handleGoogleLogin() {
     setLoading(true);
     try {
-      await authClient.signIn.social({
+      const res = await authClient.signIn.social({
         provider: "google",
         callbackURL: `${window.location.origin}/blogs`
       });
+      if (res && (res as any).data?.url) {
+        window.location.href = (res as any).data.url;
+      }
     } catch (err) {
       console.error(err);
       setLoading(false);
