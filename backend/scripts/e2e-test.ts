@@ -1,4 +1,5 @@
-const BASE_URL = "https://backend-cloudflare-worker.chmahesh997.workers.dev";
+export {};
+const BASE_URL = process.env.BACKEND_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev";
 const FRONTEND_ORIGIN = "https://blog.techwithmahe.com";
 
 interface TestResult {

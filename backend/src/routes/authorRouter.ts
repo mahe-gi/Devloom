@@ -51,37 +51,32 @@ authorRouter.get("/:handle", async (c) => {
       published: true,
     };
 
-    const [total, blogs] = await Promise.all([
-      prisma.blog.count({ where }),
-      prisma.blog.findMany({
-        where,
-        orderBy: [
-          { publishedAt: "desc" },
-          { id: "desc" },
-        ],
-        skip,
-        take: limit,
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          summary: true,
-          coverImage: true,
-          slug: true,
-          published: true,
-          publishedAt: true,
-          createdAt: true,
-          updatedAt: true,
-          tags: {
-            select: {
-              tag: {
-                select: { name: true, slug: true },
-              },
+    const total = await prisma.blog.count({ where });
+    const blogs = await prisma.blog.findMany({
+      where,
+      orderBy: { id: "desc" },
+      skip,
+      take: limit,
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        summary: true,
+        coverImage: true,
+        slug: true,
+        published: true,
+        publishedAt: true,
+        createdAt: true,
+        updatedAt: true,
+        tags: {
+          select: {
+            tag: {
+              select: { name: true, slug: true },
             },
           },
         },
-      }),
-    ]);
+      },
+    });
 
     // Attach author to blogs to maintain structure for UI
     const articles = blogs.map((b) => ({

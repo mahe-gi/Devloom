@@ -4,10 +4,9 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import pg from "pg";
 
 let acceleratePrisma: PrismaClient | undefined;
-let globalPrisma: PrismaClient | undefined;
 
 export const getPrisma = (datasourceUrl?: string): PrismaClient => {
-  const url = (typeof datasourceUrl === "string" && datasourceUrl.trim()) 
+  let url = (typeof datasourceUrl === "string" && datasourceUrl.trim()) 
     ? datasourceUrl.trim() 
     : (process.env.DATABASE_URL || "");
 
@@ -17,15 +16,16 @@ export const getPrisma = (datasourceUrl?: string): PrismaClient => {
     return acceleratePrisma;
   }
 
-  if (globalPrisma) return globalPrisma;
+  if (url && url.includes("neon.tech") && !url.includes("sslmode=")) {
+    url += (url.includes("?") ? "&" : "?") + "sslmode=require&connect_timeout=10";
+  }
 
   const pool = new pg.Pool({
     connectionString: url,
-    max: 5,
-    idleTimeoutMillis: 30000,
+    max: 1,
+    idleTimeoutMillis: 1000,
     connectionTimeoutMillis: 5000,
   });
   const adapter = new PrismaPg(pool);
-  globalPrisma = new PrismaClient({ adapter });
-  return globalPrisma;
+  return new PrismaClient({ adapter });
 };

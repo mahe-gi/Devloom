@@ -318,7 +318,7 @@ blogRouter.get("/:slugOrId/related", async (c) => {
             published: true,
             id: { in: matchingBlogIds }
           },
-          orderBy: { publishedAt: "desc" },
+          orderBy: { id: "desc" },
           take: 3,
           select: {
             id: true,
@@ -344,7 +344,7 @@ blogRouter.get("/:slugOrId/related", async (c) => {
           published: true,
           id: { notIn: existingIds }
         },
-        orderBy: { publishedAt: "desc" },
+        orderBy: { id: "desc" },
         take: 3 - relatedBlogs.length,
         select: {
           id: true,
