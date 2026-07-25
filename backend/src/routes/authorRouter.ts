@@ -89,6 +89,7 @@ authorRouter.get("/:handle", async (c) => {
       },
     }));
 
+    c.header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=600");
     return c.json({
       author: formattedAuthor,
       articles,

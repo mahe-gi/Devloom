@@ -145,6 +145,7 @@ blogRouter.get("/bulk", async (c) => {
       } : null,
     }));
 
+    c.header("Cache-Control", "public, max-age=30, s-maxage=120, stale-while-revalidate=300");
     return c.json({ 
       articles: formattedBlogs,
       pagination: {
@@ -336,6 +337,7 @@ blogRouter.get("/:slugOrId/related", async (c) => {
       relatedBlogs = [...relatedBlogs, ...fallbackBlogs];
     }
 
+    c.header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=600");
     return c.json({ articles: relatedBlogs });
   } catch (err) {
     c.status(500);
@@ -398,6 +400,7 @@ blogRouter.get("/:slugOrId", async (c) => {
       } : null,
     };
 
+    c.header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=600");
     return c.json(formattedBlog);
   } catch (err) {
     c.status(500);
