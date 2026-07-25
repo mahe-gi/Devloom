@@ -36,9 +36,35 @@ app.use("/*", async (c, next) => {
   return corsMiddleware(c, next);
 });
 
+app.get("/api/v1/health-check", async (c) => {
+  try {
+    const prisma = getPrisma(c.env?.DATABASE_URL || process.env.DATABASE_URL);
+    const [userCount, blogCount, tagCount] = await Promise.all([
+      prisma.user.count(),
+      prisma.blog.count(),
+      prisma.tag.count(),
+    ]);
+    const dbHost = (c.env?.DATABASE_URL || process.env.DATABASE_URL || "").split("@")[1]?.split("/")[0] || "unknown";
+    return c.json({
+      status: "ok",
+      dbHost,
+      counts: { users: userCount, blogs: blogCount, tags: tagCount }
+    });
+  } catch (err: any) {
+    return c.json({
+      status: "error",
+      message: err?.message || String(err),
+      stack: err?.stack
+    }, 500);
+  }
+});
+
+import { seedRouter } from "./routes/seedRouter";
+
 app.route("/api/v1/user", userRouter);
 app.route("/api/v1/blog", blogRouter);
 app.route("/api/v1/authors", authorRouter);
+app.route("/api/v1/seed-database", seedRouter);
 
 app.on(["GET", "POST"], "/api/auth/*", async (c) => {
   try {
@@ -86,29 +112,36 @@ app.on(["GET", "POST"], "/api/auth/*", async (c) => {
 });
 
 app.get("/sitemap.xml", async (c) => {
-  const prisma = getPrisma(c.env?.DATABASE_URL || process.env.DATABASE_URL);
-  const blogs = await prisma.blog.findMany({
-    where: { published: true },
-    select: { slug: true, updatedAt: true }
-  });
-  
-  const frontendUrl = "https://blog.techwithmahe.com";
-  
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  for (const blog of blogs) {
-    if (blog.slug) {
-      xml += `  <url>\n`;
-      xml += `    <loc>${frontendUrl}/article/${blog.slug}</loc>\n`;
-      xml += `    <lastmod>${blog.updatedAt.toISOString()}</lastmod>\n`;
-      xml += `  </url>\n`;
+  try {
+    const prisma = getPrisma(c.env?.DATABASE_URL || process.env.DATABASE_URL);
+    const blogs = await prisma.blog.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true }
+    });
+    
+    const frontendUrl = "https://blog.techwithmahe.com";
+    
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+    xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+    for (const blog of blogs) {
+      if (blog.slug) {
+        xml += `  <url>\n`;
+        xml += `    <loc>${frontendUrl}/blog/${blog.slug}</loc>\n`;
+        xml += `    <lastmod>${blog.updatedAt ? blog.updatedAt.toISOString() : new Date().toISOString()}</lastmod>\n`;
+        xml += `  </url>\n`;
+      }
     }
+    xml += `</urlset>`;
+    
+    return new Response(xml, {
+      headers: { "Content-Type": "application/xml" }
+    });
+  } catch (err: any) {
+    console.error("Sitemap XML error:", err);
+    return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`, {
+      headers: { "Content-Type": "application/xml" }
+    });
   }
-  xml += `</urlset>`;
-  
-  return new Response(xml, {
-    headers: { "Content-Type": "application/xml" }
-  });
 });
 
 export default app;

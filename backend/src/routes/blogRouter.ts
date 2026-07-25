@@ -1,56 +1,63 @@
 import { Hono } from "hono";
-import { verify } from "hono/jwt";
-import { createBlogInput, updateBlogInput } from "@mahe-npm/common";
 import { getPrisma } from "../prisma";
-import { generateSlug, generateRandomSuffix } from "../utils/slug";
 
 export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
-    GOOGLE_CLIENT_ID: string;
-    GOOGLE_CLIENT_SECRET: string;
-    BETTER_AUTH_URL: string;
   };
   Variables: {
     userId: string;
   };
 }>();
 
-
-
-import { createAuth } from "../auth";
-
-// Authentication Middleware for protected routes
-const authMiddleware = async (c: any, next: () => Promise<void>) => {
-  const auth = createAuth(c.env);
-  
-  // 1. Check Better Auth Session
-  const sessionData = await auth.api.getSession({ headers: c.req.raw.headers });
-  const betterAuthUserId = sessionData?.user?.id;
-
-  // 2. Check Legacy JWT
+// Auth Middleware to extract userId from Session Header or Auth context
+const authMiddleware = async (c: any, next: any) => {
   const authHeader = c.req.header("Authorization") || "";
-  const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : authHeader;
-  let legacyUserId: string | null = null;
+  const authCookie = c.req.header("Cookie") || "";
   
-  if (token) {
-    try {
-      const payload = await verify(token, c.env.JWT_SECRET, "HS256");
-      if (payload && payload.id) legacyUserId = String(payload.id);
-    } catch (err) {
-      // Legacy token invalid/expired, ignore for now (better auth might be valid)
-    }
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  const cookieMatch = authCookie.match(/better-auth\.session_token=([^;]+)/);
+  const cookieToken = cookieMatch ? decodeURIComponent(cookieMatch[1].split(".")[0]) : "";
+
+  const sessionToken = token || cookieToken;
+
+  if (!sessionToken) {
+    c.status(401);
+    return c.json({ error: "Unauthorized: Missing authentication token" });
   }
 
-  // 3. Evaluate Conflict Policy
-  if (betterAuthUserId && legacyUserId && betterAuthUserId.toString() !== legacyUserId.toString()) {
+  const prisma = getPrisma(c.env.DATABASE_URL);
+
+  // 1. Check Better Auth Session Table
+  let session = await prisma.session.findUnique({
+    where: { token: sessionToken },
+    include: { user: true },
+  });
+
+  if (!session) {
+    session = await prisma.session.findFirst({
+      where: { token: { startsWith: sessionToken } },
+      include: { user: true },
+    });
+  }
+
+  let betterAuthUserId: string | null = null;
+  if (session && session.user) {
+    if (new Date() > new Date(session.expiresAt)) {
+      c.status(401);
+      return c.json({ error: "Session expired. Please sign in again." });
+    }
+    betterAuthUserId = session.user.id;
+  }
+
+  let legacyUserId: string | null = null;
+
+  if (betterAuthUserId && legacyUserId && betterAuthUserId !== legacyUserId) {
     c.status(409);
-    // Setting header to clear better auth session since they conflict
     return c.json({ error: "AUTH_IDENTITY_CONFLICT", message: "Conflicting authentications. Please sign in again." });
   }
 
-  // 4. Authorize
   const finalUserId = betterAuthUserId || legacyUserId;
   
   if (!finalUserId) {
@@ -79,62 +86,67 @@ blogRouter.get("/bulk", async (c) => {
     };
 
     if (q) {
-      where.title = {
-        contains: q,
-        mode: "insensitive",
-      };
+      const lower = q.toLowerCase();
+      const upper = q.toUpperCase();
+      const cap = q.charAt(0).toUpperCase() + q.slice(1).toLowerCase();
+      where.OR = [
+        { title: { contains: q } },
+        { title: { contains: lower } },
+        { title: { contains: upper } },
+        { title: { contains: cap } },
+      ];
     }
 
     if (tag) {
+      const lowerTag = tag.toLowerCase();
       where.tags = {
         some: {
           tag: {
-            slug: tag,
-          },
-        },
+            OR: [
+              { slug: lowerTag },
+              { name: lowerTag }
+            ]
+          }
+        }
       };
     }
 
-    const [total, blogs] = await Promise.all([
-      prisma.blog.count({ where }),
-      prisma.blog.findMany({
-        where,
-        orderBy: [
-          { publishedAt: "desc" },
-          { id: "desc" },
-        ],
-        skip,
-        take: limit,
-        select: {
-          id: true,
-          title: true,
-          summary: true,
-          coverImage: true,
-          slug: true,
-          published: true,
-          publishedAt: true,
-          createdAt: true,
-          updatedAt: true,
-          tags: {
-            select: {
-              tag: {
-                select: { name: true, slug: true },
-              },
-            },
-          },
-          author: {
-            select: {
-              id: true,
-              name: true,
-              username: true,
-              handle: true,
-              avatarUrl: true,
-              image: true,
-            },
+    const total = await prisma.blog.count({ where });
+    const blogs = await prisma.blog.findMany({
+      where,
+      orderBy: [
+        { publishedAt: "desc" },
+        { id: "desc" },
+      ],
+      skip,
+      take: limit,
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        coverImage: true,
+        slug: true,
+        published: true,
+        publishedAt: true,
+        createdAt: true,
+        updatedAt: true,
+        tags: {
+          include: {
+            tag: true,
           },
         },
-      }),
-    ]);
+        author: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            handle: true,
+            avatarUrl: true,
+            image: true,
+          },
+        },
+      },
+    });
 
     const formattedBlogs = blogs.map((b: any) => ({
       ...b,
@@ -153,22 +165,18 @@ blogRouter.get("/bulk", async (c) => {
         hasNextPage: skip + blogs.length < total,
       }
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("GET /bulk error:", err);
     c.status(500);
-    return c.json({ error: "Failed to fetch blogs" });
+    return c.json({ error: "Failed to fetch blogs", details: err?.message || String(err) });
   }
 });
 
-// Protected Endpoint: Fetch all articles (drafts and published) for the authenticated user
+// Protected Endpoint: Fetch articles created by the authenticated user
 blogRouter.get("/mine", authMiddleware, async (c) => {
   const userId = c.get("userId");
-  if (!userId) {
-    c.status(401);
-    return c.json({ error: "Unauthorized: Invalid user ID" });
-  }
-
   const prisma = getPrisma(c.env.DATABASE_URL);
+
   try {
     const blogs = await prisma.blog.findMany({
       where: {
@@ -272,7 +280,6 @@ blogRouter.get("/:slugOrId/related", async (c) => {
       where: whereClause,
       select: {
         id: true,
-        tags: { select: { tagId: true } },
       }
     });
 
@@ -280,47 +287,61 @@ blogRouter.get("/:slugOrId/related", async (c) => {
       return c.json({ articles: [] });
     }
 
-    const tagIds = blog.tags.map(t => t.tagId);
+    const blogTags = await prisma.blogTag.findMany({
+      where: { blogId: blog.id },
+      select: { tagId: true }
+    });
+    const tagIds = blogTags.map(bt => bt.tagId);
+
     let relatedBlogs: any[] = [];
 
     if (tagIds.length > 0) {
-      relatedBlogs = await prisma.blog.findMany({
+      const relatedMatches = await prisma.blogTag.findMany({
         where: {
-          published: true,
-          id: { not: blog.id },
-          tags: { some: { tagId: { in: tagIds } } }
+          tagId: { in: tagIds },
+          blogId: { not: blog.id }
         },
-        orderBy: { publishedAt: "desc" },
-        take: 3,
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          summary: true,
-          coverImage: true,
-          slug: true,
-          published: true,
-          publishedAt: true,
-          createdAt: true,
-          updatedAt: true,
-          tags: { select: { tag: { select: { name: true, slug: true } } } },
-          author: { select: { id: true, name: true, username: true, handle: true, avatarUrl: true } }
-        }
+        select: { blogId: true },
+        take: 10
       });
+      const matchingBlogIds = [...new Set(relatedMatches.map(bt => bt.blogId))];
+      if (matchingBlogIds.length > 0) {
+        relatedBlogs = await prisma.blog.findMany({
+          where: {
+            published: true,
+            id: { in: matchingBlogIds }
+          },
+          orderBy: { publishedAt: "desc" },
+          take: 3,
+          select: {
+            id: true,
+            title: true,
+            summary: true,
+            coverImage: true,
+            slug: true,
+            published: true,
+            publishedAt: true,
+            createdAt: true,
+            updatedAt: true,
+            tags: { select: { tag: { select: { name: true, slug: true } } } },
+            author: { select: { id: true, name: true, username: true, handle: true, avatarUrl: true, image: true } }
+          }
+        });
+      }
     }
 
     if (relatedBlogs.length < 3) {
+      const existingIds = [blog.id, ...relatedBlogs.map(b => b.id)];
       const fallbackBlogs = await prisma.blog.findMany({
         where: {
           published: true,
-          id: { notIn: [blog.id, ...relatedBlogs.map(b => b.id)] }
+          id: { notIn: existingIds }
         },
         orderBy: { publishedAt: "desc" },
         take: 3 - relatedBlogs.length,
         select: {
           id: true,
           title: true,
-          content: true,
           summary: true,
           coverImage: true,
           slug: true,
@@ -329,17 +350,26 @@ blogRouter.get("/:slugOrId/related", async (c) => {
           createdAt: true,
           updatedAt: true,
           tags: { select: { tag: { select: { name: true, slug: true } } } },
-          author: { select: { id: true, name: true, username: true, handle: true, avatarUrl: true } }
+          author: { select: { id: true, name: true, username: true, handle: true, avatarUrl: true, image: true } }
         }
       });
       relatedBlogs = [...relatedBlogs, ...fallbackBlogs];
     }
 
+    const formattedRelated = relatedBlogs.map((b: any) => ({
+      ...b,
+      author: b.author ? {
+        ...b.author,
+        avatarUrl: b.author.avatarUrl || b.author.image,
+      } : null,
+    }));
+
     c.header("Cache-Control", "public, max-age=60, s-maxage=300, stale-while-revalidate=600");
-    return c.json({ articles: relatedBlogs });
+    return c.json({ articles: formattedRelated });
   } catch (err) {
+    console.error("GET /:slugOrId/related error:", err);
     c.status(500);
-    return c.json({ error: "Failed to fetch related blogs" });
+    return c.json({ error: "Failed to fetch related articles" });
   }
 });
 
@@ -406,236 +436,156 @@ blogRouter.get("/:slugOrId", async (c) => {
   }
 });
 
-// Protected Endpoint: Create article
+// Protected Endpoint: Create a new blog post
 blogRouter.post("/", authMiddleware, async (c) => {
-  const reqData = await c.req.json();
-  const { success } = createBlogInput.safeParse(reqData);
-
-  if (!success) {
-    c.status(400);
-    return c.json({ error: "Invalid blog input data" });
-  }
-
+  const body = await c.req.json();
   const userId = c.get("userId");
-  if (!userId) {
-    c.status(401);
-    return c.json({ error: "Unauthorized: Invalid user ID" });
-  }
-
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   try {
-    let baseSlug = generateSlug(reqData.title);
-    let finalSlug = baseSlug;
-    let isUnique = false;
-    while (!isUnique) {
-      const existing = await prisma.blog.findUnique({ where: { slug: finalSlug }, select: { id: true } });
-      if (!existing) {
-        isUnique = true;
-      } else {
-        finalSlug = `${baseSlug}-${generateRandomSuffix()}`;
+    const { title, content, summary, coverImage, published, tags } = body;
+
+    if (!title || !content) {
+      c.status(400);
+      return c.json({ error: "Title and content are required" });
+    }
+
+    let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    if (!baseSlug) baseSlug = `post-${Date.now()}`;
+    
+    let slug = baseSlug;
+    let counter = 1;
+    while (await prisma.blog.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    const tagConnects = [];
+    if (Array.isArray(tags)) {
+      for (const tagName of tags) {
+        const tagSlug = tagName.toLowerCase().trim();
+        if (tagSlug) {
+          const tag = await prisma.tag.upsert({
+            where: { slug: tagSlug },
+            update: {},
+            create: { name: tagName.trim(), slug: tagSlug },
+          });
+          tagConnects.push({ tagId: tag.id });
+        }
       }
     }
 
-    const tagsInput = (reqData.tags || [])
-      .map((t: string) => t.trim())
-      .filter((t: string) => t.length > 0)
-      .slice(0, 5);
-
-    const uniqueTags = new Map<string, string>();
-    for (const t of tagsInput) {
-      uniqueTags.set(t.toLowerCase(), t);
-    }
-    const tagNamesToConnect = Array.from(uniqueTags.values());
-
-    const tagConnects = [];
-    for (const tagName of tagNamesToConnect) {
-      const tagSlug = tagName.toLowerCase();
-      const tag = await prisma.tag.upsert({
-        where: { slug: tagSlug },
-        update: {},
-        create: { name: tagName, slug: tagSlug },
-      });
-      tagConnects.push({ tagId: tag.id });
-    }
+    const isPublished = Boolean(published);
 
     const blog = await prisma.blog.create({
       data: {
-        title: reqData.title,
-        slug: finalSlug,
-        content: reqData.content,
-        summary: reqData.summary ?? null,
-        coverImage: reqData.coverImage ?? null,
+        title,
+        slug,
+        content,
+        summary: summary || null,
+        coverImage: coverImage || null,
+        published: isPublished,
+        publishedAt: isPublished ? new Date() : null,
         authorId: userId,
-        published: reqData.published ?? false,
-        publishedAt: (reqData.published ?? false) ? new Date() : null,
         tags: {
           create: tagConnects,
         },
       },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        published: true,
+      },
     });
 
-    return c.json({
-      id: blog.id,
-      slug: blog.slug,
-      msg: "Blog published successfully",
-    });
+    return c.json({ id: blog.id, slug: blog.slug, published: blog.published });
   } catch (err) {
+    console.error("POST /blog error:", err);
     c.status(500);
-    return c.json({ error: "Failed to create blog" });
+    return c.json({ error: "Failed to create blog post" });
   }
 });
 
-// Protected Endpoint: Update article status (publish/unpublish)
-import { updateBlogPublishedInput } from "@mahe-npm/common";
-
-blogRouter.patch("/:id/published", authMiddleware, async (c) => {
+// Protected Endpoint: Update a blog post
+blogRouter.put("/:id", authMiddleware, async (c) => {
   const id = Number(c.req.param("id"));
   if (isNaN(id)) {
     c.status(400);
     return c.json({ error: "Invalid blog ID" });
   }
 
-  const reqData = await c.req.json();
-  const { success } = updateBlogPublishedInput.safeParse(reqData);
-
-  if (!success) {
-    c.status(400);
-    return c.json({ error: "Invalid payload format" });
-  }
-
+  const body = await c.req.json();
   const userId = c.get("userId");
-  if (!userId) {
-    c.status(401);
-    return c.json({ error: "Unauthorized: Invalid user ID" });
-  }
-
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   try {
-    const existingBlog = await prisma.blog.findUnique({
-      where: { id },
+    const existing = await prisma.blog.findFirst({
+      where: { id, authorId: userId },
     });
 
-    if (!existingBlog) {
+    if (!existing) {
       c.status(404);
-      return c.json({ error: "Blog post not found" });
+      return c.json({ error: "Blog post not found or unauthorized" });
     }
 
-    if (existingBlog.authorId !== userId) {
-      c.status(403);
-      return c.json({ error: "Forbidden: You are not the author of this blog" });
+    const { title, content, summary, coverImage, published, tags } = body;
+    const isPublished = published !== undefined ? Boolean(published) : existing.published;
+    
+    let publishedAt = existing.publishedAt;
+    if (isPublished && !existing.publishedAt) {
+      publishedAt = new Date();
     }
 
-    const isPublishing = reqData.published && !existingBlog.published;
+    let tagConnects = undefined;
+    if (Array.isArray(tags)) {
+      await prisma.blogTag.deleteMany({ where: { blogId: id } });
+      tagConnects = [];
+      for (const tagName of tags) {
+        const tagSlug = tagName.toLowerCase().trim();
+        if (tagSlug) {
+          const tag = await prisma.tag.upsert({
+            where: { slug: tagSlug },
+            update: {},
+            create: { name: tagName.trim(), slug: tagSlug },
+          });
+          tagConnects.push({ tagId: tag.id });
+        }
+      }
+    }
 
-    const updatedBlog = await prisma.blog.update({
+    const updated = await prisma.blog.update({
       where: { id },
       data: {
-        published: reqData.published,
-        ...(isPublishing && !existingBlog.publishedAt ? { publishedAt: new Date() } : {}),
+        ...(title && { title }),
+        ...(content && { content }),
+        ...(summary !== undefined && { summary }),
+        ...(coverImage !== undefined && { coverImage }),
+        published: isPublished,
+        publishedAt,
+        ...(tagConnects && {
+          tags: {
+            create: tagConnects,
+          },
+        }),
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        published: true,
       },
     });
 
-    return c.json({
-      id: updatedBlog.id,
-      published: updatedBlog.published,
-      msg: "Blog status updated successfully",
-    });
+    return c.json(updated);
   } catch (err) {
+    console.error("PUT /blog/:id error:", err);
     c.status(500);
-    return c.json({ error: "Failed to update blog status" });
+    return c.json({ error: "Failed to update blog post" });
   }
 });
 
-// Protected Endpoint: Update article (with strict ownership check)
-blogRouter.put("/", authMiddleware, async (c) => {
-  const reqData = await c.req.json();
-  const { success } = updateBlogInput.safeParse(reqData);
-
-  if (!success) {
-    c.status(400);
-    return c.json({ error: "Invalid blog update input" });
-  }
-
-  const userId = c.get("userId");
-  if (!userId) {
-    c.status(401);
-    return c.json({ error: "Unauthorized: Invalid user ID" });
-  }
-
-  const prisma = getPrisma(c.env.DATABASE_URL);
-
-  try {
-    const existingBlog = await prisma.blog.findUnique({
-      where: { id: reqData.id },
-    });
-
-    if (!existingBlog) {
-      c.status(404);
-      return c.json({ error: "Blog post not found" });
-    }
-
-    if (existingBlog.authorId !== userId) {
-      c.status(403);
-      return c.json({ error: "Forbidden: You are not the author of this blog" });
-    }
-
-    let tagUpdateData = {};
-    if (reqData.tags !== undefined) {
-      const tagsInput = reqData.tags
-        .map((t: string) => t.trim())
-        .filter((t: string) => t.length > 0)
-        .slice(0, 5);
-
-      const uniqueTags = new Map<string, string>();
-      for (const t of tagsInput) {
-        uniqueTags.set(t.toLowerCase(), t);
-      }
-      const tagNamesToConnect = Array.from(uniqueTags.values());
-
-      const tagConnects = [];
-      for (const tagName of tagNamesToConnect) {
-        const tagSlug = tagName.toLowerCase();
-        const tag = await prisma.tag.upsert({
-          where: { slug: tagSlug },
-          update: {},
-          create: { name: tagName, slug: tagSlug },
-        });
-        tagConnects.push({ tagId: tag.id });
-      }
-
-      tagUpdateData = {
-        tags: {
-          deleteMany: {},
-          create: tagConnects,
-        },
-      };
-    }
-
-    const updatedBlog = await prisma.blog.update({
-      where: { id: reqData.id },
-      data: {
-        title: reqData.title,
-        content: reqData.content,
-        summary: reqData.summary ?? null,
-        coverImage: reqData.coverImage ?? null,
-        ...tagUpdateData,
-      },
-    });
-
-    return c.json({
-      id: updatedBlog.id,
-      slug: updatedBlog.slug,
-      msg: "Blog updated successfully",
-    });
-  } catch (err) {
-    c.status(500);
-    return c.json({ error: "Failed to update blog" });
-  }
-});
-
-// Protected Endpoint: Delete article (with strict ownership check)
+// Protected Endpoint: Delete a blog post
 blogRouter.delete("/:id", authMiddleware, async (c) => {
   const id = Number(c.req.param("id"));
   if (isNaN(id)) {
@@ -644,35 +594,22 @@ blogRouter.delete("/:id", authMiddleware, async (c) => {
   }
 
   const userId = c.get("userId");
-  if (!userId) {
-    c.status(401);
-    return c.json({ error: "Unauthorized: Invalid user ID" });
-  }
-
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   try {
-    const existingBlog = await prisma.blog.findUnique({
-      where: { id },
+    const existing = await prisma.blog.findFirst({
+      where: { id, authorId: userId },
     });
 
-    if (!existingBlog) {
+    if (!existing) {
       c.status(404);
-      return c.json({ error: "Blog post not found" });
+      return c.json({ error: "Blog post not found or unauthorized" });
     }
 
-    if (existingBlog.authorId !== userId) {
-      c.status(403);
-      return c.json({ error: "Forbidden: You are not the author of this blog" });
-    }
-
-    await prisma.blog.delete({
-      where: { id },
-    });
-
-    return c.json({ msg: "Blog deleted successfully" });
+    await prisma.blog.delete({ where: { id } });
+    return c.json({ message: "Blog post deleted successfully" });
   } catch (err) {
     c.status(500);
-    return c.json({ error: "Failed to delete blog" });
+    return c.json({ error: "Failed to delete blog post" });
   }
 });

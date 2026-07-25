@@ -1,24 +1,35 @@
 import "./App.css";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
-import Signin from "./pages/Signin";
-import Blog from "./pages/Blog";
-import Blogs from "./pages/Blogs";
-import Publish from "./pages/Publish";
 import Landing from "./pages/Landing";
-import Dashboard from "./pages/Dashboard";
-import EditArticle from "./pages/EditArticle";
-import { DashboardProfile } from "./pages/DashboardProfile";
-import { AuthorProfile } from "./pages/AuthorProfile";
-import { Tag } from "./pages/Tag";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { HelmetProvider } from "react-helmet-async";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
+const Signin = lazy(() => import("./pages/Signin"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Blogs = lazy(() => import("./pages/Blogs"));
+const Publish = lazy(() => import("./pages/Publish"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const EditArticle = lazy(() => import("./pages/EditArticle"));
+const DashboardProfile = lazy(() => import("./pages/DashboardProfile").then(m => ({ default: m.DashboardProfile })));
+const AuthorProfile = lazy(() => import("./pages/AuthorProfile").then(m => ({ default: m.AuthorProfile })));
+const Tag = lazy(() => import("./pages/Tag").then(m => ({ default: m.Tag })));
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
+
 function App() {
   return (
-      <HelmetProvider>
-        <ErrorBoundary>
-          <BrowserRouter>
+    <HelmetProvider>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/signup" element={<Signin />} />
@@ -35,9 +46,10 @@ function App() {
                 <Route path="/publish" element={<Publish />} />
               </Route>
             </Routes>
-          </BrowserRouter>
-        </ErrorBoundary>
-      </HelmetProvider>
+          </Suspense>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </HelmetProvider>
   );
 }
 

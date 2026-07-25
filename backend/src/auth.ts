@@ -29,6 +29,8 @@ export const createAuth = (
     }
   }
 
+  const isLocal = env.BETTER_AUTH_URL?.includes("localhost") || false;
+
   return betterAuth({
     database: prismaAdapter(prisma, {
       provider: "postgresql",
@@ -43,12 +45,12 @@ export const createAuth = (
       openAPI(),
       bearer(),
     ],
-    baseURL: env.BETTER_AUTH_URL || "https://backend-cloudflare-worker.chmahesh997.workers.dev",
+    baseURL: env.BETTER_AUTH_URL || "http://localhost:8787",
     trustedOrigins: origins,
     advanced: {
       defaultCookieAttributes: {
-        sameSite: "none",
-        secure: true,
+        sameSite: isLocal ? "lax" : "none",
+        secure: !isLocal,
       },
     },
     user: {

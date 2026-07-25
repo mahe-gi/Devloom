@@ -17,8 +17,14 @@ authorRouter.get("/:handle", async (c) => {
   const skip = (page - 1) * limit;
 
   try {
-    const author = await prisma.user.findUnique({
-      where: { handle },
+    const author = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { handle: handle },
+          { username: { contains: handle } },
+          { email: { startsWith: handle } }
+        ]
+      },
       select: {
         id: true,
         name: true,

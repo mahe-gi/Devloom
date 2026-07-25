@@ -4,10 +4,13 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import pg from "pg";
 
 let acceleratePrisma: PrismaClient | undefined;
-let globalPrisma: PrismaClient | undefined;
+
+const DEFAULT_DB_URL = "postgresql://postgres:postgres@127.0.0.1:5432/blog?schema=public";
 
 export const getPrisma = (datasourceUrl?: string): PrismaClient => {
-  const url = (typeof datasourceUrl === "string" && datasourceUrl.trim()) ? datasourceUrl.trim() : (process.env.DATABASE_URL || "");
+  const url = (typeof datasourceUrl === "string" && datasourceUrl.trim()) 
+    ? datasourceUrl.trim() 
+    : (process.env.DATABASE_URL || DEFAULT_DB_URL);
   
   if (url && (url.startsWith("prisma://") || url.startsWith("prisma+postgres://"))) {
     if (acceleratePrisma) return acceleratePrisma;
@@ -15,10 +18,12 @@ export const getPrisma = (datasourceUrl?: string): PrismaClient => {
     return acceleratePrisma;
   }
 
-  if (globalPrisma) return globalPrisma;
-
-  const pool = new pg.Pool({ connectionString: url });
+  const pool = new pg.Pool({
+    connectionString: url,
+    max: 10,
+    idleTimeoutMillis: 1000,
+    connectionTimeoutMillis: 5000,
+  });
   const adapter = new PrismaPg(pool);
-  globalPrisma = new PrismaClient({ adapter });
-  return globalPrisma;
+  return new PrismaClient({ adapter });
 };
