@@ -124,10 +124,7 @@ blogRouter.get("/bulk", async (c) => {
     const total = await prisma.blog.count({ where });
     const blogs = await prisma.blog.findMany({
       where,
-      orderBy: [
-        { publishedAt: "desc" },
-        { id: "desc" },
-      ],
+      orderBy: { id: "desc" },
       skip,
       take: limit,
       select: {
