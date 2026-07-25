@@ -108,7 +108,6 @@ blogRouter.get("/bulk", async (c) => {
         select: {
           id: true,
           title: true,
-          content: true,
           summary: true,
           coverImage: true,
           slug: true,
@@ -181,7 +180,6 @@ blogRouter.get("/mine", authMiddleware, async (c) => {
       select: {
         id: true,
         title: true,
-        content: true,
         summary: true,
         coverImage: true,
         slug: true,
