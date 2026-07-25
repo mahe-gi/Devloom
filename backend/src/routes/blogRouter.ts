@@ -99,16 +99,26 @@ blogRouter.get("/bulk", async (c) => {
 
     if (tag) {
       const lowerTag = tag.toLowerCase();
-      where.tags = {
-        some: {
-          tag: {
-            OR: [
-              { slug: lowerTag },
-              { name: lowerTag }
-            ]
-          }
+      try {
+        const tagRecord = await prisma.tag.findFirst({
+          where: {
+            OR: [{ slug: lowerTag }, { name: lowerTag }],
+          },
+          select: { id: true },
+        });
+        if (tagRecord) {
+          const blogTags = await prisma.blogTag.findMany({
+            where: { tagId: tagRecord.id },
+            select: { blogId: true },
+          });
+          const blogIds = blogTags.map((bt) => bt.blogId);
+          where.id = { in: blogIds };
+        } else {
+          where.id = { in: [] };
         }
-      };
+      } catch (tagErr) {
+        console.error("Tag query error:", tagErr);
+      }
     }
 
     const total = await prisma.blog.count({ where });
