@@ -113,7 +113,7 @@ app.on(["GET", "POST"], "/api/auth/*", async (c) => {
 
 app.get("/sitemap.xml", async (c) => {
   try {
-    const prisma = getPrisma(c.env?.DATABASE_URL || process.env.DATABASE_URL);
+    const prisma = getPrisma(c.env.DATABASE_URL);
     const blogs = await prisma.blog.findMany({
       where: { published: true },
       select: { slug: true, updatedAt: true }

@@ -21,8 +21,8 @@ authorRouter.get("/:handle", async (c) => {
       where: {
         OR: [
           { handle: handle },
-          { username: { contains: handle } },
-          { email: { startsWith: handle } }
+          { username: handle },
+          { email: handle }
         ]
       },
       select: {
