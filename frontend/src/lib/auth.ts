@@ -12,8 +12,18 @@ if (typeof window !== "undefined") {
   }
 }
 
+const getBackendUrl = (): string => {
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    if (host !== "localhost" && host !== "127.0.0.1") {
+      return "https://backend-cloudflare-worker.chmahesh997.workers.dev";
+    }
+  }
+  return import.meta.env.VITE_BACKEND_URL || "http://localhost:8787";
+};
+
 export const authClient = createAuthClient({
-  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:8787",
+  baseURL: getBackendUrl(),
   fetchOptions: {
     onRequest(context) {
       const token = localStorage.getItem("token");
