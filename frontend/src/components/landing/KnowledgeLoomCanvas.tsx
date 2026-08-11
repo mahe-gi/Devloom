@@ -26,7 +26,7 @@ export function KnowledgeLoomCanvas() {
     window.addEventListener("resize", handleResize);
 
     // Dynamic threads
-    const threads = Array.from({ length: 18 }, (_, i) => ({
+    const threads = Array.from({ length: 18 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.4,

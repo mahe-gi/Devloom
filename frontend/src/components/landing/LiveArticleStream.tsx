@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { Blog } from "../../hooks";
-import { ArrowUpRight, Clock, Tag, User as UserIcon } from "lucide-react";
+import { ArrowUpRight, Clock, Tag } from "lucide-react";
 import { Avatar } from "../ui/Avatar";
 
 interface LiveArticleStreamProps {
