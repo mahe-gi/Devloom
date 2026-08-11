@@ -16,9 +16,12 @@
   --color-focus-ring: var(--focus-ring);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-loom: var(--loom-accent);
+  --color-loom-subtle: var(--loom-subtle);
   
-  --font-sans: 'Inter Variable', sans-serif;
-  --font-serif: 'Lora Variable', serif;
+  --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Lora Variable', Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -27,42 +30,91 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background: #fafaf9;
   --surface: #ffffff;
-  --surface-subtle: #f9fafb;
-  --surface-hover: #f3f4f6;
+  --surface-subtle: #f4f4f5;
+  --surface-hover: #e4e4e7;
   --foreground: #09090b;
-  --secondary-foreground: #3f3f46;
+  --secondary-foreground: #27272a;
   --muted-foreground: #71717a;
   --subtle-foreground: #a1a1aa;
   --border: #e4e4e7;
   --border-strong: #d4d4d8;
   --primary: #09090b;
-  --primary-hover: #27272a;
+  --primary-hover: #18181b;
   --primary-foreground: #ffffff;
   --input-background: #ffffff;
   --focus-ring: #09090b;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+  --accent: #059669;
+  --accent-hover: #047857;
+  --loom-accent: #10b981;
+  --loom-subtle: rgba(16, 185, 129, 0.12);
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --surface: #121212;
-  --surface-subtle: #18181b;
-  --surface-hover: #27272a;
-  --foreground: #ffffff;
-  --secondary-foreground: #e4e4e7;
-  --muted-foreground: #a1a1aa;
-  --subtle-foreground: #71717a;
-  --border: #27272a;
-  --border-strong: #3f3f46;
-  --primary: #ffffff;
-  --primary-hover: #e4e4e7;
-  --primary-foreground: #09090b;
-  --input-background: #121212;
-  --focus-ring: #ffffff;
-  --accent: #8b5cf6;
-  --accent-hover: #a78bfa;
+  --background: #090a0f;
+  --surface: #11131c;
+  --surface-subtle: #181b28;
+  --surface-hover: #222638;
+  --foreground: #f8fafc;
+  --secondary-foreground: #cbd5e1;
+  --muted-foreground: #94a3b8;
+  --subtle-foreground: #64748b;
+  --border: #1e293b;
+  --border-strong: #334155;
+  --primary: #f8fafc;
+  --primary-hover: #e2e8f0;
+  --primary-foreground: #090a0f;
+  --input-background: #11131c;
+  --focus-ring: #f8fafc;
+  --accent: #10b981;
+  --accent-hover: #34d399;
+  --loom-accent: #34d399;
+  --loom-subtle: rgba(52, 211, 153, 0.15);
 }
+
+/* Custom Editorial Typography Clamp Scales */
+.display-hero {
+  font-size: clamp(3.2rem, 9.5vw, 10.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.display-section {
+  font-size: clamp(2.5rem, 6.5vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.display-sub {
+  font-size: clamp(1.75rem, 4vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+/* Custom Selection & Scrollbars */
+::selection {
+  background-color: var(--loom-accent);
+  color: #000000;
+}
+
+/* Custom Animation Utilities */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.animate-float {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 6s ease-in-out infinite;
+}
+

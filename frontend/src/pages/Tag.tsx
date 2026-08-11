@@ -90,7 +90,7 @@ export function Tag() {
             <>
               <div className="flex flex-col divide-y divide-border/40">
                 {blogs.map((blog) => (
-                  <Link key={blog.id} to={`/blog/${blog.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm">
+                  <Link key={blog.id} to={`/blog/${blog.slug || blog.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm">
                     <ArticleCard
                       title={blog.title || 'Untitled Article'}
                       summary={blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No summary available.'}

@@ -119,7 +119,7 @@ export function AuthorProfile() {
                     const dateStr = new Date(blog.createdAt || "").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
                     
                     return (
-                      <Link key={blog.id} to={`/blog/${blog.id}`} className="block transition-transform hover:-translate-y-1 duration-300">
+                      <Link key={blog.id} to={`/blog/${blog.slug || blog.id}`} className="block transition-transform hover:-translate-y-1 duration-300">
                         <ArticleCard 
                           title={blog.title}
                           summary={blog.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + "..."}
