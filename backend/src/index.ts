@@ -21,7 +21,7 @@ app.use("/*", async (c, next) => {
   const isAllowed = 
     origin.startsWith("http://localhost:") ||
     origin.endsWith(".vercel.app") ||
-    origin === "https://blog.techwithmahe.com" ||
+    origin === "https://blog.ethisyn.in/" ||
     origin === "https://devloom-frontend.vercel.app";
 
   const allowOrigin = isAllowed ? origin : "https://blog.techwithmahe.com";
