@@ -9,13 +9,11 @@ export const createAuth = (
 ) => {
   const prisma = getPrisma(env.DATABASE_URL);
 
-  const origins = [
-    "http://localhost:5173",
-    "http://localhost:8787",
-    "https://blog.techwithmahe.com",
-    "https://devloom.vercel.app",
-    "https://devloom-frontend.vercel.app",
-  ];
+const origins = [
+  "http://localhost:5173",
+  "http://localhost:8787",
+  "https://blog.ethisyn.in",
+];
 
   if (requestOrigin) {
     try {
