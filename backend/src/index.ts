@@ -24,7 +24,7 @@ app.use("/*", async (c, next) => {
     origin === "https://blog.ethisyn.in/" ||
     origin === "https://devloom-frontend.vercel.app";
 
-  const allowOrigin = isAllowed ? origin : "https://blog.techwithmahe.com";
+  const allowOrigin = isAllowed ? origin : "https://blog.ethisyn.in/";
 
   const corsMiddleware = cors({
     origin: allowOrigin,
